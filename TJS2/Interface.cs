@@ -1,0 +1,74 @@
+/*
+ * The TJS2 interpreter from kirikirij
+ */
+
+using Kirikiri.Tjs2;
+using Sharpen;
+
+namespace Kirikiri.Tjs2
+{
+	public class Interface
+	{
+		/// <summary>
+		/// ãƒ¡ãƒ³ãƒ�ãƒ¼ã�Œå­˜åœ¨ã�—ã�ªã�„æ™‚ã€�ãƒ¡ãƒ³ãƒ�ãƒ¼ã‚’ç”Ÿæˆ�ã�™ã‚‹
+		/// create a member if not exists
+		/// </summary>
+		public const int MEMBERENSURE = unchecked((int)(0x00000200));
+
+		/// <summary>ãƒ¡ãƒ³ãƒ�ãƒ¼ã�¯å­˜åœ¨ã�—ã�ªã�‘ã‚Œã�°ã�ªã‚‰ã�ªã�„ member *must* exist ( for Dictionary/Array )
+		/// 	</summary>
+		public const int MEMBERMUSTEXIST = unchecked((int)(0x00000400));
+
+		/// <summary>ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã�®å‘¼ã�³å‡ºã�—ã‚’è¡Œã‚�ã�ªã�„ ignore property invoking</summary>
+		public const int IGNOREPROP = unchecked((int)(0x00000800));
+
+		/// <summary>é�žè¡¨ç¤ºãƒ¡ãƒ³ãƒ�ãƒ¼ member is hidden</summary>
+		public const int HIDDENMEMBER = unchecked((int)(0x00001000));
+
+		/// <summary>
+		/// ã‚¹ã‚¿ãƒ†ã‚£ãƒƒã‚¯ãƒ¡ãƒ³ãƒ�ãƒ¼ã€�ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆ�æ™‚ã�«ã‚³ãƒ”ãƒ¼ã�•ã‚Œã�ªã�„
+		/// member is not registered to the object (internal use)
+		/// </summary>
+		public const int STATICMEMBER = unchecked((int)(0x00010000));
+
+		/// <summary>
+		/// EnumMembers ã‚³ãƒ¼ãƒ«æ™‚ã�«ãƒ¡ãƒ³ãƒ�ã�®å®Ÿä½“å�–å¾—ã‚’è¡Œã‚�ã�ªã�„
+		/// values are not retrieved (for EnumMembers)
+		/// </summary>
+		public const int ENUM_NO_VALUE = unchecked((int)(0x00100000));
+
+		public const int NIS_REGISTER = unchecked((int)(0x00000001));
+
+		public const int NIS_GETINSTANCE = unchecked((int)(0x00000002));
+
+		public const int CII_ADD = unchecked((int)(0x00000001));
+
+		public const int CII_GET = unchecked((int)(0x00000000));
+
+		public const int CII_SET_FINALIZE = unchecked((int)(0x00000002));
+
+		public const int CII_SET_MISSING = unchecked((int)(0x00000003));
+
+		public const int nitMethod = 1;
+
+		public const int nitProperty = 2;
+		// set native pointer
+		// get native pointer
+		// register name
+		// 'num' argument passed to CII is to be igonored.
+		// retrieve name
+		// register "finalize" method name
+		// (set empty string not to call the method)
+		// 'num' argument passed to CII is to be igonored.
+		// register "missing" method name.
+		// the method is called when the member is not present.
+		// (set empty string not to call the method)
+		// 'num' argument passed to CII is to be igonored.
+		// the method is to be called with three arguments;
+		// get_or_set    : false for get, true for set
+		// name          : member name
+		// value         : value property; you must
+		//               : dereference using unary '*' operator.
+		// the method must return true for found, false for not-found.
+	}
+}
