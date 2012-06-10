@@ -714,7 +714,7 @@ namespace Kirikiri.Tjs2
 				}
 				for (int i_1 = 0; i_1 < count; i_1++)
 				{
-					mDoubleArray[i_1] = double.LongBitsToDouble(tmp[i_1]);
+					mDoubleArray[i_1] = Double.LongBitsToDouble(tmp[i_1]);
 				}
 			}
 			count = (buff[offset] & unchecked((int)(0xff))) | (buff[offset + 1] & unchecked((

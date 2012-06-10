@@ -152,10 +152,10 @@ namespace Kirikiri.Tjs2
 
 		public abstract string GetFilePath();
 
-		public virtual FileDescriptor GetFileDescriptor()
-		{
-			return null;
-		}
+        //public virtual FileDescriptor GetFileDescriptor()
+        //{
+        //    return null;
+        //}
 
 		public virtual long GetFileOffset()
 		{

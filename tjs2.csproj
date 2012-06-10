@@ -6,12 +6,14 @@
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{961B50D8-C3EF-44D0-A130-F09CE1505938}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>tjs2</RootNamespace>
     <AssemblyName>tjs2</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -49,7 +51,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\AssemblyInfo.cs" />
     <Compile Include="Base\Sharpen\AbstractCollection.cs" />
     <Compile Include="Base\Sharpen\AbstractList.cs" />
     <Compile Include="Base\Sharpen\AbstractMap.cs" />
@@ -88,7 +89,6 @@
     <Compile Include="Base\Sharpen\CyclicBarrier.cs" />
     <Compile Include="Base\Sharpen\DataConverter.cs" />
     <Compile Include="Base\Sharpen\DateFormat.cs" />
-    <Compile Include="Base\Sharpen\DeflaterOutputStream.cs" />
     <Compile Include="Base\Sharpen\DigestOutputStream.cs" />
     <Compile Include="Base\Sharpen\EnumerableWrapper.cs" />
     <Compile Include="Base\Sharpen\EnumeratorWrapper.cs" />
@@ -99,20 +99,13 @@
     <Compile Include="Base\Sharpen\ExecutorService.cs" />
     <Compile Include="Base\Sharpen\Extensions.cs" />
     <Compile Include="Base\Sharpen\FileChannel.cs" />
-    <Compile Include="Base\Sharpen\FileInputStream.cs" />
     <Compile Include="Base\Sharpen\FileLock.cs" />
-    <Compile Include="Base\Sharpen\FilenameFilter.cs" />
-    <Compile Include="Base\Sharpen\FileOutputStream.cs" />
-    <Compile Include="Base\Sharpen\FilePath.cs" />
-    <Compile Include="Base\Sharpen\FileReader.cs" />
-    <Compile Include="Base\Sharpen\FileWriter.cs" />
     <Compile Include="Base\Sharpen\FilterInputStream.cs" />
     <Compile Include="Base\Sharpen\FilterOutputStream.cs" />
     <Compile Include="Base\Sharpen\Future.cs" />
     <Compile Include="Base\Sharpen\GZIPInputStream.cs" />
     <Compile Include="Base\Sharpen\GZIPOutputStream.cs" />
     <Compile Include="Base\Sharpen\HttpURLConnection.cs" />
-    <Compile Include="Base\Sharpen\InflaterInputStream.cs" />
     <Compile Include="Base\Sharpen\InheritableThreadLocal.cs" />
     <Compile Include="Base\Sharpen\InputStream.cs" />
     <Compile Include="Base\Sharpen\InputStreamReader.cs" />
@@ -134,12 +127,10 @@
     <Compile Include="Base\Sharpen\Pattern.cs" />
     <Compile Include="Base\Sharpen\PipedInputStream.cs" />
     <Compile Include="Base\Sharpen\PipedOutputStream.cs" />
-    <Compile Include="Base\Sharpen\PrintWriter.cs" />
     <Compile Include="Base\Sharpen\PrivilegedAction.cs" />
     <Compile Include="Base\Sharpen\Process.cs" />
     <Compile Include="Base\Sharpen\Proxy.cs" />
     <Compile Include="Base\Sharpen\ProxySelector.cs" />
-    <Compile Include="Base\Sharpen\RandomAccessFile.cs" />
     <Compile Include="Base\Sharpen\ReentrantLock.cs" />
     <Compile Include="Base\Sharpen\Reference.cs" />
     <Compile Include="Base\Sharpen\ReferenceQueue.cs" />
@@ -158,7 +149,6 @@
     <Compile Include="Base\Sharpen\TimeUnit.cs" />
     <Compile Include="Base\Sharpen\TreeSet.cs" />
     <Compile Include="Base\Sharpen\TrustManager.cs" />
-    <Compile Include="Base\Sharpen\URLEncoder.cs" />
     <Compile Include="Base\Sharpen\WeakReference.cs" />
     <Compile Include="Base\Sharpen\WrappedSystemStream.cs" />
     <Compile Include="Base\Sharpen\X509Certificate.cs" />
@@ -176,7 +166,6 @@
     <Compile Include="TJS2\ConstArrayData.cs" />
     <Compile Include="TJS2\ContextType.cs" />
     <Compile Include="TJS2\CustomObject.cs" />
-    <Compile Include="TJS2\DateClass.cs" />
     <Compile Include="TJS2\DateNI.cs" />
     <Compile Include="TJS2\DictionaryClass.cs" />
     <Compile Include="TJS2\DictionaryNI.cs" />
@@ -184,14 +173,18 @@
     <Compile Include="TJS2\Disassembler.cs" />
     <Compile Include="TJS2\Dispatch.cs" />
     <Compile Include="TJS2\Dispatch2.cs" />
+    <Compile Include="Base\Sharpen\Calendar.cs" />
+    <Compile Include="Base\Sharpen\Double.cs" />
+    <Compile Include="Base\Sharpen\LongBuffer.cs" />
+    <Compile Include="Base\Sharpen\Number.cs" />
+    <Compile Include="Base\Sharpen\ShortBuffer.cs" />
+    <Compile Include="Base\Sharpen\IntBuffer.cs" />
     <Compile Include="TJS2\EmbeddableExpressionData.cs" />
     <Compile Include="TJS2\EnumMembersCallback.cs" />
     <Compile Include="TJS2\Error.cs" />
     <Compile Include="TJS2\ExceptionClass.cs" />
     <Compile Include="TJS2\ExprNode.cs" />
     <Compile Include="TJS2\GlobalStringMap.cs" />
-    <Compile Include="TJS2\HashCache.cs" />
-    <Compile Include="TJS2\HashTable.cs" />
     <Compile Include="TJS2\Holder.cs" />
     <Compile Include="TJS2\InterCodeGenerator.cs" />
     <Compile Include="TJS2\InterCodeObject.cs" />

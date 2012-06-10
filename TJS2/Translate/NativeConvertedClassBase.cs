@@ -257,7 +257,7 @@ namespace Kirikiri.Tjs2.Translate
 					if (name[0] >= '0' && name[0] <= '9')
 					{
 						ByteBuffer o = octet.AsOctet();
-						int n = Sharpen.Extensions.ValueOf(name);
+						int n = int.Parse(name);
 						int len = o != null ? o.Capacity() : 0;
 						if (n < 0 || n >= len)
 						{
@@ -312,7 +312,7 @@ namespace Kirikiri.Tjs2.Translate
 				if (name[0] >= '0' && name[0] <= '9')
 				{
 					ByteBuffer o = octet.AsOctet();
-					int n = Sharpen.Extensions.ValueOf(name);
+					int n = int.Parse(name);
 					int len = o != null ? o.Capacity() : 0;
 					if (n < 0 || n >= len)
 					{
@@ -436,11 +436,11 @@ namespace Kirikiri.Tjs2.Translate
 					if (name[0] >= '0' && name[0] <= '9')
 					{
 						string s = str.AsString();
-						int n = Sharpen.Extensions.ValueOf(name);
+						int n = int.Parse(name);
 						int len = s.Length;
 						if (n == len)
 						{
-							result.Set(new string());
+							result.Set(string.Empty);
 							return;
 						}
 						if (n < 0 || n > len)
@@ -461,7 +461,7 @@ namespace Kirikiri.Tjs2.Translate
 				int len = s.Length;
 				if (n == len)
 				{
-					result.Set(new string());
+					result.Set(string.Empty);
 					return;
 				}
 				if (n < 0 || n > len)
@@ -502,11 +502,11 @@ namespace Kirikiri.Tjs2.Translate
 				if (name[0] >= '0' && name[0] <= '9')
 				{
 					string s = str.AsString();
-					int n = Sharpen.Extensions.ValueOf(name);
+					int n = int.Parse(name);
 					int len = s.Length;
 					if (n == len)
 					{
-						result.Set(new string());
+						result.Set(string.Empty);
 						return;
 					}
 					if (n < 0 || n > len)
@@ -529,7 +529,7 @@ namespace Kirikiri.Tjs2.Translate
 			int len = s.Length;
 			if (n == len)
 			{
-				result.Set(new string());
+				result.Set(string.Empty);
 				return;
 			}
 			if (n < 0 || n > len)
@@ -1106,7 +1106,7 @@ namespace Kirikiri.Tjs2.Translate
 			string str = val.AsString();
 			if (str != null)
 			{
-				int v = str.CodePointAt(0);
+				int v = str[0];
 				val.Set(v);
 			}
 			else

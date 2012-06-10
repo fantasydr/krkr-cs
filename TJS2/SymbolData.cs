@@ -8,7 +8,7 @@ using Sharpen;
 
 namespace Kirikiri.Tjs2
 {
-	internal class SymbolData
+	public class SymbolData
 	{
 		private const int SYMBOL_INIT = unchecked((int)(0x2));
 

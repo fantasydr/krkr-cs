@@ -18,7 +18,7 @@ namespace Sharpen
 			this.c = DataConverter.BigEndian;
 		}
 
-		private ByteBuffer (byte[] buf, int start, int len)
+		protected ByteBuffer (byte[] buf, int start, int len)
 		{
 			this.buffer = buf;
 			this.offset = 0;
@@ -85,6 +85,11 @@ namespace Sharpen
 			CheckGetLimit (1);
 			return buffer[index++];
 		}
+
+        public byte Get(int i)
+        {
+            return buffer[i];
+        }
 
 		public void Get (byte[] data)
 		{
@@ -163,6 +168,11 @@ namespace Sharpen
 			Put (data, 0, data.Length);
 		}
 
+        public void Put(ByteBuffer buf)
+        {
+            Put(buf.buffer, buf.ArrayOffset(), buf.Capacity());
+        }
+
 		public void Put (byte data)
 		{
 			CheckPutLimit (1);
@@ -186,6 +196,16 @@ namespace Sharpen
 		{
 			Put (c.GetBytes (i));
 		}
+
+        public void PutLong(long i)
+        {
+            Put(c.GetBytes(i));
+        }
+
+        public void PutChar(char ch)
+        {
+            this.Put((byte)ch);
+        }
 
 		public int Remaining ()
 		{
@@ -217,5 +237,75 @@ namespace Sharpen
 		{
 			return new ByteBuffer (buf, start, len);
 		}
+
+        public static ByteOrder NativeOrder()
+        {
+            // TODO: default win32 order
+            return ByteOrder.BIG_ENDIAN;
+        }
+
+        public ByteBuffer Duplicate()
+        {
+            ByteBuffer buf = new ByteBuffer();
+            buf.buffer = new byte[this.buffer.Length];
+            this.buffer.CopyTo(buf.buffer, 0);
+
+            buf.c = this.c;
+            buf.capacity = this.capacity;
+            buf.index = this.index;
+            buf.limit = this.limit;
+            buf.mark = this.mark;
+            buf.offset = this.offset;
+            buf.order = this.order;
+            return buf;
+        }
+
+        public LongBuffer AsLongBuffer()
+        {
+            LongBuffer buf = new LongBuffer();
+            buf.buffer = new byte[this.buffer.Length];
+            this.buffer.CopyTo(buf.buffer, 0);
+
+            buf.c = this.c;
+            buf.capacity = this.capacity;
+            buf.index = this.index;
+            buf.limit = this.limit;
+            buf.mark = this.mark;
+            buf.offset = this.offset;
+            buf.order = this.order;
+            return buf;
+        }
+
+        public ShortBuffer AsShortBuffer()
+        {
+            ShortBuffer buf = new ShortBuffer();
+            buf.buffer = new byte[this.buffer.Length];
+            this.buffer.CopyTo(buf.buffer, 0);
+
+            buf.c = this.c;
+            buf.capacity = this.capacity;
+            buf.index = this.index;
+            buf.limit = this.limit;
+            buf.mark = this.mark;
+            buf.offset = this.offset;
+            buf.order = this.order;
+            return buf;
+        }
+
+        public IntBuffer AsIntBuffer()
+        {
+            IntBuffer buf = new IntBuffer();
+            buf.buffer = new byte[this.buffer.Length];
+            this.buffer.CopyTo(buf.buffer, 0);
+
+            buf.c = this.c;
+            buf.capacity = this.capacity;
+            buf.index = this.index;
+            buf.limit = this.limit;
+            buf.mark = this.mark;
+            buf.offset = this.offset;
+            buf.order = this.order;
+            return buf;
+        }
 	}
 }

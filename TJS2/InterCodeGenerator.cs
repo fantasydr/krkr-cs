@@ -6,6 +6,7 @@ using System.Text;
 using Kirikiri.Tjs2;
 using Kirikiri.Tjs2.Translate;
 using Sharpen;
+using System.Collections.Generic;
 
 namespace Kirikiri.Tjs2
 {
@@ -218,7 +219,7 @@ namespace Kirikiri.Tjs2
 				//ShortBuffer ibuff = buff.asShortBuffer();
 				ShortBuffer ibuff = ShortBuffer.Wrap(newbuff);
 				ibuff.Clear();
-				ShortBuffer tmp = fixdata.Code.Duplicate();
+				ByteBuffer tmp = fixdata.Code.Duplicate();
 				tmp.Flip();
 				ibuff.Put(tmp);
 				Code = ibuff;
@@ -460,7 +461,7 @@ namespace Kirikiri.Tjs2
 		}
 
 		/// <exception cref="Kirikiri.Tjs2.CompileException"></exception>
-		private void Error(string msg)
+		private void ErrorMsg(string msg)
 		{
 			mBlock.Error(msg);
 		}
@@ -818,14 +819,14 @@ namespace Kirikiri.Tjs2
 			// exit from "while"
 			if (mNestVector.Count == 0)
 			{
-				Error(Error.SyntaxError);
+				ErrorMsg(Error.SyntaxError);
 				return;
 			}
 			if (doWhile)
 			{
 				if (mNestVector.LastElement().Type != ntDoWhile)
 				{
-					Error(Error.SyntaxError);
+					ErrorMsg(Error.SyntaxError);
 					return;
 				}
 			}
@@ -833,7 +834,7 @@ namespace Kirikiri.Tjs2
 			{
 				if (mNestVector.LastElement().Type != ntWhile)
 				{
-					Error(Error.SyntaxError);
+					ErrorMsg(Error.SyntaxError);
 					return;
 				}
 			}
@@ -929,12 +930,12 @@ namespace Kirikiri.Tjs2
 			// exit from if
 			if (mNestVector.Count == 0)
 			{
-				Error(Error.SyntaxError);
+				ErrorMsg(Error.SyntaxError);
 				return;
 			}
 			if (mNestVector.LastElement().Type != ntIf)
 			{
-				Error(Error.SyntaxError);
+				ErrorMsg(Error.SyntaxError);
 				return;
 			}
 			mCodeArea[mNestVector.LastElement().Patch1 + 1] = (short)(mCodeAreaPos - mNestVector
@@ -976,12 +977,12 @@ namespace Kirikiri.Tjs2
 			// exit from else
 			if (mNestVector.Count == 0)
 			{
-				Error(Error.SyntaxError);
+				ErrorMsg(Error.SyntaxError);
 				return;
 			}
 			if (mNestVector.LastElement().Type != ntElse)
 			{
-				Error(Error.SyntaxError);
+				ErrorMsg(Error.SyntaxError);
 				return;
 			}
 			mCodeArea[mNestVector.LastElement().Patch2 + 1] = (short)(mCodeAreaPos - mNestVector
@@ -1076,13 +1077,13 @@ namespace Kirikiri.Tjs2
 			int nestsize = mNestVector.Count;
 			if (nestsize == 0)
 			{
-				Error(Error.SyntaxError);
+				ErrorMsg(Error.SyntaxError);
 				return;
 			}
 			if (mNestVector.LastElement().Type != ntFor && mNestVector.LastElement().Type != 
 				ntBlock)
 			{
-				Error(Error.SyntaxError);
+				ErrorMsg(Error.SyntaxError);
 				return;
 			}
 			if (mNestVector.LastElement().Type == ntFor)
@@ -1185,12 +1186,12 @@ namespace Kirikiri.Tjs2
 			ExitBlock();
 			if (mNestVector.Count == 0)
 			{
-				Error(Error.SyntaxError);
+				ErrorMsg(Error.SyntaxError);
 				return;
 			}
 			if (mNestVector.LastElement().Type != ntSwitch)
 			{
-				Error(Error.SyntaxError);
+				ErrorMsg(Error.SyntaxError);
 				return;
 			}
 			int lexpos = GetLexPos();
@@ -1260,7 +1261,7 @@ namespace Kirikiri.Tjs2
 			int nestsize = mNestVector.Count;
 			if (nestsize < 3)
 			{
-				Error(Error.MisplacedCase);
+				ErrorMsg(Error.MisplacedCase);
 				return;
 			}
 			if (mNestVector[nestsize - 1].Type != ntBlock || mNestVector[nestsize - 2].Type !=
@@ -1268,7 +1269,7 @@ namespace Kirikiri.Tjs2
 			{
 				// the stack layout must be ( from top )
 				// ntBlock, ntBlock, ntSwitch
-				Error(Error.MisplacedCase);
+				ErrorMsg(Error.MisplacedCase);
 				return;
 			}
 			InterCodeGenerator.NestData data = mNestVector[mNestVector.Count - 3];
@@ -1433,12 +1434,12 @@ namespace Kirikiri.Tjs2
 			ExitBlock();
 			if (mNestVector.Count == 0)
 			{
-				Error(Error.SyntaxError);
+				ErrorMsg(Error.SyntaxError);
 				return;
 			}
 			if (mNestVector.LastElement().Type != ntWith)
 			{
-				Error(Error.SyntaxError);
+				ErrorMsg(Error.SyntaxError);
 				return;
 			}
 			mFrameBase--;
@@ -1508,7 +1509,7 @@ namespace Kirikiri.Tjs2
 				}
 			}
 			// clear reference register of "switch" or "with" syntax
-			Error(Error.MisplacedBreakContinue);
+			ErrorMsg(Error.MisplacedBreakContinue);
 		}
 
 		/// <exception cref="Kirikiri.Tjs2.CompileException"></exception>
@@ -1607,7 +1608,7 @@ namespace Kirikiri.Tjs2
 				}
 			}
 			// clear reference register of "switch" or "with" syntax
-			Error(Error.MisplacedBreakContinue);
+			ErrorMsg(Error.MisplacedBreakContinue);
 		}
 
 		public virtual void DoDebugger()
@@ -1804,12 +1805,12 @@ namespace Kirikiri.Tjs2
 			}
 			if (mNestVector.Count == 0)
 			{
-				Error(Error.SyntaxError);
+				ErrorMsg(Error.SyntaxError);
 				return;
 			}
 			if (mNestVector.LastElement().Type != ntCatch)
 			{
-				Error(Error.SyntaxError);
+				ErrorMsg(Error.SyntaxError);
 				return;
 			}
 			int p2addr = mNestVector.LastElement().Patch2;
@@ -1950,12 +1951,12 @@ namespace Kirikiri.Tjs2
 			// exit from block
 			if (mNestVector.Count == 0)
 			{
-				Error(Error.SyntaxError);
+				ErrorMsg(Error.SyntaxError);
 				return;
 			}
 			if (mNestVector.LastElement().Type != ntBlock)
 			{
-				Error(Error.SyntaxError);
+				ErrorMsg(Error.SyntaxError);
 				return;
 			}
 			mNestVector.Remove(mNestVector.Count - 1);
@@ -2172,7 +2173,7 @@ namespace Kirikiri.Tjs2
 			string str = val.AsString();
 			if (str != null)
 			{
-				int v = str.CodePointAt(0);
+				int v = str[0];
 				val.Set(v);
 			}
 			else
@@ -2514,7 +2515,7 @@ namespace Kirikiri.Tjs2
 					// constant value
 					if (param.mSubType != stNone)
 					{
-						Error(Error.CannotModifyLHS);
+						ErrorMsg(Error.CannotModifyLHS);
 					}
 					if ((restype & RT_NEEDED) == 0)
 					{
@@ -2548,7 +2549,7 @@ namespace Kirikiri.Tjs2
 					// 'if'
 					if ((restype & RT_NEEDED) != 0)
 					{
-						Error(Error.CannotGetResult);
+						ErrorMsg(Error.CannotGetResult);
 					}
 					int resaddr1 = GenNodeCode(frame, node.GetNode(1), RT_NEEDED | RT_CFLAG, 0, new InterCodeGenerator.SubParam
 						());
@@ -2666,11 +2667,11 @@ namespace Kirikiri.Tjs2
 					// '<->'
 					if ((restype & RT_NEEDED) != 0)
 					{
-						Error(Error.CannotGetResult);
+						ErrorMsg(Error.CannotGetResult);
 					}
 					if (param.mSubType != 0)
 					{
-						Error(Error.CannotModifyLHS);
+						ErrorMsg(Error.CannotModifyLHS);
 					}
 					int resaddr1 = GenNodeCode(frame, node.GetNode(0), RT_NEEDED, 0, new InterCodeGenerator.SubParam
 						());
@@ -2713,7 +2714,7 @@ namespace Kirikiri.Tjs2
 					// '='
 					if (param.mSubType != 0)
 					{
-						Error(Error.CannotModifyLHS);
+						ErrorMsg(Error.CannotModifyLHS);
 					}
 					if ((restype & RT_CFLAG) != 0)
 					{
@@ -2758,7 +2759,7 @@ namespace Kirikiri.Tjs2
 					// '>>>=' operator
 					if (param.mSubType != 0)
 					{
-						Error(Error.CannotModifyLHS);
+						ErrorMsg(Error.CannotModifyLHS);
 					}
 					resaddr = GenNodeCode(frame, node.GetNode(1), RT_NEEDED, 0, new InterCodeGenerator.SubParam
 						());
@@ -3074,7 +3075,7 @@ namespace Kirikiri.Tjs2
 					// AND : does not evaluate right when left results false
 					if (param.mSubType != 0)
 					{
-						Error(Error.CannotModifyLHS);
+						ErrorMsg(Error.CannotModifyLHS);
 					}
 					int resaddr1;
 					int resaddr2;
@@ -3283,7 +3284,7 @@ namespace Kirikiri.Tjs2
 					int resaddr2;
 					if (param.mSubType != stNone)
 					{
-						Error(Error.CannotModifyLHS);
+						ErrorMsg(Error.CannotModifyLHS);
 					}
 					resaddr1 = GenNodeCode(frame, node.GetNode(0), RT_NEEDED, 0, new InterCodeGenerator.SubParam
 						());
@@ -3429,7 +3430,7 @@ namespace Kirikiri.Tjs2
 					int resaddr2;
 					if (param.mSubType != stNone)
 					{
-						Error(Error.CannotModifyLHS);
+						ErrorMsg(Error.CannotModifyLHS);
 					}
 					resaddr1 = GenNodeCode(frame, node.GetNode(0), RT_NEEDED, 0, new InterCodeGenerator.SubParam
 						());
@@ -3561,7 +3562,7 @@ namespace Kirikiri.Tjs2
 					// logical not
 					if ((param.mSubType != stNone))
 					{
-						Error(Error.CannotModifyLHS);
+						ErrorMsg(Error.CannotModifyLHS);
 					}
 					resaddr = GenNodeCode(frame, node.GetNode(0), restype, reqresaddr, new InterCodeGenerator.SubParam
 						());
@@ -3661,7 +3662,7 @@ namespace Kirikiri.Tjs2
 					// general unary operators
 					if ((param.mSubType != stNone))
 					{
-						Error(Error.CannotModifyLHS);
+						ErrorMsg(Error.CannotModifyLHS);
 					}
 					resaddr = GenNodeCode(frame, node.GetNode(0), RT_NEEDED, 0, new InterCodeGenerator.SubParam
 						());
@@ -3796,7 +3797,7 @@ namespace Kirikiri.Tjs2
 					// typeof
 					if ((param.mSubType != stNone))
 					{
-						Error(Error.CannotModifyLHS);
+						ErrorMsg(Error.CannotModifyLHS);
 					}
 					bool haspropnode;
 					ExprNode cnode = node.GetNode(0);
@@ -3876,7 +3877,7 @@ namespace Kirikiri.Tjs2
 					// delete, typeof, increment and decrement
 					if ((param.mSubType != stNone))
 					{
-						Error(Error.CannotModifyLHS);
+						ErrorMsg(Error.CannotModifyLHS);
 					}
 					InterCodeGenerator.SubParam param2 = new InterCodeGenerator.SubParam();
 					switch (node.GetOpecode())
@@ -4406,7 +4407,7 @@ namespace Kirikiri.Tjs2
 
 						default:
 						{
-							Error(Error.CannotModifyLHS);
+							ErrorMsg(Error.CannotModifyLHS);
 							return 0;
 							break;
 						}
@@ -4649,7 +4650,7 @@ namespace Kirikiri.Tjs2
 
 								default:
 								{
-									Error(Error.CannotModifyLHS);
+									ErrorMsg(Error.CannotModifyLHS);
 									break;
 								}
 							}
@@ -4710,7 +4711,7 @@ namespace Kirikiri.Tjs2
 							}
 							else
 							{
-								Error(Error.CannotModifyLHS);
+								ErrorMsg(Error.CannotModifyLHS);
 							}
 						}
 						return GenNodeCode(frame, node.GetNode(0), restype, reqresaddr, sp);
@@ -4892,7 +4893,7 @@ namespace Kirikiri.Tjs2
 
 							default:
 							{
-								Error(Error.CannotModifyLHS);
+								ErrorMsg(Error.CannotModifyLHS);
 								return 0;
 								break;
 							}
@@ -4911,7 +4912,7 @@ namespace Kirikiri.Tjs2
 					{
 						if ((node1 = mParent.mParent.mSuperClassExpr) == null)
 						{
-							Error(Error.CannotGetSuper);
+							ErrorMsg(Error.CannotGetSuper);
 							return 0;
 						}
 					}
@@ -4919,7 +4920,7 @@ namespace Kirikiri.Tjs2
 					{
 						if (mParent == null || (node1 = mParent.mSuperClassExpr) == null)
 						{
-							Error(Error.CannotGetSuper);
+							ErrorMsg(Error.CannotGetSuper);
 							return 0;
 						}
 					}
@@ -4940,7 +4941,7 @@ namespace Kirikiri.Tjs2
 				{
 					if (param.mSubType != 0)
 					{
-						Error(Error.CannotModifyLHS);
+						ErrorMsg(Error.CannotModifyLHS);
 					}
 					return -1;
 				}
@@ -4993,7 +4994,7 @@ namespace Kirikiri.Tjs2
 					// NO "break" HERE!!!!!! (pass thru to global)
 					if (param.mSubType != 0)
 					{
-						Error(Error.CannotModifyLHS);
+						ErrorMsg(Error.CannotModifyLHS);
 					}
 					if ((restype & RT_NEEDED) == 0)
 					{
@@ -5321,7 +5322,7 @@ namespace Kirikiri.Tjs2
 				{
 					if (param.mSubType != 0)
 					{
-						Error(Error.CannotModifyLHS);
+						ErrorMsg(Error.CannotModifyLHS);
 					}
 					if ((restype & RT_NEEDED) == 0)
 					{
@@ -5340,7 +5341,7 @@ namespace Kirikiri.Tjs2
 			// omit of the function arguments
 			if (mContextType != ContextType.FUNCTION && mContextType != ContextType.EXPR_FUNCTION)
 			{
-				Error(Error.CannotOmit);
+				ErrorMsg(Error.CannotOmit);
 			}
 			mFuncArgStack.Peek().IsOmit = true;
 		}

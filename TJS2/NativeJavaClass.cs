@@ -8,7 +8,6 @@ using System.Reflection;
 using System.Security;
 using Kirikiri.Tjs2;
 using Sharpen;
-using Sharpen.Reflect;
 
 namespace Kirikiri.Tjs2
 {
@@ -33,9 +32,8 @@ namespace Kirikiri.Tjs2
 				foreach (MethodInfo m in methods)
 				{
 					string methodName = m.Name;
-					int modif = m.GetModifiers();
 					int flag = 0;
-					if (Modifier.IsStatic(modif))
+					if (m.IsStatic)
 					{
 						flag |= Interface.STATICMEMBER;
 					}
@@ -160,7 +158,7 @@ namespace Kirikiri.Tjs2
 		}
 
 		/// <exception cref="Kirikiri.Tjs2.VariantException"></exception>
-		public static object VariantToJavaObject<_T0>(Variant param, Type<_T0> type)
+		public static object VariantToJavaObject(Variant param, Type type)
 		{
 			if (type.IsPrimitive)
 			{
@@ -173,7 +171,7 @@ namespace Kirikiri.Tjs2
 				{
 					if (type.Equals(typeof(double)))
 					{
-						return double.ValueOf(param.AsDouble());
+						return (param.AsDouble());
 					}
 					else
 					{
@@ -185,7 +183,7 @@ namespace Kirikiri.Tjs2
 						{
 							if (type.Equals(typeof(float)))
 							{
-								return float.ValueOf((float)param.AsDouble());
+								return ((float)param.AsDouble());
 							}
 							else
 							{
@@ -197,19 +195,19 @@ namespace Kirikiri.Tjs2
 								{
 									if (type.Equals(typeof(char)))
 									{
-										return char.ValueOf((char)param.AsInteger());
+										return ((char)param.AsInteger());
 									}
 									else
 									{
 										if (type.Equals(typeof(byte)))
 										{
-											return byte.ValueOf(unchecked((byte)param.AsInteger()));
+											return (unchecked((byte)param.AsInteger()));
 										}
 										else
 										{
 											if (type.Equals(typeof(short)))
 											{
-												return short.ValueOf((short)param.AsInteger());
+												return ((short)param.AsInteger());
 											}
 											else
 											{
@@ -273,8 +271,7 @@ namespace Kirikiri.Tjs2
 			}
 		}
 
-		public static void JavaObjectToVariant<_T0>(Variant result, Type<_T0> type, object
-			 src)
+		public static void JavaObjectToVariant(Variant result, Type type, object src)
 		{
 			if (result == null)
 			{
@@ -415,7 +412,7 @@ namespace Kirikiri.Tjs2
 					{
 						if (type.Equals(typeof(double)))
 						{
-							ret[i] = double.ValueOf(param.AsDouble());
+							ret[i] = (param.AsDouble());
 						}
 						else
 						{
@@ -427,7 +424,7 @@ namespace Kirikiri.Tjs2
 							{
 								if (type.Equals(typeof(float)))
 								{
-									ret[i] = float.ValueOf((float)param.AsDouble());
+									ret[i] = ((float)param.AsDouble());
 								}
 								else
 								{
@@ -439,19 +436,19 @@ namespace Kirikiri.Tjs2
 									{
 										if (type.Equals(typeof(char)))
 										{
-											ret[i] = char.ValueOf((char)param.AsInteger());
+											ret[i] = ((char)param.AsInteger());
 										}
 										else
 										{
 											if (type.Equals(typeof(byte)))
 											{
-												ret[i] = byte.ValueOf(unchecked((byte)param.AsInteger()));
+												ret[i] = (unchecked((byte)param.AsInteger()));
 											}
 											else
 											{
 												if (type.Equals(typeof(short)))
 												{
-													ret[i] = short.ValueOf((short)param.AsInteger());
+													ret[i] = ((short)param.AsInteger());
 												}
 												else
 												{

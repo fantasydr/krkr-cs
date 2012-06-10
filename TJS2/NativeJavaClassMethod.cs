@@ -6,7 +6,6 @@ using System;
 using System.Reflection;
 using Kirikiri.Tjs2;
 using Sharpen;
-using Sharpen.Reflect;
 
 namespace Kirikiri.Tjs2
 {
@@ -33,7 +32,7 @@ namespace Kirikiri.Tjs2
 			}
 			mParamTypes = Sharpen.Runtime.GetParameterTypes(m);
 			mReturnType = m.ReturnType;
-			if (Modifier.IsStatic(m.GetModifiers()))
+            if (m.IsStatic)
 			{
 				mIsStatic = true;
 			}

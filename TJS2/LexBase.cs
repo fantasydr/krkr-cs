@@ -258,33 +258,33 @@ namespace Kirikiri.Tjs2
 			main = (long)(((ulong)main) >> (64 - 1 - TJS_IEEE_D_SIGNIFICAND_BITS));
 			if (main == 0)
 			{
-				return double.ValueOf(0.0);
+				return (0.0);
 			}
 			main &= ((1L << TJS_IEEE_D_SIGNIFICAND_BITS) - 1L);
 			if (exp < TJS_IEEE_D_EXP_MIN)
 			{
-				return double.ValueOf(0.0);
+				return (0.0);
 			}
 			if (exp > TJS_IEEE_D_EXP_MAX)
 			{
 				if (sign)
 				{
-					return double.ValueOf(double.NegativeInfinity);
+					return (double.NegativeInfinity);
 				}
 				else
 				{
-					return double.ValueOf(double.PositiveInfinity);
+					return (double.PositiveInfinity);
 				}
 			}
 			// compose IEEE double
 			//double d = Double.longBitsToDouble(0x8000000000000000L | ((exp + TJS_IEEE_D_EXP_BIAS) << 52) | main);
-			double d = double.LongBitsToDouble((((long)exp + TJS_IEEE_D_EXP_BIAS) << 52) | main
+            double d = Double.LongBitsToDouble((((long)exp + TJS_IEEE_D_EXP_BIAS) << 52) | main
 				);
 			if (sign)
 			{
 				d = -d;
 			}
-			return double.ValueOf(d);
+			return (d);
 		}
 
 		private int ParseNonDecimalInteger16(bool sign)
@@ -401,7 +401,7 @@ namespace Kirikiri.Tjs2
 			bool is_real = ParseExtractNumber(@base);
 			if (is_real)
 			{
-				return ParseNonDecimalReal(sign, @base);
+				return new Number(ParseNonDecimalReal(sign, @base));
 			}
 			else
 			{
@@ -409,17 +409,17 @@ namespace Kirikiri.Tjs2
 				{
 					case 4:
 					{
-						return ParseNonDecimalInteger16(sign);
+                        return new Number(ParseNonDecimalInteger16(sign));
 					}
 
 					case 3:
 					{
-						return ParseNonDecimalInteger8(sign);
+                        return new Number(ParseNonDecimalInteger8(sign));
 					}
 
 					case 1:
 					{
-						return ParseNonDecimalInteger2(sign);
+                        return new Number(ParseNonDecimalInteger2(sign));
 					}
 				}
 			}
@@ -482,7 +482,7 @@ namespace Kirikiri.Tjs2
 			{
 				if (mStream.EqualString("rue"))
 				{
-					return Sharpen.Extensions.ValueOf(1);
+                    return new Number(1);
 				}
 			}
 			else
@@ -491,7 +491,7 @@ namespace Kirikiri.Tjs2
 				{
 					if (mStream.EqualString("alse"))
 					{
-						return Sharpen.Extensions.ValueOf(0);
+                        return new Number(0);
 					}
 				}
 				else
@@ -500,7 +500,7 @@ namespace Kirikiri.Tjs2
 					{
 						if (mStream.EqualString("aN"))
 						{
-							return double.ValueOf(double.NaN);
+                            return new Number(double.NaN);
 						}
 					}
 					else
@@ -511,11 +511,11 @@ namespace Kirikiri.Tjs2
 							{
 								if (sign)
 								{
-									return double.ValueOf(double.NegativeInfinity);
+                                    return new Number(double.NegativeInfinity);
 								}
 								else
 								{
-									return double.ValueOf(double.PositiveInfinity);
+                                    return new Number(double.PositiveInfinity);
 								}
 							}
 						}
@@ -587,7 +587,7 @@ namespace Kirikiri.Tjs2
 			if (c == '.' || c == 'e' || c == 'E')
 			{
 				double figure = 1.0;
-				int decimal = 0;
+				int dec = 0;
 				if (c == '.')
 				{
 					while (c != -1)
@@ -597,7 +597,7 @@ namespace Kirikiri.Tjs2
 						{
 							break;
 						}
-						decimal = decimal * 10 + (c - '0');
+						dec = dec * 10 + (c - '0');
 						figure *= 10;
 					}
 				}
@@ -626,7 +626,7 @@ namespace Kirikiri.Tjs2
 				{
 					mStream.UngetC();
 				}
-				double number = (double)num + ((double)decimal / figure);
+                double number = (double)num + ((double)dec / figure);
 				if (expValue != 0)
 				{
 					if (expSign == false)
@@ -642,7 +642,7 @@ namespace Kirikiri.Tjs2
 				{
 					number = -number;
 				}
-				return double.ValueOf(number);
+                return new Number(number);
 			}
 			else
 			{
@@ -651,13 +651,14 @@ namespace Kirikiri.Tjs2
 				{
 					num = -num;
 				}
-				return Sharpen.Extensions.ValueOf(num);
+                return new Number(num);
 			}
 		}
 
-		public static string EscapeC(char c)
+		public static string EscapeC(char b)
 		{
 			StringBuilder ret = new StringBuilder(16);
+            int c = b;
 			switch (c)
 			{
 				case unchecked((int)(0x07)):
@@ -743,7 +744,7 @@ namespace Kirikiri.Tjs2
 			StringBuilder ret = new StringBuilder(count * 2);
 			for (int i = 0; i < count; i++)
 			{
-				char c = str[i];
+				int c = str[i];
 				switch (c)
 				{
 					case unchecked((int)(0x07)):

@@ -96,13 +96,13 @@ namespace Kirikiri.Tjs2
 			{
 				mName = null;
 			}
-			try
-			{
-				base.Finalize();
-			}
-			catch
-			{
-			}
+            //try
+            //{
+            //    base.Finalize();
+            //}
+            //catch
+            //{
+            //}
 		}
 
 		public virtual void Compact()
@@ -269,7 +269,7 @@ namespace Kirikiri.Tjs2
 
 		public virtual int GetObjectIndex(InterCodeObject obj)
 		{
-			return mInterCodeObjectList.IndexOf(obj);
+			return mInterCodeObjectList.IndexOf(new WeakReference<InterCodeObject>(obj));
 		}
 
 		public virtual InterCodeObject GetCodeObject(int index)
@@ -288,7 +288,7 @@ namespace Kirikiri.Tjs2
 		{
 			if (mLineOffset == 0)
 			{
-				return new string(mName);
+				return mName;
 			}
 			else
 			{

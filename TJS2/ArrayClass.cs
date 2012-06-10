@@ -246,12 +246,12 @@ namespace Kirikiri.Tjs2
 				for (int i = 0; i < count; i++)
 				{
 					reamain++;
-					int ch = content.CodePointAt(i);
+					char ch = content[i];
 					if (ch == '\r' || ch == '\n')
 					{
 						if ((i + 1) < count)
 						{
-							if (content.CodePointAt(i + 1) == '\n' && ch == '\r')
+							if (content[i + 1] == '\n' && ch == '\r')
 							{
 								lines++;
 								i++;
@@ -270,13 +270,13 @@ namespace Kirikiri.Tjs2
 				int start = 0;
 				for (int i_1 = 0; i_1 < count; i_1++)
 				{
-					int ch = content.CodePointAt(i_1);
+					char ch = content[i_1];
 					if (ch == '\r' || ch == '\n')
 					{
 						ni.mItems.AddItem(new Variant(Sharpen.Runtime.Substring(content, start, i_1)));
 						if ((i_1 + 1) < count)
 						{
-							if (content.CodePointAt(i_1 + 1) == '\n' && ch == '\r')
+							if (content[i_1 + 1] == '\n' && ch == '\r')
 							{
 								i_1++;
 							}
@@ -440,7 +440,7 @@ namespace Kirikiri.Tjs2
 				int start = 0;
 				for (int i = 0; i < count; i++)
 				{
-					int ch = @string.CodePointAt(i);
+					char ch = @string[i];
 					if (pattern.IndexOf(ch) != -1)
 					{
 						if (purgeempty == false || (purgeempty == true && (i - start) != 0))
@@ -529,7 +529,7 @@ namespace Kirikiri.Tjs2
 				{
 					return Error.E_NATIVECLASSCRASH;
 				}
-				char method = '+';
+				int method = '+';
 				VariantClosure closure = null;
 				if (param.Length >= 1 && param[0].IsVoid() != true)
 				{

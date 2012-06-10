@@ -9,7 +9,7 @@ using Sharpen;
 
 namespace Kirikiri.Tjs2
 {
-	public class Variant : ICloneable
+	public class Variant 
 	{
 		public static void Initialize()
 		{
@@ -63,7 +63,7 @@ namespace Kirikiri.Tjs2
 
 		public Variant(double value)
 		{
-			mObject = double.ValueOf(value);
+			mObject = (value);
 		}
 
 		public Variant(ByteBuffer value)
@@ -103,7 +103,7 @@ namespace Kirikiri.Tjs2
 
 		public void Set(double value)
 		{
-			mObject = double.ValueOf(value);
+			mObject = (value);
 		}
 
 		public void Set(ByteBuffer value)
@@ -172,7 +172,7 @@ namespace Kirikiri.Tjs2
 		public static string OctetToListString(ByteBuffer oct)
 		{
 			int size = oct.Capacity();
-			string hex = new string("0123456789ABCDEF");
+			string hex = "0123456789ABCDEF";
 			StringBuilder str = new StringBuilder(size * 3);
 			for (int i = 0; i < size; i++)
 			{
@@ -428,7 +428,7 @@ namespace Kirikiri.Tjs2
 			}
 			Number n1 = AsNumber();
 			Number n2 = val.AsNumber();
-			if (n1 is int && n2 is int)
+			if (n1.IsInt() && n2.IsInt())
 			{
 				int result = n1 - n2;
 				return new Kirikiri.Tjs2.Variant(result);
@@ -490,7 +490,7 @@ namespace Kirikiri.Tjs2
 			}
 			Number n1 = AsNumber();
 			Number n2 = val.AsNumber();
-			if (n1 is int && n2 is int)
+			if (n1.IsInt() && n2.IsInt())
 			{
 				int result = n1 * n2;
 				return new Kirikiri.Tjs2.Variant(result);
@@ -563,13 +563,13 @@ namespace Kirikiri.Tjs2
 						{
 							double r1 = ((Number)mObject);
 							double r2 = ((Number)val2.mObject);
-							if (double.IsNaN(r1) || double.IsNaN(r2))
+							if (Double.IsNaN(r1) || Double.IsNaN(r2))
 							{
 								return false;
 							}
-							if (double.IsInfinite(r1) || double.IsInfinite(r2))
+							if (Double.IsInfinite(r1) || Double.IsInfinite(r2))
 							{
-								return double.Compare(r1, r2) == 0;
+								return Double.Compare(r1, r2) == 0;
 							}
 							return r1 == r2;
 						}
@@ -642,13 +642,13 @@ namespace Kirikiri.Tjs2
 						{
 							double r1 = ((Number)mObject);
 							double r2 = ((Number)val.mObject);
-							if (double.IsNaN(r1) || double.IsNaN(r2))
+							if (Double.IsNaN(r1) || Double.IsNaN(r2))
 							{
 								return false;
 							}
-							if (double.IsInfinite(r1) || double.IsInfinite(r2))
+							if (Double.IsInfinite(r1) || Double.IsInfinite(r2))
 							{
-								return double.Compare(r1, r2) == 0;
+								return Double.Compare(r1, r2) == 0;
 							}
 							return r1 == r2;
 						}
@@ -928,7 +928,7 @@ namespace Kirikiri.Tjs2
 						Number num = lex.ParseNumber();
 						if (num != null)
 						{
-							if (num is int)
+							if (num.IsInt())
 							{
 								targ.Set(((int)num));
 							}
@@ -956,13 +956,13 @@ namespace Kirikiri.Tjs2
 		{
 			if (mObject is int)
 			{
-				return Sharpen.Extensions.ValueOf(((int)mObject));
+                return new Number((int)mObject);
 			}
 			else
 			{
 				if (mObject is double)
 				{
-					return double.ValueOf(((double)mObject));
+					return new Number((double)mObject);
 				}
 				else
 				{
@@ -976,14 +976,14 @@ namespace Kirikiri.Tjs2
 						}
 						else
 						{
-							return Sharpen.Extensions.ValueOf(0);
+                            return new Number(0);
 						}
 					}
 					else
 					{
 						if (mObject == null)
 						{
-							return Sharpen.Extensions.ValueOf(0);
+                            return new Number(0);
 						}
 					}
 				}
@@ -1002,13 +1002,13 @@ namespace Kirikiri.Tjs2
 				return;
 			}
 			Number val = AsNumber();
-			if (val is int)
+			if (val.IsInt())
 			{
 				mObject = Sharpen.Extensions.ValueOf(-val);
 			}
 			else
 			{
-				mObject = double.ValueOf(-val);
+				mObject = (-val);
 			}
 		}
 
@@ -1030,13 +1030,13 @@ namespace Kirikiri.Tjs2
 					if (mObject is string)
 					{
 						Number num = StringToNumber((string)mObject);
-						if (num is int)
+						if (num.IsInt())
 						{
 							mObject = Sharpen.Extensions.ValueOf(num);
 						}
 						else
 						{
-							mObject = double.ValueOf(num);
+							mObject = (num);
 						}
 					}
 					else
@@ -1056,7 +1056,7 @@ namespace Kirikiri.Tjs2
 		/// <exception cref="Kirikiri.Tjs2.VariantException"></exception>
 		public void ToReal()
 		{
-			mObject = double.ValueOf(AsDouble());
+			mObject = (AsDouble());
 		}
 
 		/// <exception cref="Kirikiri.Tjs2.VariantException"></exception>
@@ -1171,7 +1171,7 @@ namespace Kirikiri.Tjs2
 			{
 				if (mObject is double)
 				{
-					return ((double)mObject);
+					return (int)((double)mObject);
 				}
 				else
 				{
@@ -1410,7 +1410,7 @@ namespace Kirikiri.Tjs2
 			}
 			else
 			{
-				return Sharpen.Extensions.ValueOf(0);
+				return new Number(0);
 			}
 		}
 
@@ -1458,13 +1458,13 @@ namespace Kirikiri.Tjs2
 
 		public static string SpecialRealToString(double r)
 		{
-			if (double.IsNaN(r))
+			if (Double.IsNaN(r))
 			{
 				return "NaN";
 			}
-			if (double.IsInfinite(r))
+			if (Double.IsInfinite(r))
 			{
-				if (double.NegativeInfinity == r)
+				if (Double.NegativeInfinity == r)
 				{
 					return "-Infinity";
 				}
@@ -1475,7 +1475,7 @@ namespace Kirikiri.Tjs2
 			}
 			if (r == 0.0)
 			{
-				long ui64 = double.DoubleToLongBits(r);
+				long ui64 = Double.DoubleToLongBits(r);
 				if ((ui64 & IEEE_D_SIGN_MASK) != 0)
 				{
 					return "-0.0";
@@ -1501,7 +1501,7 @@ namespace Kirikiri.Tjs2
 			{
 				return v;
 			}
-			long ui64 = double.DoubleToLongBits(r);
+			long ui64 = Double.DoubleToLongBits(r);
 			StringBuilder builder = new StringBuilder(64);
 			if ((ui64 & IEEE_D_SIGN_MASK) != 0)
 			{
@@ -1511,7 +1511,7 @@ namespace Kirikiri.Tjs2
 			{
 				builder.Append("0x1.");
 			}
-			string hexdigits = new string("0123456789ABCDEF");
+			string hexdigits = "0123456789ABCDEF";
 			int exp = (int)(((ui64 & D_EXP_MASK) >> D_SIGNIFICAND_BITS) - D_EXP_BIAS);
 			int bits = D_SIGNIFICAND_BITS;
 			while (true)
@@ -1528,32 +1528,32 @@ namespace Kirikiri.Tjs2
 			return builder.ToString();
 		}
 
-		public static string OctetToListString(ByteBuffer oct)
-		{
-			if (oct == null)
-			{
-				return null;
-			}
-			if (oct.Capacity() == 0)
-			{
-				return null;
-			}
-			int stringlen = oct.Capacity() * 3 - 1;
-			StringBuilder str = new StringBuilder(stringlen);
-			string hex = new string("0123456789ABCDEF");
-			int count = oct.Capacity();
-			for (int i = 0; i < count; i++)
-			{
-				byte data = oct.Get(i);
-				str.Append(hex[(data >> 4) & unchecked((int)(0x0f))]);
-				str.Append(hex[data & unchecked((int)(0x0f))]);
-				if (i != (count - 1))
-				{
-					str.Append(' ');
-				}
-			}
-			return str.ToString();
-		}
+        //public static string OctetToListString(ByteBuffer oct)
+        //{
+        //    if (oct == null)
+        //    {
+        //        return null;
+        //    }
+        //    if (oct.Capacity() == 0)
+        //    {
+        //        return null;
+        //    }
+        //    int stringlen = oct.Capacity() * 3 - 1;
+        //    StringBuilder str = new StringBuilder(stringlen);
+        //    string hex = "0123456789ABCDEF";
+        //    int count = oct.Capacity();
+        //    for (int i = 0; i < count; i++)
+        //    {
+        //        byte data = oct.Get(i);
+        //        str.Append(hex[(data >> 4) & unchecked((int)(0x0f))]);
+        //        str.Append(hex[data & unchecked((int)(0x0f))]);
+        //        if (i != (count - 1))
+        //        {
+        //            str.Append(' ');
+        //        }
+        //    }
+        //    return str.ToString();
+        //}
 
 		// &=
 		/// <exception cref="Kirikiri.Tjs2.VariantException"></exception>
@@ -1593,13 +1593,13 @@ namespace Kirikiri.Tjs2
 			}
 			Number l = AsNumber();
 			Number r = rhs.AsNumber();
-			if (l is int && r is int)
+			if (l.IsInt() && r.IsInt())
 			{
 				mObject = Sharpen.Extensions.ValueOf(((int)l) - ((int)r));
 			}
 			else
 			{
-				mObject = double.ValueOf(l - r);
+				mObject = (l - r);
 			}
 		}
 
@@ -1677,7 +1677,7 @@ namespace Kirikiri.Tjs2
 					{
 						if (rhs.mObject is double)
 						{
-							mObject = double.ValueOf(((double)rhs.mObject));
+							mObject = (((double)rhs.mObject));
 							return;
 						}
 					}
@@ -1700,7 +1700,7 @@ namespace Kirikiri.Tjs2
 					}
 				}
 			}
-			mObject = double.ValueOf(AsDouble() + rhs.AsDouble());
+			mObject = (AsDouble() + rhs.AsDouble());
 		}
 
 		// %=
@@ -1722,7 +1722,7 @@ namespace Kirikiri.Tjs2
 		{
 			double l = AsDouble();
 			double r = rhs.AsDouble();
-			mObject = double.ValueOf(l / r);
+			mObject = (l / r);
 		}
 
 		/// <exception cref="Kirikiri.Tjs2.VariantException"></exception>
@@ -1755,12 +1755,12 @@ namespace Kirikiri.Tjs2
 			}
 			Number l = AsNumber();
 			Number r = rhs.AsNumber();
-			if (l is int && r is int)
+			if (l.IsInt() && r.IsInt())
 			{
 				mObject = Sharpen.Extensions.ValueOf(l * r);
 				return;
 			}
-			mObject = double.ValueOf(l * r);
+			mObject = (l * r);
 		}
 
 		public void Logicalandequal(Kirikiri.Tjs2.Variant rhs)
@@ -1805,7 +1805,7 @@ namespace Kirikiri.Tjs2
 			}
 			if (mObject is double)
 			{
-				mObject = double.ValueOf(((double)mObject) + 1.0);
+				mObject = (((double)mObject) + 1.0);
 			}
 			else
 			{
@@ -1836,7 +1836,7 @@ namespace Kirikiri.Tjs2
 			}
 			if (mObject is double)
 			{
-				mObject = double.ValueOf(((double)mObject) - 1.0);
+				mObject = (((double)mObject) - 1.0);
 			}
 			else
 			{
@@ -1944,13 +1944,13 @@ namespace Kirikiri.Tjs2
 			if (mObject is string)
 			{
 				Number num = StringToNumber((string)mObject);
-				if (num is int)
+				if (num.IsInt())
 				{
 					mObject = Sharpen.Extensions.ValueOf(num);
 				}
 				else
 				{
-					mObject = double.ValueOf(num);
+					mObject = (num);
 				}
 				return;
 			}
@@ -1971,13 +1971,13 @@ namespace Kirikiri.Tjs2
 				return;
 			}
 			Number val = AsNumber();
-			if (val is int)
+			if (val.IsInt())
 			{
 				mObject = Sharpen.Extensions.ValueOf(-val);
 			}
 			else
 			{
-				mObject = double.ValueOf(-val);
+				mObject = (-val);
 			}
 		}
 
@@ -2008,26 +2008,26 @@ namespace Kirikiri.Tjs2
 				{
 					if (IsInteger())
 					{
-						return new string("(int)" + AsString());
+						return "(int)" + AsString();
 					}
 					else
 					{
 						if (IsReal())
 						{
-							return new string("(real)" + AsString());
+							return "(real)" + AsString();
 						}
 						else
 						{
 							if (IsString())
 							{
-								return new string("(string)\"" + LexBase.EscapeC(AsString()) + "\"");
+								return "(string)\"" + LexBase.EscapeC(AsString()) + "\"";
 							}
 							else
 							{
 								if (IsOctet())
 								{
-									return new string("(octet)<% " + Kirikiri.Tjs2.Variant.OctetToListString(AsOctet(
-										)) + " %>");
+									return "(octet)<% " + Kirikiri.Tjs2.Variant.OctetToListString(AsOctet(
+										)) + " %>";
 								}
 								else
 								{
@@ -2039,7 +2039,7 @@ namespace Kirikiri.Tjs2
 									else
 									{
 										// native object ?
-										return new string("(octet) [" + GetType().FullName + "]");
+										return "(octet) [" + GetType().FullName + "]";
 									}
 								}
 							}
@@ -2098,8 +2098,8 @@ namespace Kirikiri.Tjs2
 										}
 										builder.Append('}');
 									}
-									return new string("(octet)<% " + Kirikiri.Tjs2.Variant.OctetToListString(AsOctet(
-										)) + " %>");
+									return "(octet)<% " + Kirikiri.Tjs2.Variant.OctetToListString(AsOctet(
+										)) + " %>";
 								}
 								else
 								{

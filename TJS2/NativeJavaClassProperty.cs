@@ -6,7 +6,6 @@ using System;
 using System.Reflection;
 using Kirikiri.Tjs2;
 using Sharpen;
-using Sharpen.Reflect;
 
 namespace Kirikiri.Tjs2
 {
@@ -38,7 +37,7 @@ namespace Kirikiri.Tjs2
 				{
 					throw new TJSException(Error.InternalError);
 				}
-				if (Modifier.IsStatic(get.GetModifiers()))
+				if (get.IsStatic)
 				{
 					mIsStaticGet = true;
 				}
@@ -55,7 +54,7 @@ namespace Kirikiri.Tjs2
 				{
 					throw new TJSException(Error.InternalError);
 				}
-				if (Modifier.IsStatic(set.GetModifiers()))
+				if (set.IsStatic)
 				{
 					mIsStaticSet = true;
 				}
@@ -120,7 +119,7 @@ namespace Kirikiri.Tjs2
 			int er = Error.S_OK;
 			try
 			{
-				object ret = mGet.Invoke(self);
+				object ret = mGet.Invoke(self, new object[]{});
 				NativeJavaClass.JavaObjectToVariant(result, mReturnType, ret);
 			}
 			catch (ArgumentException)

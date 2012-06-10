@@ -121,7 +121,7 @@ namespace Kirikiri.Tjs2
 
 		private int PutByte(byte b)
 		{
-			byte val = byte.ValueOf(b);
+			byte val = (b);
 			int index = mByteHash.Get(val);
 			if (index == null)
 			{
@@ -138,7 +138,7 @@ namespace Kirikiri.Tjs2
 
 		private int PutShort(short b)
 		{
-			short val = short.ValueOf(b);
+			short val = (b);
 			int index = mShortHash.Get(val);
 			if (index == null)
 			{
@@ -189,7 +189,7 @@ namespace Kirikiri.Tjs2
 
 		private int PutDouble(double b)
 		{
-			double val = double.ValueOf(b);
+			double val = (b);
 			int index = mDoubleHash.Get(val);
 			if (index == null)
 			{
@@ -562,7 +562,7 @@ namespace Kirikiri.Tjs2
 			buf.PutInt(count);
 			for (int i_8 = 0; i_8 < count; i_8++)
 			{
-				buf.PutLong(double.DoubleToRawLongBits(mDouble[i_8]));
+				buf.PutLong(Double.DoubleToRawLongBits(mDouble[i_8]));
 			}
 			// string write
 			count = mString.Count;

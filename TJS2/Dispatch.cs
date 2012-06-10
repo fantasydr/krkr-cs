@@ -77,13 +77,13 @@ namespace Kirikiri.Tjs2
 				{
 				}
 			}
-			try
-			{
-				base.Finalize();
-			}
-			catch
-			{
-			}
+            //try
+            //{
+            //    base.Finalize();
+            //}
+            //catch
+            //{
+            //}
 		}
 
 		// function invocation

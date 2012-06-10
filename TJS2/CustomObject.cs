@@ -139,13 +139,13 @@ namespace Kirikiri.Tjs2
 
 		~CustomObject()
 		{
-			try
-			{
-				base.Finalize();
-			}
-			catch
-			{
-			}
+            //try
+            //{
+            //    base.Finalize();
+            //}
+            //catch
+            //{
+            //}
 			for (int i = MAX_NATIVE_CLASS - 1; i >= 0; i--)
 			{
 				if (mClassIDs[i] != -1)
@@ -288,7 +288,7 @@ namespace Kirikiri.Tjs2
 					Variant[] args = new Variant[3];
 					args[0] = new Variant(0);
 					// false: get
-					args[1] = new Variant(new string(name));
+					args[1] = new Variant(name);
 					// member name
 					args[2] = new Variant(prop);
 					//tTJSVariant *pargs[3] = {args +0, args +1, args +2};
@@ -336,7 +336,7 @@ namespace Kirikiri.Tjs2
 					Variant[] args = new Variant[3];
 					args[0] = new Variant(1);
 					// true: set
-					args[1] = new Variant(new string(name));
+					args[1] = new Variant(name);
 					// member name
 					args[2] = new Variant(prop);
 					//tTJSVariant *pargs[3] = {args +0, args +1, args +2};

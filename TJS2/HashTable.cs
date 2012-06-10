@@ -42,29 +42,29 @@ namespace Kirikiri.Tjs2
 			internal Value mValue;
 
 			/// <summary>アイテムチェーンで前のアイテム</summary>
-			internal HashTable.Element<Key, Value> mPrev;
+			internal HashTable<Key, Value>.Element<Key, Value> mPrev;
 
 			/// <summary>アイテムチェーンで次のアイテム</summary>
-			internal HashTable.Element<Key, Value> mNext;
+			internal HashTable<Key, Value>.Element<Key, Value> mNext;
 
 			/// <summary>追加顺で直前に追加されたアイテム</summary>
-			internal HashTable.Element<Key, Value> mNPrev;
+			internal HashTable<Key, Value>.Element<Key, Value> mNPrev;
 
 			/// <summary>追加顺で直后に追加されたアイテム</summary>
-			internal HashTable.Element<Key, Value> mNNext;
+			internal HashTable<Key, Value>.Element<Key, Value> mNNext;
 		}
 
 		/// <summary>要素配列</summary>
-		private HashTable.Element<Key, Value>[] mElms;
+		private HashTable<Key, Value>.Element<Key, Value>[] mElms;
 
 		/// <summary>实要素数</summary>
 		private int mCount;
 
 		/// <summary>追加顺で最初に追加されたアイテム</summary>
-		private HashTable.Element<Key, Value> mNFirst;
+		private HashTable<Key, Value>.Element<Key, Value> mNFirst;
 
 		/// <summary>追加顺で最后に追加されたアイテム</summary>
-		private HashTable.Element<Key, Value> mNLast;
+		private HashTable<Key, Value>.Element<Key, Value> mNLast;
 
 		/// <summary>
 		/// デフォルトコンストラクタ
@@ -102,7 +102,7 @@ namespace Kirikiri.Tjs2
 			{
 				return null;
 			}
-			HashTable.Element<Key, Value> e = InternalFindWithHash(key, key.GetHashCode());
+			HashTable<Key, Value>.Element<Key, Value> e = InternalFindWithHash(key, key.GetHashCode());
 			if (e == null)
 			{
 				return null;
@@ -119,7 +119,7 @@ namespace Kirikiri.Tjs2
 			{
 				return null;
 			}
-			HashTable.Element<Key, Value> e = InternalFindWithHash(key, key.GetHashCode());
+			HashTable<Key, Value>.Element<Key, Value> e = InternalFindWithHash(key, key.GetHashCode());
 			if (e == null)
 			{
 				return null;
@@ -132,11 +132,11 @@ namespace Kirikiri.Tjs2
 		/// <param name="key">キー</param>
 		/// <param name="hash">ハッシュ值</param>
 		/// <returns>キーに对应した要素</returns>
-		private HashTable.Element<Key, Value> InternalFindWithHash(Key key, int hash)
+		private HashTable<Key, Value>.Element<Key, Value> InternalFindWithHash(Key key, int hash)
 		{
 			// find key ( hash )
 			int mask = mElms.Length - 1;
-			HashTable.Element<Key, Value> lv1 = mElms[hash & mask];
+			HashTable<Key, Value>.Element<Key, Value> lv1 = mElms[hash & mask];
 			if (lv1 == null)
 			{
 				return null;
@@ -148,7 +148,7 @@ namespace Kirikiri.Tjs2
 					return lv1;
 				}
 			}
-			HashTable.Element<Key, Value> elm = lv1.mNext;
+			HashTable<Key, Value>.Element<Key, Value> elm = lv1.mNext;
 			while (elm != null)
 			{
 				if (hash == elm.mHash)
@@ -184,14 +184,14 @@ namespace Kirikiri.Tjs2
 		{
 			int mask = mElms.Length - 1;
 			int index = hash & mask;
-			HashTable.Element<Key, Value> lv1 = mElms[index];
+			HashTable<Key, Value>.Element<Key, Value> lv1 = mElms[index];
 			if (lv1 == null)
 			{
-				lv1 = new HashTable.Element<Key, Value>();
+				lv1 = new HashTable<Key, Value>.Element<Key, Value>();
 				mElms[index] = lv1;
 				lv1.mFlags = HASH_LV1;
 			}
-			HashTable.Element<Key, Value> elm = lv1.mNext;
+			HashTable<Key, Value>.Element<Key, Value> elm = lv1.mNext;
 			while (elm != null)
 			{
 				if (hash == elm.mHash)
@@ -225,7 +225,7 @@ namespace Kirikiri.Tjs2
 				}
 			}
 			// insert after lv1
-			HashTable.Element<Key, Value> newelm = new HashTable.Element<Key, Value>();
+			HashTable<Key, Value>.Element<Key, Value> newelm = new HashTable<Key, Value>.Element<Key, Value>();
 			//newelm.mFlags = 0;
 			newelm.mKey = key;
 			newelm.mValue = value;
@@ -261,7 +261,7 @@ namespace Kirikiri.Tjs2
 		{
 			// delete key ( hash ) and return true if succeeded
 			int mask = mElms.Length - 1;
-			HashTable.Element<Key, Value> lv1 = mElms[hash & mask];
+			HashTable<Key, Value>.Element<Key, Value> lv1 = mElms[hash & mask];
 			if (lv1 == null)
 			{
 				return false;
@@ -278,8 +278,8 @@ namespace Kirikiri.Tjs2
 					return true;
 				}
 			}
-			HashTable.Element<Key, Value> prev = lv1;
-			HashTable.Element<Key, Value> elm = lv1.mNext;
+			HashTable<Key, Value>.Element<Key, Value> prev = lv1;
+			HashTable<Key, Value>.Element<Key, Value> elm = lv1.mNext;
 			while (elm != null)
 			{
 				if (hash == elm.mHash)
@@ -335,7 +335,7 @@ namespace Kirikiri.Tjs2
 		/// <summary>指定要素を削除する</summary>
 		/// <param name="elm">削除する要素</param>
 		/// <returns>配列要素かどうか</returns>
-		private bool DeleteBytElement(HashTable.Element<Key, Value> elm)
+		private bool DeleteBytElement(HashTable<Key, Value>.Element<Key, Value> elm)
 		{
 			CheckDeletingElementOrder(elm);
 			elm.mKey = null;
@@ -364,7 +364,7 @@ namespace Kirikiri.Tjs2
 
 		/// <summary>要素削除に伴い并び顺を更新する</summary>
 		/// <param name="elm">削除对象要素</param>
-		private void CheckDeletingElementOrder(HashTable.Element<Key, Value> elm)
+		private void CheckDeletingElementOrder(HashTable<Key, Value>.Element<Key, Value> elm)
 		{
 			mCount--;
 			if (mCount > 0)
@@ -400,7 +400,7 @@ namespace Kirikiri.Tjs2
 
 		/// <summary>指定要素の并び顺を更新する</summary>
 		/// <param name="elm">先头に持ってくる要素</param>
-		private void CheckUpdateElementOrder(HashTable.Element<Key, Value> elm)
+		private void CheckUpdateElementOrder(HashTable<Key, Value>.Element<Key, Value> elm)
 		{
 			// move elm to the front of addtional order
 			if (elm != mNFirst)
@@ -423,7 +423,7 @@ namespace Kirikiri.Tjs2
 
 		/// <summary>要素追加に伴い并び顺を更新する</summary>
 		/// <param name="elm">追加する要素</param>
-		private void CheckAddingElementOrder(HashTable.Element<Key, Value> elm)
+		private void CheckAddingElementOrder(HashTable<Key, Value>.Element<Key, Value> elm)
 		{
 			if (mCount == 0)
 			{
@@ -457,13 +457,13 @@ namespace Kirikiri.Tjs2
 			{
 				if (mElms[i] != null)
 				{
-					HashTable.Element<Key, Value> e = mElms[i].mNext;
+					HashTable<Key, Value>.Element<Key, Value> e = mElms[i].mNext;
 					while (e != null)
 					{
 						e.mKey = null;
 						e.mValue = null;
 						e.mFlags &= ~HASH_USING;
-						HashTable.Element<Key, Value> next = e.mNext;
+						HashTable<Key, Value>.Element<Key, Value> next = e.mNext;
 						e.mPrev = null;
 						e.mNext = null;
 						e.mNPrev = null;

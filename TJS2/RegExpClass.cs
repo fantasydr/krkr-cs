@@ -57,11 +57,11 @@ namespace Kirikiri.Tjs2
 					_this.RegEx = Sharpen.Pattern.Compile(expr);
 				}
 			}
-			catch (PatternSyntaxException e)
-			{
-				_this.RegEx = null;
-				throw new TJSException(e.Message);
-			}
+            //catch (PatternSyntaxException e)
+            //{
+            //    _this.RegEx = null;
+            //    throw new TJSException(e.Message);
+            //}
 			catch (ArgumentException e)
 			{
 				_this.RegEx = null;
@@ -109,15 +109,15 @@ namespace Kirikiri.Tjs2
 			{
 				_this.mIndex = _this.mStart;
 				_this.mLastIndex = _this.mStart;
-				_this.mLastMatch = new string();
-				_this.mLastParen = new string();
+				_this.mLastMatch = string.Empty;
+				_this.mLastParen = string.Empty;
 				_this.mLeftContext = Sharpen.Runtime.Substring(target, 0, _this.mStart);
 			}
 			else
 			{
 				_this.mIndex = _this.mStart + _this.mMatch.Start();
 				_this.mLastIndex = _this.mStart + _this.mMatch.End();
-				_this.mLastMatch = _this.mMatch.Group();
+				_this.mLastMatch = _this.mMatch.Group(0);
 				_this.mLastParen = _this.mMatch.Group(_this.mMatch.GroupCount() - 1);
 				_this.mLeftContext = Sharpen.Runtime.Substring(target, _this.mIndex);
 				_this.mRightContext = Sharpen.Runtime.Substring(target, _this.mLastIndex);
@@ -151,7 +151,7 @@ namespace Kirikiri.Tjs2
 						Variant val;
 						if (isMatch)
 						{
-							val = new Variant(m.Group());
+							val = new Variant(m.Group(0));
 							array.PropSetByNum(Interface.MEMBERENSURE | Interface.IGNOREPROP, 0, val, array);
 						}
 						int size = m.GroupCount();
@@ -334,10 +334,10 @@ namespace Kirikiri.Tjs2
 							 1));
 					}
 				}
-				catch (PatternSyntaxException e)
-				{
-					throw new TJSException(e.Message);
-				}
+                //catch (PatternSyntaxException e)
+                //{
+                //    throw new TJSException(e.Message);
+                //}
 				catch (ArgumentException e)
 				{
 					throw new TJSException(e.Message);

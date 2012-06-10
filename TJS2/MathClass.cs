@@ -32,7 +32,7 @@ namespace Kirikiri.Tjs2
 		{
 			if (mRandomGenerator == null)
 			{
-				mRandomGenerator = new Random(Runtime.CurrentTimeMillis());
+				mRandomGenerator = new Random((int)DateTime.Now.Ticks);
 			}
 			int NCM_CLASSID = TJS.RegisterNativeClass(CLASS_NAME);
 			SetClassID(NCM_CLASSID);
@@ -233,7 +233,7 @@ namespace Kirikiri.Tjs2
 				}
 				if (result != null)
 				{
-					result.Set(Math.Ceil(param[0].AsDouble()));
+                    result.Set(Math.Ceiling(param[0].AsDouble()));
 				}
 				return Error.S_OK;
 			}
@@ -351,7 +351,7 @@ namespace Kirikiri.Tjs2
 						}
 						else
 						{
-							if (double.Compare(v, r) > 0)
+							if (Double.Compare(v, r) > 0)
 							{
 								r = v;
 							}
@@ -387,7 +387,7 @@ namespace Kirikiri.Tjs2
 						}
 						else
 						{
-							if (double.Compare(v, r) < 0)
+							if (Double.Compare(v, r) < 0)
 							{
 								r = v;
 							}

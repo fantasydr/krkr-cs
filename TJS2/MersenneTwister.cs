@@ -255,7 +255,7 @@ namespace Kirikiri.Tjs2
 			v &= unchecked((long)(0x000fffffffffffffL));
 			v = v | (1023L << 52);
 			// at this point, v is : 1.0 <= v < 2.0
-			return double.LongBitsToDouble(v) - 1.0;
+			return Double.LongBitsToDouble(v) - 1.0;
 		}
 
 		// returned value x is : 0.0 <= x < 1.0
@@ -267,11 +267,11 @@ namespace Kirikiri.Tjs2
 		public virtual void SetData(MersenneTwisterData rhs)
 		{
 			// copy
-			LongBuffer src = rhs.state.Duplicate();
+			ByteBuffer src = rhs.state.Duplicate();
 			src.Position(0);
 			src.Limit(MT_N);
 			ByteBuffer buff = ByteBuffer.AllocateDirect(MT_N * 8);
-			buff.Order(ByteOrder.NativeOrder());
+            buff.Order(ByteBuffer.NativeOrder());
 			state = buff.AsLongBuffer();
 			state.Clear();
 			state.Put(src);

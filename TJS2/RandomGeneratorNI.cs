@@ -29,13 +29,13 @@ namespace Kirikiri.Tjs2
 		{
 			//mGenerator = null;
 			mGenerator = null;
-			try
-			{
-				base.Finalize();
-			}
-			catch
-			{
-			}
+            //try
+            //{
+            //    base.Finalize();
+            //}
+            //catch
+            //{
+            //}
 		}
 
 		/// <exception cref="Kirikiri.Tjs2.VariantException"></exception>

@@ -385,6 +385,7 @@ namespace Kirikiri.Tjs2
 					case Token.PT_MINUS:
 					{
 						result -= Expr2();
+                        break;
 					}
 				}
 				let = GetNext();

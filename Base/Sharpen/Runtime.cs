@@ -33,31 +33,31 @@ namespace Sharpen
 			return DateTime.UtcNow.ToMillisecondsSinceEpoch ();
 		}
 
-		public SystemProcess Exec (string[] cmd, string[] envp, FilePath dir)
-		{
-			try {
-				ProcessStartInfo psi = new ProcessStartInfo ();
-				psi.FileName = cmd[0];
-				psi.Arguments = string.Join (" ", cmd, 1, cmd.Length - 1);
-				if (dir != null) {
-					psi.WorkingDirectory = dir.GetPath ();
-				}
-				psi.UseShellExecute = false;
-				psi.RedirectStandardInput = true;
-				psi.RedirectStandardError = true;
-				psi.RedirectStandardOutput = true;
-				psi.CreateNoWindow = true;
-				if (envp != null) {
-					foreach (string str in envp) {
-						int index = str.IndexOf ('=');
-						psi.EnvironmentVariables[str.Substring (0, index)] = str.Substring (index + 1);
-					}
-				}
-				return SystemProcess.Start (psi);
-			} catch (System.ComponentModel.Win32Exception ex) {
-				throw new IOException (ex.Message);
-			}
-		}
+        //public SystemProcess Exec (string[] cmd, string[] envp, FilePath dir)
+        //{
+        //    try {
+        //        ProcessStartInfo psi = new ProcessStartInfo ();
+        //        psi.FileName = cmd[0];
+        //        psi.Arguments = string.Join (" ", cmd, 1, cmd.Length - 1);
+        //        if (dir != null) {
+        //            psi.WorkingDirectory = dir.GetPath ();
+        //        }
+        //        psi.UseShellExecute = false;
+        //        psi.RedirectStandardInput = true;
+        //        psi.RedirectStandardError = true;
+        //        psi.RedirectStandardOutput = true;
+        //        psi.CreateNoWindow = true;
+        //        if (envp != null) {
+        //            foreach (string str in envp) {
+        //                int index = str.IndexOf ('=');
+        //                psi.EnvironmentVariables[str.Substring (0, index)] = str.Substring (index + 1);
+        //            }
+        //        }
+        //        return SystemProcess.Start (psi);
+        //    } catch (System.ComponentModel.Win32Exception ex) {
+        //        throw new IOException (ex.Message);
+        //    }
+        //}
 
 		public static string Getenv (string var)
 		{
@@ -147,6 +147,11 @@ namespace Sharpen
 		{
 			return Encoding.GetEncoding (encoding).GetBytes (str);
 		}
+
+        public static void GetCharsForString(string str, int start, int len, char[] buffer, int buffer_start)
+        {
+            str.CopyTo(start, buffer, 0, len);
+        }
 
 		public static FieldInfo[] GetDeclaredFields (Type t)
 		{
@@ -246,5 +251,16 @@ namespace Sharpen
 				return new UTF8Encoding (false, true);
 			return e;
 		}
+
+        public static Type[] GetParameterTypes(MethodInfo m)
+        {
+            ParameterInfo[] infos = m.GetParameters();
+            List<Type> types = new List<Type>();
+            foreach (ParameterInfo info in infos)
+            {
+                types.Add(infos.GetType());
+            }
+            return types.ToArray();
+        }
 	}
 }

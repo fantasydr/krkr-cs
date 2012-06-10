@@ -6,7 +6,7 @@ using Sharpen;
 
 namespace Kirikiri.Tjs2
 {
-	internal class LocalSymbolList
+	public class LocalSymbolList
 	{
 		private AList<string> mList;
 
@@ -25,7 +25,7 @@ namespace Kirikiri.Tjs2
 		{
 			if (Find(name) == -1)
 			{
-				string str = new string(name);
+				string str = name;
 				int size = mList.Count;
 				for (int i = 0; i < size; i++)
 				{

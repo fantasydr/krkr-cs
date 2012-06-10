@@ -21,7 +21,7 @@ namespace Kirikiri.Tjs2
 			// index a value in 'state'
 			// the array for the state vector
 			ByteBuffer buff = ByteBuffer.AllocateDirect(MT_N * 8);
-			buff.Order(ByteOrder.NativeOrder());
+            buff.Order(ByteBuffer.NativeOrder());
 			state = buff.AsLongBuffer();
 			state.Clear();
 			state.Position(0);

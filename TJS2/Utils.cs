@@ -22,31 +22,31 @@ namespace Kirikiri.Tjs2
 			string ret = null;
 			if (val == null || val.IsVoid())
 			{
-				ret = new string("(void)");
+				ret = "(void)";
 			}
 			else
 			{
 				if (val.IsInteger())
 				{
-					ret = new string("(int)" + val.AsString());
+					ret = "(int)" + val.AsString();
 				}
 				else
 				{
 					if (val.IsReal())
 					{
-						ret = new string("(real)" + val.AsString());
+						ret = "(real)" + val.AsString();
 					}
 					else
 					{
 						if (val.IsString())
 						{
-							ret = new string("(string)\"" + LexBase.EscapeC(val.AsString()) + "\"");
+							ret = "(string)\"" + LexBase.EscapeC(val.AsString()) + "\"";
 						}
 						else
 						{
 							if (val.IsOctet())
 							{
-								ret = new string("(octet)<% " + Variant.OctetToListString(val.AsOctet()) + " %>");
+								ret = "(octet)<% " + Variant.OctetToListString(val.AsOctet()) + " %>";
 							}
 							else
 							{
@@ -140,7 +140,7 @@ namespace Kirikiri.Tjs2
 								else
 								{
 									// native object ?
-									ret = new string("(octet) [" + val.GetType().FullName + "]");
+									ret = "(octet) [" + val.GetType().FullName + "]";
 								}
 							}
 						}
@@ -158,7 +158,7 @@ namespace Kirikiri.Tjs2
 					return ret;
 				}
 			}
-			return new string(string.Empty);
+			return string.Empty;
 		}
 
 		/// <exception cref="Kirikiri.Tjs2.VariantException"></exception>
@@ -199,7 +199,7 @@ namespace Kirikiri.Tjs2
 							}
 							else
 							{
-								return new string();
+								return string.Empty;
 							}
 						}
 					}
@@ -219,7 +219,7 @@ namespace Kirikiri.Tjs2
 					int length = ((string)args[i]).Length;
 					if (length == 1)
 					{
-						args[i] = char.ValueOf(((string)args[i])[0]);
+						args[i] = ((string)args[i])[0];
 					}
 				}
 			}

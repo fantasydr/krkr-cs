@@ -140,7 +140,7 @@ namespace Kirikiri.Tjs2
 			()
 		{
 			InitReservedWordsHashTable();
-			mRetValDeque = new List<TokenPair>();
+			mRetValDeque = new Queue<TokenPair>();
 			mEmbeddableExpressionDataStack = new AList<EmbeddableExpressionData>();
 			mValues = new AList<object>();
 			mBlock = block;
@@ -308,7 +308,7 @@ namespace Kirikiri.Tjs2
 					else
 					{
 						cur <<= 4;
-						cur += num;
+						cur += (byte)num;
 						buffer.Put(cur);
 						leading = true;
 					}
@@ -1212,6 +1212,7 @@ namespace Kirikiri.Tjs2
 							case StringStream.NOT_COMMENT:
 							{
 								mStream.SetOffset(offset);
+                                break;
 							}
 						}
 						break;
@@ -1274,7 +1275,7 @@ namespace Kirikiri.Tjs2
 			}
 			if (nch == 0)
 			{
-				string str = Error.InvalidChar.Replace("%1", EscapeC((char)oldC));
+                string str = Error.InvalidChar.Replace("%1", EscapeC((char)oldC));
 				throw new CompileException(str);
 			}
 			else
@@ -1339,13 +1340,13 @@ namespace Kirikiri.Tjs2
 
 				case Token.T_NAN:
 				{
-					mValue = PutValue(double.ValueOf(double.NaN));
+					mValue = PutValue((double.NaN));
 					return Token.T_CONSTVAL;
 				}
 
 				case Token.T_INFINITY:
 				{
-					mValue = PutValue(double.ValueOf(double.PositiveInfinity));
+					mValue = PutValue((double.PositiveInfinity));
 					return Token.T_CONSTVAL;
 				}
 			}
@@ -1376,7 +1377,7 @@ namespace Kirikiri.Tjs2
 			{
 				if (mRetValDeque.Count > 0)
 				{
-					TokenPair pair = mRetValDeque.Poll();
+					TokenPair pair = mRetValDeque.Dequeue();
 					mValue = pair.value;
 					mPrevToken = pair.token;
 					return pair.token;
@@ -1395,10 +1396,10 @@ namespace Kirikiri.Tjs2
 								if (n == Token.T_PERCENT)
 								{
 									// push "function { return %"
-									mRetValDeque.Offer(new TokenPair(Token.T_FUNCTION, 0));
-									mRetValDeque.Offer(new TokenPair(Token.T_LBRACE, 0));
-									mRetValDeque.Offer(new TokenPair(Token.T_RETURN, 0));
-									mRetValDeque.Offer(new TokenPair(Token.T_PERCENT, 0));
+									mRetValDeque.Enqueue(new TokenPair(Token.T_FUNCTION, 0));
+                                    mRetValDeque.Enqueue(new TokenPair(Token.T_LBRACE, 0));
+                                    mRetValDeque.Enqueue(new TokenPair(Token.T_RETURN, 0));
+                                    mRetValDeque.Enqueue(new TokenPair(Token.T_PERCENT, 0));
 									n = -1;
 								}
 								else
@@ -1406,10 +1407,10 @@ namespace Kirikiri.Tjs2
 									if (n == Token.T_LBRACKET && mPrevToken != Token.T_PERCENT)
 									{
 										// push "function { return ["
-										mRetValDeque.Offer(new TokenPair(Token.T_FUNCTION, 0));
-										mRetValDeque.Offer(new TokenPair(Token.T_LBRACE, 0));
-										mRetValDeque.Offer(new TokenPair(Token.T_RETURN, 0));
-										mRetValDeque.Offer(new TokenPair(Token.T_LBRACKET, 0));
+                                        mRetValDeque.Enqueue(new TokenPair(Token.T_FUNCTION, 0));
+                                        mRetValDeque.Enqueue(new TokenPair(Token.T_LBRACE, 0));
+                                        mRetValDeque.Enqueue(new TokenPair(Token.T_RETURN, 0));
+                                        mRetValDeque.Enqueue(new TokenPair(Token.T_LBRACKET, 0));
 										n = -1;
 									}
 									else
@@ -1417,11 +1418,11 @@ namespace Kirikiri.Tjs2
 										if (n == Token.T_RBRACKET)
 										{
 											// push "] ; } ( )"
-											mRetValDeque.Offer(new TokenPair(Token.T_RBRACKET, 0));
-											mRetValDeque.Offer(new TokenPair(Token.T_SEMICOLON, 0));
-											mRetValDeque.Offer(new TokenPair(Token.T_RBRACE, 0));
-											mRetValDeque.Offer(new TokenPair(Token.T_LPARENTHESIS, 0));
-											mRetValDeque.Offer(new TokenPair(Token.T_RPARENTHESIS, 0));
+                                            mRetValDeque.Enqueue(new TokenPair(Token.T_RBRACKET, 0));
+                                            mRetValDeque.Enqueue(new TokenPair(Token.T_SEMICOLON, 0));
+                                            mRetValDeque.Enqueue(new TokenPair(Token.T_RBRACE, 0));
+                                            mRetValDeque.Enqueue(new TokenPair(Token.T_LPARENTHESIS, 0));
+                                            mRetValDeque.Enqueue(new TokenPair(Token.T_RPARENTHESIS, 0));
 											n = -1;
 										}
 									}
@@ -1438,7 +1439,7 @@ namespace Kirikiri.Tjs2
 						{
 							case EmbeddableExpressionData.START:
 							{
-								mRetValDeque.Offer(new TokenPair(Token.T_LPARENTHESIS, 0));
+								mRetValDeque.Enqueue(new TokenPair(Token.T_LPARENTHESIS, 0));
 								n = -1;
 								data.mState = EmbeddableExpressionData.NEXT_IS_STRING_LITERAL;
 								break;
@@ -1454,15 +1455,15 @@ namespace Kirikiri.Tjs2
 									{
 										if (data.mNeedPlus)
 										{
-											mRetValDeque.Offer(new TokenPair(Token.T_PLUS, 0));
+                                            mRetValDeque.Enqueue(new TokenPair(Token.T_PLUS, 0));
 										}
 									}
 									if (str.Length > 0 || data.mNeedPlus == false)
 									{
 										int v = PutValue(str);
-										mRetValDeque.Offer(new TokenPair(Token.T_CONSTVAL, v));
+                                        mRetValDeque.Enqueue(new TokenPair(Token.T_CONSTVAL, v));
 									}
-									mRetValDeque.Offer(new TokenPair(Token.T_RPARENTHESIS, 0));
+                                    mRetValDeque.Enqueue(new TokenPair(Token.T_RPARENTHESIS, 0));
 									mEmbeddableExpressionDataStack.Remove(mEmbeddableExpressionDataStack.Count - 1);
 									n = -1;
 									break;
@@ -1474,18 +1475,18 @@ namespace Kirikiri.Tjs2
 									{
 										if (data.mNeedPlus)
 										{
-											mRetValDeque.Offer(new TokenPair(Token.T_PLUS, 0));
+											mRetValDeque.Enqueue(new TokenPair(Token.T_PLUS, 0));
 										}
 										int v = PutValue(str);
-										mRetValDeque.Offer(new TokenPair(Token.T_CONSTVAL, v));
+										mRetValDeque.Enqueue(new TokenPair(Token.T_CONSTVAL, v));
 										data.mNeedPlus = true;
 									}
 									if (data.mNeedPlus == true)
 									{
-										mRetValDeque.Offer(new TokenPair(Token.T_PLUS, 0));
+										mRetValDeque.Enqueue(new TokenPair(Token.T_PLUS, 0));
 									}
-									mRetValDeque.Offer(new TokenPair(Token.T_STRING, 0));
-									mRetValDeque.Offer(new TokenPair(Token.T_LPARENTHESIS, 0));
+									mRetValDeque.Enqueue(new TokenPair(Token.T_STRING, 0));
+									mRetValDeque.Enqueue(new TokenPair(Token.T_LPARENTHESIS, 0));
 									data.mState = EmbeddableExpressionData.NEXT_IS_EXPRESSION;
 									if (res == StringStream.AMPERSAND)
 									{
@@ -1512,7 +1513,7 @@ namespace Kirikiri.Tjs2
 								if (n == data.mWaitingToken && mNestLevel == data.mWaitingNestLevel)
 								{
 									// end of embeddable expression mode
-									mRetValDeque.Offer(new TokenPair(Token.T_RPARENTHESIS, 0));
+									mRetValDeque.Enqueue(new TokenPair(Token.T_RPARENTHESIS, 0));
 									data.mNeedPlus = true;
 									data.mState = EmbeddableExpressionData.NEXT_IS_STRING_LITERAL;
 									n = -1;

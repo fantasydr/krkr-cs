@@ -9,6 +9,7 @@ namespace Kirikiri.Tjs2
 {
 	public class DateNI : NativeInstanceObject
 	{
-		public Calendar mDateTime;
+        // TODO: add datetime back
+		//public Calendar mDateTime;
 	}
 }

@@ -226,7 +226,7 @@ namespace Kirikiri.Tjs2
 		{
 			// put here something on invalidation
 			//mOwner = null;
-			mOwner.Clear();
+            mOwner = new WeakReference<CustomObject>(null);
 			base.Invalidate();
 		}
 

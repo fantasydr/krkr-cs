@@ -12,7 +12,7 @@ namespace Kirikiri.Tjs2
 	/// <summary>TJS2 バイトコードを持ったオブジェクト</summary>
 	public class InterCodeObject : CustomObject, SourceCodeAccessor
 	{
-		private static readonly string mStrFuncs = new string[] { "charAt", "indexOf", "toUpperCase"
+		private static readonly string[] mStrFuncs = new string[] { "charAt", "indexOf", "toUpperCase"
 			, "toLowerCase", "substring", "substr", "sprintf", "replace", "escape", "split", 
 			"trim", "reverse", "repeat" };
 
@@ -310,7 +310,7 @@ namespace Kirikiri.Tjs2
 						if (numargs > mFuncDeclCollapseBase)
 						{
 							// there are arguments to store
-							for (int c = 0; i < numargs; i++, c++)
+                            for (int c = 0, i = mFuncDeclCollapseBase; i < numargs; i++, c++)
 							{
 								dsp.PropSetByNum(0, c, args[i], dsp);
 							}
@@ -1910,7 +1910,7 @@ namespace Kirikiri.Tjs2
 					if (name[0] >= '0' && name[0] <= '9')
 					{
 						ByteBuffer o = octet.AsOctet();
-						int n = Sharpen.Extensions.ValueOf(name);
+						int n = int.Parse(name);
 						int len = o != null ? o.Capacity() : 0;
 						if (n < 0 || n >= len)
 						{
@@ -2001,11 +2001,11 @@ namespace Kirikiri.Tjs2
 					if (name[0] >= '0' && name[0] <= '9')
 					{
 						string s = str.AsString();
-						int n = Sharpen.Extensions.ValueOf(name);
+						int n = int.Parse(name);
 						int len = s.Length;
 						if (n == len)
 						{
-							result.Set(new string());
+							result.Set(string.Empty);
 							return;
 						}
 						if (n < 0 || n > len)
@@ -2026,7 +2026,7 @@ namespace Kirikiri.Tjs2
 				int len = s.Length;
 				if (n == len)
 				{
-					result.Set(new string());
+                    result.Set(string.Empty);
 					return;
 				}
 				if (n < 0 || n > len)
@@ -2229,7 +2229,7 @@ namespace Kirikiri.Tjs2
 				ThrowFrom_tjs_error(Error.E_MEMBERNOTFOUND, string.Empty);
 			}
 			int hash = member.GetHashCode();
-			string s = new string(target);
+			string s = new string(target.ToCharArray());
 			// target string
 			int s_len = target.Length;
 			if ((hash == mStrFuncs[StrMethod_charAt].GetHashCode() && mStrFuncs[StrMethod_charAt
@@ -3893,7 +3893,7 @@ namespace Kirikiri.Tjs2
 			string str = val.AsString();
 			if (str != null)
 			{
-				int v = str.CodePointAt(0);
+				char v = str[0];
 				val.Set(v);
 			}
 			else

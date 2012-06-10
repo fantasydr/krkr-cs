@@ -81,7 +81,7 @@ namespace Kirikiri.Tjs2
 		{
 			mAccessor = accessor;
 			mPosition = pos;
-			mTrace = new string();
+			mTrace = string.Empty;
 		}
 
 		public TJSScriptError(Kirikiri.Tjs2.TJSScriptError @ref)

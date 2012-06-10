@@ -165,10 +165,10 @@ namespace Kirikiri.Tjs2
 			dsp = mDictionayClass;
 			val = new Variant(dsp, null);
 			mGlobal.PropSet(MEMBERENSURE, "Dictionary", val, mGlobal);
-			// Date
-			dsp = new DateClass();
-			val = new Variant(dsp, null);
-			mGlobal.PropSet(MEMBERENSURE, "Date", val, mGlobal);
+			// Date //TODO: add date back
+			//dsp = new DateClass();
+			//val = new Variant(dsp, null);
+			//mGlobal.PropSet(MEMBERENSURE, "Date", val, mGlobal);
 			{
 				// Math
 				Dispatch2 math;

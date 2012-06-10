@@ -6,6 +6,7 @@ using System.Text;
 using Kirikiri.Tjs2;
 using Kirikiri.Tjs2.Translate;
 using Sharpen;
+using System.Collections.Generic;
 
 namespace Kirikiri.Tjs2
 {
@@ -157,13 +158,13 @@ namespace Kirikiri.Tjs2
 			{
 				mName = null;
 			}
-			try
-			{
-				base.Finalize();
-			}
-			catch
-			{
-			}
+            //try
+            //{
+            //    base.Finalize();
+            //}
+            //catch
+            //{
+            //}
 		}
 
 		public virtual LexicalAnalyzer GetLexicalAnalyzer()
@@ -3053,7 +3054,7 @@ namespace Kirikiri.Tjs2
 			if (name != null)
 			{
 				mLineOffset = lineofs;
-				mName = new string(name);
+				mName = name;
 			}
 		}
 

@@ -56,7 +56,7 @@ namespace Kirikiri.Tjs2
 				case 'i':
 				{
 					// ignore case
-					prev |= Sharpen.Pattern.CASE_INSENSITIVE | Sharpen.Pattern.UNICODE_CASE;
+					prev |= Sharpen.Pattern.CASE_INSENSITIVE;// | Sharpen.Pattern.UNICODE_CASE;
 					return prev;
 				}
 

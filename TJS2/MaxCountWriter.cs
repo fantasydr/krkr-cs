@@ -7,7 +7,7 @@ using Sharpen;
 
 namespace Kirikiri.Tjs2
 {
-	internal interface MaxCountWriter
+	public interface MaxCountWriter
 	{
 		void SetMaxCount(int count);
 	}

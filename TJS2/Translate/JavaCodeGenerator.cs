@@ -3594,7 +3594,7 @@ namespace Kirikiri.Tjs2.Translate
 
 		private const int FUNC_DIRECT = 2;
 
-		private static readonly string STR_FUNC = new string[] { "charAt", "indexOf", "toUpperCase"
+		private static readonly string[] STR_FUNC = new string[] { "charAt", "indexOf", "toUpperCase"
 			, "toLowerCase", "substring", "substr", "sprintf", "replace", "escape", "split", 
 			"trim", "reverse", "repeat" };
 		// VMCodes

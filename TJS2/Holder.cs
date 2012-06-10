@@ -31,7 +31,7 @@ namespace Kirikiri.Tjs2
 			{
 				return "Hold : null";
 			}
-			return new string("Hold : ") + mValue.ToString();
+			return "Hold : " + mValue.ToString();
 		}
 	}
 }

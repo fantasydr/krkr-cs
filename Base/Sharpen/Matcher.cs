@@ -3,7 +3,7 @@ namespace Sharpen
 	using System;
 	using System.Text.RegularExpressions;
 
-	internal class Matcher
+	public class Matcher
 	{
 		private int current;
 		private MatchCollection matches;
@@ -49,6 +49,16 @@ namespace Sharpen
 			return grp.Success ? grp.Value : null;
 		}
 
+        public int GroupCount()
+        {
+            if ((matches == null) || (current >= matches.Count))
+            {
+                throw new InvalidOperationException();
+            }
+
+            return matches[current].Groups.Count;
+        }
+
 		public bool Matches ()
 		{
 			matches = null;
@@ -79,5 +89,10 @@ namespace Sharpen
 			}
 			return matches[current].Index;
 		}
+
+        public string ReplaceAll(string txt)
+        {
+            return regex.Replace(str, txt);
+        }
 	}
 }

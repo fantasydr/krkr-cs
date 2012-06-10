@@ -111,10 +111,8 @@ namespace Kirikiri.Tjs2
 		public virtual string CreateMessageMapString()
 		{
 			StringBuilder script = new StringBuilder();
-			ICollection ite = mHash.EntrySet();
-			for (Iterator i = ite.Iterator(); i.HasNext(); )
+            foreach(KeyValuePair<string, MessageMapper.MessageHolder> entry in mHash)
 			{
-				DictionaryEntry entry = (DictionaryEntry)i.Next();
 				string name = (string)entry.Key;
 				MessageMapper.MessageHolder h = (MessageMapper.MessageHolder)entry.Value;
 				script.Append("\tr(\"");

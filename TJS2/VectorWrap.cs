@@ -37,7 +37,7 @@ namespace Kirikiri.Tjs2
 
 		public virtual void Pop_back()
 		{
-			Remove(Count - 1);
+			RemoveAt(Count - 1);
 		}
 	}
 }
