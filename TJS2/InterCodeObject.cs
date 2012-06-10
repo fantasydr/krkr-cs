@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using System;
@@ -9,7 +9,7 @@ using Sharpen;
 
 namespace Kirikiri.Tjs2
 {
-	/// <summary>TJS2 ãƒ�ã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ã‚’æŒ�ã�£ã�Ÿã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ</summary>
+	/// <summary>TJS2 バイトコードを持ったオブジェクト</summary>
 	public class InterCodeObject : CustomObject, SourceCodeAccessor
 	{
 		private static readonly string mStrFuncs = new string[] { "charAt", "indexOf", "toUpperCase"
@@ -54,13 +54,13 @@ namespace Kirikiri.Tjs2
 
 		private Variant[] mDataArray;
 
-		/// <summary>å¼•æ•°ã�®æ•°</summary>
+		/// <summary>引数の数</summary>
 		private int mMaxVariableCount;
 
-		/// <summary>äºˆç´„é ˜åŸŸ(this,proxyç”¨)</summary>
+		/// <summary>予约领域(this,proxy用)</summary>
 		private int mVariableReserveCount;
 
-		/// <summary>é–¢æ•°å†…ãƒ¬ã‚¸ã‚¹ã‚¿æ•°(ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã�®æ•°)</summary>
+		/// <summary>关数内レジスタ数(ローカル变数の数)</summary>
 		private int mMaxFrameCount;
 
 		private int mFuncDeclArgCount;
@@ -79,14 +79,14 @@ namespace Kirikiri.Tjs2
 
 		private int[] mSuperClassGetterPointer;
 
-		/// <summary>ãƒ‡ã‚£ã‚¹ã‚¢ã‚»ãƒ³ãƒ–ãƒ©</summary>
+		/// <summary>ディスアセンブラ</summary>
 		private Disassembler mDisassembler;
 
 		private const int NAMESPACE_DEFAULT_HASH_BITS = 3;
 
 		//private boolean mSourcePosArraySorted;
-		// ä¸Šä½�ã‚’codePos, ä¸‹ä½�ã‚’sourcePos ã�¨ã�™ã‚‹
-		//private IntVector mSuperClassGetterPointer; // int[] ã�«æ›¸ã��æ�›ã�ˆã�Ÿæ–¹ã�Œã�„ã�„ã�‹ã‚‚
+		// 上位をcodePos, 下位をsourcePos とする
+		//private IntVector mSuperClassGetterPointer; // int[] に书き换えた方がいいかも
 		private static int GetContextHashSize(int type)
 		{
 			switch (type)
@@ -1539,9 +1539,9 @@ namespace Kirikiri.Tjs2
 			mDisassembler.Disassemble(data, start, end);
 		}
 
-		/// <summary>å�Œä¸€è¡Œã�®æœ€åˆ�ã�®ã‚³ãƒ¼ãƒ‰ä½�ç½®ã‚’å¾—ã‚‹</summary>
-		/// <param name="codepos">æ¤œç´¢ã�™ã‚‹ã‚³ãƒ¼ãƒ‰ä½�ç½®</param>
-		/// <returns>å�Œä¸€è¡Œã�®æœ€åˆ�ã�®ã‚³ãƒ¼ãƒ‰ä½�ç½®</returns>
+		/// <summary>同一行の最初のコード位置を得る</summary>
+		/// <param name="codepos">检索するコード位置</param>
+		/// <returns>同一行の最初のコード位置</returns>
 		public virtual int FindSrcLineStartCodePos(int codepos)
 		{
 			// find code address which is the first instruction of the source line
@@ -1556,7 +1556,7 @@ namespace Kirikiri.Tjs2
 			int count = mSourcePosArray.Position();
 			for (int i = 0; i < count; i++)
 			{
-				// ä¸Šä½�ã‚’codePos, ä¸‹ä½�ã‚’sourcePos ã�¨ã�™ã‚‹
+				// 上位をcodePos, 下位をsourcePos とする
 				long sourcePosArray = mSourcePosArray.Get(i);
 				int sourcePos = (int)(sourcePosArray & unchecked((long)(0xFFFFFFFFL)));
 				if (sourcePos >= srcpos)
@@ -4227,8 +4227,7 @@ namespace Kirikiri.Tjs2
 			return mName;
 		}
 
-		/// <summary>DaraArray ã�®ä¸­ã�® InterCodeGenerator ã‚’ InterCodeObject ã�«å·®ã�—æ›¿ã�ˆã‚‹
-		/// 	</summary>
+		/// <summary>DaraArray の中の InterCodeGenerator を InterCodeObject に差し替える</summary>
 		/// <param name="compiler"></param>
 		public virtual void DateReplace(Compiler compiler)
 		{

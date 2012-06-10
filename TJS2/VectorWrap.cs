@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using System.Collections.Generic;
@@ -24,7 +24,7 @@ namespace Kirikiri.Tjs2
 		{
 		}
 
-		// vector ã‚’ ArrayList ã�§ç½®ã��æ�›ã�ˆã‚‹ã�Ÿã‚�ã�®ã‚¯ãƒ©ã‚¹
+		// vector を ArrayList で置き换えるためのクラス
 		public virtual E LastElement()
 		{
 			return this[Count - 1];

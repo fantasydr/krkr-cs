@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using Sharpen;
@@ -40,9 +40,9 @@ namespace Kirikiri.Tjs2
 			}
 			else
 			{
-				// ãƒ‡ãƒ¼ã‚¿ã�Œç©ºã�£ã�½
+				// データが空っぽ
 				int mask = mItems.Length - 1;
-				// 16ã�®å€�æ•°ã�«ã�ªã‚‹ã�®ã�§-1ã�§ãƒžã‚¹ã‚¯ã�Œä½œã‚Œã‚‹
+				// 16の倍数になるので-1でマスクが作れる
 				mFront = (mFront + 1) & mask;
 			}
 			return ret;
@@ -51,27 +51,27 @@ namespace Kirikiri.Tjs2
 		public virtual void Push_back(long v)
 		{
 			int mask = mItems.Length - 1;
-			// 16ã�®å€�æ•°ã�«ã�ªã‚‹ã�®ã�§-1ã�§ãƒžã‚¹ã‚¯ã�Œä½œã‚Œã‚‹
+			// 16の倍数になるので-1でマスクが作れる
 			int tail = (mTail + 1) & mask;
 			if (tail == mFront)
 			{
-				// æº¢ã‚Œã‚‹
+				// 溢れる
 				int count = mItems.Length << 1;
 				long[] newArray = new long[count];
 				if (mTail < mFront)
 				{
 					int copySize = mItems.Length - mFront;
 					System.Array.Copy(mItems, mFront, newArray, 0, copySize);
-					// front ï½ž æœ«å°¾ã�¾ã�§ã‚³ãƒ”ãƒ¼
+					// front ～ 末尾までコピー
 					System.Array.Copy(mItems, 0, newArray, copySize, mTail);
-					// å…ˆç«¯ ï½ž tailã�¾ã�§ã‚³ãƒ”ãƒ¼
+					// 先端 ～ tailまでコピー
 					mTail = copySize + mTail;
 				}
 				else
 				{
 					// mFront == 0
 					System.Array.Copy(mItems, 0, newArray, 0, mTail);
-					// å…ˆç«¯ ï½ž tailã�¾ã�§ã‚³ãƒ”ãƒ¼
+					// 先端 ～ tailまでコピー
 					mTail = mTail;
 				}
 				mFront = 0;

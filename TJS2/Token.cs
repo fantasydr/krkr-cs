@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using Kirikiri.Tjs2;
@@ -336,15 +336,15 @@ namespace Kirikiri.Tjs2
 		public const int PT_NUM = 282;
 
 		// TJS2 token
-		// ç‰¹æ®Š
+		// 特殊
 		// ( int )
 		// ( real )
 		// ( string )
-		// ( const ) ã‚­ãƒ£ã‚¹ãƒˆã�˜ã‚ƒã�ªã�„ã�‘ã�©ã€�ã‚�ã�‹ã‚Šã‚„ã�™ã��
-		// ( expr ) ã‚­ãƒ£ã‚¹ãƒˆã�˜ã‚ƒã�ªã�„ã�‘ã�©ã€�ã‚�ã�‹ã‚Šã‚„ã�™ã��
-		// *) é–¢æ•°å‘¼ã�³å‡ºã�—ã�®å¼•æ•°é…�åˆ—å±•é–‹ã�«å¯¾å¿œ
-		// *, é–¢æ•°å‘¼ã�³å‡ºã�—ã�®å¼•æ•°é…�åˆ—å±•é–‹ã�«å¯¾å¿œ
-		// æœ«å°¾(ãƒ€ãƒŸãƒ¼)
+		// ( const ) キャストじゃないけど、わかりやすく
+		// ( expr ) キャストじゃないけど、わかりやすく
+		// *) 关数呼び出しの引数配列展开に对应
+		// *, 关数呼び出しの引数配列展开に对应
+		// 末尾(ダミー)
 		// for pre-processor token
 		public static string GetTokenString(int token)
 		{
@@ -1002,7 +1002,7 @@ namespace Kirikiri.Tjs2
 
 				case T_CAST_INT:
 				{
-					// ç‰¹æ®Š
+					// 特殊
 					return "(int)";
 				}
 
@@ -1026,31 +1026,31 @@ namespace Kirikiri.Tjs2
 
 				case T_CAST_EXPR:
 				{
-					// ( const ) ã‚­ãƒ£ã‚¹ãƒˆã�˜ã‚ƒã�ªã�„ã�‘ã�©ã€�ã‚�ã�‹ã‚Šã‚„ã�™ã��
+					// ( const ) キャストじゃないけど、わかりやすく
 					return "(expr)";
 				}
 
 				case T_ASTERISK_RPARENTHESIS:
 				{
-					// ( expr ) ã‚­ãƒ£ã‚¹ãƒˆã�˜ã‚ƒã�ªã�„ã�‘ã�©ã€�ã‚�ã�‹ã‚Šã‚„ã�™ã��
+					// ( expr ) キャストじゃないけど、わかりやすく
 					return "*)";
 				}
 
 				case T_ASTERISK_COMMA:
 				{
-					// *) é–¢æ•°å‘¼ã�³å‡ºã�—ã�®å¼•æ•°é…�åˆ—å±•é–‹ã�«å¯¾å¿œ
+					// *) 关数呼び出しの引数配列展开に对应
 					return "*,";
 				}
 
 				case T_END_OF_VALUE:
 				{
-					// *, é–¢æ•°å‘¼ã�³å‡ºã�—ã�®å¼•æ•°é…�åˆ—å±•é–‹ã�«å¯¾å¿œ
+					// *, 关数呼び出しの引数配列展开に对应
 					return "END_OF_VALUE";
 				}
 
 				case 0:
 				{
-					// æœ«å°¾(ãƒ€ãƒŸãƒ¼)
+					// 末尾(ダミー)
 					return "EOF";
 				}
 			}

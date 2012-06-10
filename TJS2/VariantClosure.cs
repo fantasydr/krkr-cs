@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using System.Text;
@@ -295,7 +295,7 @@ namespace Kirikiri.Tjs2
 				 : (objThis != null ? objThis : mObject));
 		}
 
-		// ã‚ªãƒªã‚¸ãƒŠãƒ«ã�¯ãƒ�ã‚°ï¼Ÿ é–¢æ•°å��ã�Œä¸€è‡´ã�—ã�¦ã�„ã�ªã�„
+		// オリジナルはバグ？ 关数名が一致していない
 		//tjs_error IsInstanceOf(tjs_uint32 flag, tjs_int num, tjs_char *classname, iTJSDispatch2 *objthis) const {
 		/// <exception cref="Kirikiri.Tjs2.TJSException"></exception>
 		/// <exception cref="Kirikiri.Tjs2.VariantException"></exception>

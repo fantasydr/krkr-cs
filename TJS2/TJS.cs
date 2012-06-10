@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using System.Collections.Generic;
@@ -71,14 +71,14 @@ namespace Kirikiri.Tjs2
 		private ScriptCache mCache;
 
 		//private static final String TAG ="TJS";
-		// ãƒ—ãƒªãƒ—ãƒ­ã‚»ãƒƒã‚µã�§ã�¯æœªå®šç¾©ã�®æ™‚ã�“ã�®å€¤ã�Œå…¥ã‚‹
+		// プリプロセッサでは未定义の时この值が入る
 		// create a member if not exists
 		//public static int mCompactVariantArrayMagic;
 		//public static VariantArrayStack mVariantArrayStack;
-		// static é–¢ä¿‚ã�¯ã�“ã�“ã�§åˆ�æœŸåŒ–
+		// static 关系はここで初期化
 		public static void Initialize()
 		{
-			// mStorage = null; // äº‹å‰�ã�«è¨­å®šã�•ã‚Œã‚‹ã�®ã�§ã€�ã�“ã�“ã�§åˆ�æœŸåŒ–ã�™ã‚‹ã�®ã�¯ã�¾ã�šã�„
+			// mStorage = null; // 事前に设定されるので、ここで初期化するのはまずい
 			NULL_ARG = new Variant[0];
 			IsTarminating = false;
 			mWarnOnNonGlobalEvalOperator = false;
@@ -148,9 +148,9 @@ namespace Kirikiri.Tjs2
 			mPPValues = new Dictionary<string, int>();
 			SetPPValue("version", VERSION_HEX);
 			SetPPValue("environment", ENV_JAVA_APPLICATION);
-			// TODO é�©åˆ‡ã�ªå€¤ã‚’å…¥ã‚Œã‚‹
+			// TODO 适切な值を入れる
 			SetPPValue("compatibleSystem", 1);
-			// äº’æ�›ã‚·ã‚¹ãƒ†ãƒ  true
+			// 互换システム true
 			mGlobal = new CustomObject(GLOBAL_HASH_BITS);
 			mScriptBlocks = new AList<WeakReference<ScriptBlock>>();
 			Dispatch2 dsp;
@@ -450,7 +450,7 @@ namespace Kirikiri.Tjs2
 
 		private void CompactScriptBlock()
 		{
-			// ã�ªã��ã�ªã�£ã�¦ã�„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æ¶ˆã�™
+			// なくなっているオブジェクトを消す
 			int count = mScriptBlocks.Count;
 			for (int i = count - 1; i >= 0; i--)
 			{
@@ -479,7 +479,7 @@ namespace Kirikiri.Tjs2
 			OutputToConsoleSeparator("#", width);
 			OutputToConsole(version);
 			OutputToConsole(string.Empty);
-			// ã�ªã��ã�ªã�£ã�¦ã�„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æ¶ˆã�™
+			// なくなっているオブジェクトを消す
 			CompactScriptBlock();
 			if (mScriptBlocks.Count > 0)
 			{

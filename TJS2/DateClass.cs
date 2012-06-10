@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using System;
@@ -37,56 +37,56 @@ namespace Kirikiri.Tjs2
 				, 0);
 			RegisterNCM("setYear", new _NativeClassMethod_75(), CLASS_NAME, Interface.nitMethod
 				, 0);
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("setMonth", new _NativeClassMethod_86(), CLASS_NAME, Interface.nitMethod
 				, 0);
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("setDate", new _NativeClassMethod_97(), CLASS_NAME, Interface.nitMethod
 				, 0);
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("setHours", new _NativeClassMethod_108(), CLASS_NAME, Interface.nitMethod
 				, 0);
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("setMinutes", new _NativeClassMethod_119(), CLASS_NAME, Interface.nitMethod
 				, 0);
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("setSeconds", new _NativeClassMethod_130(), CLASS_NAME, Interface.nitMethod
 				, 0);
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("setTime", new _NativeClassMethod_141(), CLASS_NAME, Interface.nitMethod
 				, 0);
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			//int num = param[0].asInteger();
 			//long y = num < 0 ? (long)num + 0x100000000L : num;
 			//_this.mDateTime.setTimeInMillis( y );
 			RegisterNCM("getDate", new _NativeClassMethod_156(), CLASS_NAME, Interface.nitMethod
 				, 0);
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("getDay", new _NativeClassMethod_168(), CLASS_NAME, Interface.nitMethod
 				, 0);
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("getHours", new _NativeClassMethod_180(), CLASS_NAME, Interface.nitMethod
 				, 0);
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("getMinutes", new _NativeClassMethod_192(), CLASS_NAME, Interface.nitMethod
 				, 0);
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("getMonth", new _NativeClassMethod_204(), CLASS_NAME, Interface.nitMethod
 				, 0);
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("getSeconds", new _NativeClassMethod_216(), CLASS_NAME, Interface.nitMethod
 				, 0);
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("getTime", new _NativeClassMethod_228(), CLASS_NAME, Interface.nitMethod
 				, 0);
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			//int y = (int) (num > Integer.MAX_VALUE ? num - 0x100000000L : num);
 			//result.set( y );
 			RegisterNCM("getTimezoneOffset", new _NativeClassMethod_243(), CLASS_NAME, Interface
 				.nitMethod, 0);
 			RegisterNCM("getYear", new _NativeClassMethod_253(), CLASS_NAME, Interface.nitMethod
 				, 0);
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("parse", new _NativeClassMethod_265(), CLASS_NAME, Interface.nitMethod
 				, 0);
 		}
@@ -576,7 +576,7 @@ namespace Kirikiri.Tjs2
 			{
 				DateNI _this = (DateNI)objthis.GetNativeInstance(Kirikiri.Tjs2.DateClass.mClassID
 					);
-				// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+				// インスタンス所得
 				if (_this == null)
 				{
 					return Error.E_NATIVECLASSCRASH;
@@ -598,7 +598,7 @@ namespace Kirikiri.Tjs2
 			}
 			catch (ParseException)
 			{
-				// TODO "å¹´/æœˆ/æ—¥ æ™‚:åˆ†:ç§’" ã�«ã�¯å¯¾å¿œã�—ã�¦ã�„ã�ªã�„ã�‹ã‚‚ã€�ä»¥ä¸‹ã�§ã�„ã�„ã�‹ç¢ºèª�ã�™ã‚‹
+				// TODO "年/月/日 时:分:秒" には对应していないかも、以下でいいか确认する
 				Sharpen.Pattern regex = Sharpen.Pattern.Compile("([0-9]+)\\/([0-9]+)\\/([0-9]+)[ \t]+([0-9]+):([0-9]+):([0-9]+)"
 					);
 				Matcher m = regex.Matcher(str);

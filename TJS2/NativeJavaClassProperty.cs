@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using System;
@@ -101,7 +101,7 @@ namespace Kirikiri.Tjs2
 			}
 			else
 			{
-				// static æ™‚ã�¯ null
+				// static 时は null
 				if (objthis == null)
 				{
 					return Error.E_NATIVECLASSCRASH;
@@ -181,7 +181,7 @@ namespace Kirikiri.Tjs2
 			}
 			else
 			{
-				// static æ™‚ã�¯ null
+				// static 时は null
 				NativeJavaInstance ni = (NativeJavaInstance)objthis.GetNativeInstance(mClassID);
 				if (ni == null)
 				{

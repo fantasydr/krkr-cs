@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using System.Text;
@@ -9,7 +9,7 @@ using Sharpen;
 
 namespace Kirikiri.Tjs2
 {
-	/// <summary>TJS2 ã�®ãƒ�ã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ã‚’ç”Ÿæˆ�ã�™ã‚‹</summary>
+	/// <summary>TJS2 のバイトコードを生成する</summary>
 	public class InterCodeGenerator : SourceCodeAccessor
 	{
 		private const int INC_ARRAY_COUNT = 256;
@@ -109,10 +109,10 @@ namespace Kirikiri.Tjs2
 				//private static final int INC_SIZE_BYTE = 1024;
 				//private static final int INC_SIZE_BYTE = 512;
 				//private static final int INC_SIZE_LONG_BYTE = 2048;
-				//private LongBuffer mSourcePosArray; // ä¸Šä½�ã‚’codePos, ä¸‹ä½�ã‚’sourcePos ã�¨ã�™ã‚‹
-				// ä¸Šä½�ã‚’codePos, ä¸‹ä½�ã‚’sourcePos ã�¨ã�™ã‚‹
-				// Dataã�®ä¸­ã�« function ã�¨ã�—ã�¦ã€�InterCodeGenerator ã�Œå…¥ã�£ã�¦ã�„ã‚‹å�¯èƒ½æ€§ã�Œã�‚ã‚‹ã€�å¾Œã�§å·®ã�—æ›¿ã�ˆã‚‹ã�“ã�¨ã€‚
-				// Compiler ã�«æŒ�ã�Ÿã�›ã�Ÿæ–¹ã�Œã�„ã�„ã�‹ã�ªï¼Ÿ
+				//private LongBuffer mSourcePosArray; // 上位をcodePos, 下位をsourcePos とする
+				// 上位をcodePos, 下位をsourcePos とする
+				// Dataの中に function として、InterCodeGenerator が入っている可能性がある、后で差し替えること。
+				// Compiler に持たせた方がいいかな？
 				//mSubType = 0;
 				//mSubFlag = 0;
 				//mSubAddress = 0;
@@ -170,7 +170,7 @@ namespace Kirikiri.Tjs2
 			{
 				// tNestType
 				// union {
-				// boolean IsFirstCase; ä¸Šã�¨å�Œã�˜ã�¨ã�¿ã�ªã�™
+				// boolean IsFirstCase; 上と同じとみなす
 				//};
 				ContinuePatchVector = new IntVector();
 				ExitPatchVector = new IntVector();
@@ -541,7 +541,7 @@ namespace Kirikiri.Tjs2
 		/// <exception cref="Kirikiri.Tjs2.VariantException"></exception>
 		private int PutData(Variant val)
 		{
-			// ç›´è¿‘ã�®20å€‹ã�®ä¸­ã�§å�Œã�˜ã‚‚ã�®ã�Œã�‚ã‚‹ã�‹èª¿ã�¹ã‚‹ TODO åˆ¥ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã�«ã�™ã‚‹ã�®ã�ªã‚‰ã€�å…¨ãƒ‡ãƒ¼ã‚¿ã�§ãƒ�ã‚§ãƒƒã‚¯ã�™ã‚‹ã‚ˆã�†ã�«ã�—ã�Ÿæ–¹ã�Œã�„ã�„ã�‹
+			// 直近の20个の中で同じものがあるか调べる TODO 别コンパイルにするのなら、全データでチェックするようにした方がいいか
 			int size = mDataArea.Count;
 			int count = size > SEARCH_CONST_VAL_SIZE ? SEARCH_CONST_VAL_SIZE : size;
 			int offset = size - 1;
@@ -571,8 +571,7 @@ namespace Kirikiri.Tjs2
 			return mDataArea.Count - 1;
 		}
 
-		/// <summary>DaraArray ã�®ä¸­ã�® InterCodeGenerator ã‚’ InterCodeObject ã�«å·®ã�—æ›¿ã�ˆã‚‹
-		/// 	</summary>
+		/// <summary>DaraArray の中の InterCodeGenerator を InterCodeObject に差し替える</summary>
 		/// <param name="compiler"></param>
 		public virtual void DateReplace(Compiler compiler)
 		{
@@ -1138,7 +1137,7 @@ namespace Kirikiri.Tjs2
 			mNestVector.LastElement().Type = ntSwitch;
 			mNestVector.LastElement().Patch1 = -1;
 			mNestVector.LastElement().Patch2 = -1;
-			//mNestVector.lastElement().IsFirstCase = true; // IsFirstCase ã�¨ VariableCreated ã�¯å�Œä¸€ã�«æ‰±ã�†
+			//mNestVector.lastElement().IsFirstCase = true; // IsFirstCase と VariableCreated は同一に扱う
 			mNestVector.LastElement().VariableCreated = true;
 			IntWrapper fr = new IntWrapper(mFrameBase);
 			int resaddr = GenNodeCode(fr, node, RT_NEEDED, 0, new InterCodeGenerator.SubParam
@@ -1196,7 +1195,7 @@ namespace Kirikiri.Tjs2
 			}
 			int lexpos = GetLexPos();
 			int patch3 = 0;
-			//if( !mNestVector.lastElement().IsFirstCase ) // IsFirstCase ã�¨ VariableCreated ã�¯å�Œä¸€ã�«æ‰±ã�†
+			//if( !mNestVector.lastElement().IsFirstCase ) // IsFirstCase と VariableCreated は同一に扱う
 			if (!mNestVector.LastElement().VariableCreated)
 			{
 				patch3 = mCodeAreaPos;
@@ -1274,7 +1273,7 @@ namespace Kirikiri.Tjs2
 			}
 			InterCodeGenerator.NestData data = mNestVector[mNestVector.Count - 3];
 			int patch3 = 0;
-			//if( !data.IsFirstCase ) { // IsFirstCase ã�¨ VariableCreated ã�¯å�Œä¸€ã�«æ‰±ã�†
+			//if( !data.IsFirstCase ) { // IsFirstCase と VariableCreated は同一に扱う
 			if (!data.VariableCreated)
 			{
 				patch3 = mCodeAreaPos;
@@ -2194,7 +2193,7 @@ namespace Kirikiri.Tjs2
 		/// <exception cref="Kirikiri.Tjs2.VariantException"></exception>
 		public virtual ExprNode MakeNP1(int opecode, ExprNode node1)
 		{
-			// å®šæ•°ã�®æœ€é�©åŒ–
+			// 定数の最适化
 			if (node1 != null && node1.GetOpecode() == Token.T_CONSTVAL)
 			{
 				ExprNode ret = null;
@@ -2294,7 +2293,7 @@ namespace Kirikiri.Tjs2
 		/// <exception cref="Kirikiri.Tjs2.VariantException"></exception>
 		public virtual ExprNode MakeNP2(int opecode, ExprNode node1, ExprNode node2)
 		{
-			// å®šæ•°ã�®æœ€é�©åŒ–
+			// 定数の最适化
 			if (node1 != null && node1.GetOpecode() == Token.T_CONSTVAL && node2 != null && node2
 				.GetOpecode() == Token.T_CONSTVAL)
 			{
@@ -2428,7 +2427,7 @@ namespace Kirikiri.Tjs2
 		public virtual ExprNode MakeNP3(int opecode, ExprNode node1, ExprNode node2, ExprNode
 			 node3)
 		{
-			// ä¸‰é …æ¼”ç®—å­�ã�®æœ€é�©åŒ–ã�¨ã�‹ã�¯ã�—ã�¦ã�„ã�ªã�„ï¼Ÿ
+			// 三项演算子の最适化とかはしていない？
 			ExprNode node = new ExprNode();
 			mNodeToDeleteVector.AddItem(node);
 			node.SetOpecode(opecode);
@@ -3557,7 +3556,7 @@ namespace Kirikiri.Tjs2
 
 				case Token.T_EXCRAMATION:
 				{
-					// ã�“ã�“ã�‹ã‚‰ä¸€æ°—ã�«
+					// ここから一气に
 					// pre-positioned '!' operator
 					// logical not
 					if ((param.mSubType != stNone))
@@ -5453,7 +5452,7 @@ namespace Kirikiri.Tjs2
 			// set object type info for debugging
 			// we do thus nasty thing because the std::vector does not free its storage
 			// even we call 'clear' method...
-			//mNodeToDeleteVector = null; mNodeToDeleteVector = new VectorWrap<ExprNode>(); ç›´å‰�ã�§ã‚¯ãƒªã‚¢ã�•ã‚Œã�¦ã�„ã‚‹ã�¯ã�š
+			//mNodeToDeleteVector = null; mNodeToDeleteVector = new VectorWrap<ExprNode>(); 直前でクリアされているはず
 			mCurrentNodeVector.Clear();
 			// mCurrentNodeVector = null; mCurrentNodeVector = new VectorWrap<ExprNode>();
 			mFuncArgStack = null;
@@ -5649,7 +5648,7 @@ namespace Kirikiri.Tjs2
 					short[] newbuff = new short[size];
 					//ShortBuffer ibuff = ShortBuffer.wrap(newbuff);
 					//ibuff.clear();
-					//for( int j = 0; j < size; j++ ) { // ãƒ†ãƒ³ãƒ�ãƒ©ãƒªã�¸ã‚³ãƒ”ãƒ¼
+					//for( int j = 0; j < size; j++ ) { // テンポラリへコピー
 					//ibuff.put( j, mCodeArea[src+j] );
 					//}
 					//for( int j = 0; j < size; j++ ) {
@@ -5745,7 +5744,7 @@ namespace Kirikiri.Tjs2
 		//}
 		private void SortSourcePos()
 		{
-			// ä¸Šä½�ã‚’codePos, ä¸‹ä½�ã‚’sourcePos ã�¨ã�™ã‚‹, codePos ã�§ã�®ã‚½ãƒ¼ãƒˆã�ªã�®ã�§ä¸‹ä½�ã�¯æ°—ã�«ã�›ã�šã‚½ãƒ¼ãƒˆã�—ã�—ã�¾ã�†
+			// 上位をcodePos, 下位をsourcePos とする, codePos でのソートなので下位は气にせずソートししまう
 			if (!mSourcePosArraySorted && mSourcePosArray != null)
 			{
 				//quickSort( mSourcePosArray, 0, mSourcePosArray.position()-1 );
@@ -6316,7 +6315,7 @@ namespace Kirikiri.Tjs2
 		// condition flag needed
 		// true logic
 		// inverted logic
-		/// <summary>ãƒ�ã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ã‚’å‡ºåŠ›ã�™ã‚‹</summary>
+		/// <summary>バイトコードを出力する</summary>
 		/// <returns></returns>
 		public virtual ByteBuffer ExportByteCode(Compiler block, ConstArrayData constarray
 			)
@@ -6346,10 +6345,10 @@ namespace Kirikiri.Tjs2
 			{
 				name = constarray.PutString(mName);
 			}
-			// 13 * 4 ãƒ‡ãƒ¼ã‚¿éƒ¨åˆ†ã�®ã‚µã‚¤ã‚º
-			//int srcpossize = mSourcePosArray != null ? mSourcePosArray.position() * 8 : 0; // mSourcePosArray ã�¯é…�åˆ—ã�®æ–¹ã�Œã�„ã�„ã�‹ã�ª, codepos, sorcepos ã�®é †ã�§ã€�intåž‹ã�§ç™»éŒ²ã�—ã�Ÿæ–¹ã�Œã�„ã�„ã�‹ã‚‚
+			// 13 * 4 データ部分のサイズ
+			//int srcpossize = mSourcePosArray != null ? mSourcePosArray.position() * 8 : 0; // mSourcePosArray は配列の方がいいかな, codepos, sorcepos の顺で、int型で登录した方がいいかも
 			int srcpossize = 0;
-			// ä¸»ã�«ãƒ‡ãƒ�ãƒƒã‚°ç”¨ã�®æƒ…å ±ã�ªã�®ã�§å‡ºåŠ›æŠ‘æ­¢
+			// 主にデバッグ用の情报なので出力抑止
 			int codesize = (mCode.Length % 2) == 1 ? mCode.Length * 2 + 2 : mCode.Length * 2;
 			int datasize = mDataArray.Length * 4;
 			int scgpsize = mSuperClassGetterPointer != null ? mSuperClassGetterPointer.Size()
@@ -6377,7 +6376,7 @@ namespace Kirikiri.Tjs2
 			//int count = mSourcePosArray != null ? mSourcePosArray.position() : 0;
 			int count = 0;
 			buf.Put(count);
-			// ä¸»ã�«ãƒ‡ãƒ�ãƒƒã‚°ç”¨ã�®æƒ…å ±ã�ªã�®ã�§å‡ºåŠ›æŠ‘æ­¢
+			// 主にデバッグ用の情报なので出力抑止
 			count = mCode.Length;
 			buf.Put(count);
 			ShortBuffer sbuf = result.AsShortBuffer();
@@ -6386,7 +6385,7 @@ namespace Kirikiri.Tjs2
 			sbuf.Put(mCode);
 			if ((count % 2) == 1)
 			{
-				// ã‚¢ãƒ©ã‚¤ãƒ¡ãƒ³ãƒˆ
+				// アライメント
 				sbuf.Put((short)0);
 			}
 			buf.Position(sbuf.Position() / 2);
@@ -6453,12 +6452,12 @@ namespace Kirikiri.Tjs2
 			return ret;
 		}
 
-		/// <summary>ç”Ÿæˆ�ä¸€æ®µéšŽç›®</summary>
+		/// <summary>生成一段阶目</summary>
 		/// <returns></returns>
 		public virtual InterCodeObject CreteCodeObject(ScriptBlock block)
 		{
 			SortSourcePos();
-			// å¸¸ã�«ã‚½ãƒ¼ãƒˆã�—ã�¦æ¸¡ã�™
+			// 常にソートして渡す
 			LongBuffer srcPos = null;
 			if (mSourcePosArray != null)
 			{

@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using System.Text;
@@ -32,7 +32,7 @@ namespace Kirikiri.Tjs2
 			 linedata)
 		{
 			// a class for managing the script block
-			// ä»¥ä¸‹ã�®4ã�¤ã�¯å®Ÿè¡Œæ™‚ã�«ã�„ã‚‹ã�‹ã�ªã€�å��å‰�ä»¥å¤–ã�¯ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿæ™‚ã�«å¿…è¦�ã�«ã�ªã‚‹ã� ã�‘ã� ã‚�ã�†ã�‘ã�©ã€‚
+			// 以下の4つは实行时にいるかな、名前以外はエラー発生时に必要になるだけだろうけど。
 			mOwner = owner;
 			mName = name;
 			mLineOffset = lineoffset;
@@ -68,7 +68,7 @@ namespace Kirikiri.Tjs2
 		public ScriptBlock(TJS owner)
 		{
 			mOwner = owner;
-			// Java ã�§åˆ�æœŸå€¤ã�¨ã�ªã‚‹åˆ�æœŸåŒ–ã�¯çœ�ç•¥
+			// Java で初期值となる初期化は省略
 			//mScript = null;
 			//mName = null;
 			//mInterCodeContext = null;
@@ -149,7 +149,7 @@ namespace Kirikiri.Tjs2
 
 		private void CompactInterCodeObjectList()
 		{
-			// ã�ªã��ã�ªã�£ã�¦ã�„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æ¶ˆã�™
+			// なくなっているオブジェクトを消す
 			int count = mInterCodeObjectList.Count;
 			for (int i = count - 1; i >= 0; i--)
 			{
@@ -167,7 +167,7 @@ namespace Kirikiri.Tjs2
 		{
 			// compiles text and executes its global level scripts.
 			// the script will be compiled as an expression if isexpressn is true.
-			// é€†ã‚¢ã‚»ãƒ³ãƒ–ãƒ«
+			// 逆アセンブル
 			// execute global level script
 			ExecuteTopLevelScript(result, context);
 			int context_count = mInterCodeObjectList.Count;
@@ -367,6 +367,6 @@ namespace Kirikiri.Tjs2
 		{
 			return 0;
 		}
-		// allways 0, åŸºæœ¬çš„ã�«ä½¿ã‚�ã‚Œã�ªã�„
+		// allways 0, 基本的に使われない
 	}
 }

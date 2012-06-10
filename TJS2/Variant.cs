@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using System;
@@ -57,7 +57,7 @@ namespace Kirikiri.Tjs2
 		{
 			// empty
 			// octet binary data
-			//mObject = null; // åˆ�æœŸå€¤ã�ªã�®ã�§ä¸�è¦�
+			//mObject = null; // 初期值なので不要
 			mObject = Sharpen.Extensions.ValueOf(value);
 		}
 
@@ -155,7 +155,7 @@ namespace Kirikiri.Tjs2
 			}
 		}
 
-		// ä¸€éƒ¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã�¯å�‚ç…§ã‚³ãƒ”ãƒ¼
+		// 一部オブジェクトは参照コピー
 		public object CloneSeparate()
 		{
 			if (mObject is VariantClosure)
@@ -187,7 +187,7 @@ namespace Kirikiri.Tjs2
 			return str.ToString();
 		}
 
-		// ~ ãƒ“ãƒƒãƒˆå�˜ä½�NOT
+		// ~ ビット单位NOT
 		/// <exception cref="Kirikiri.Tjs2.VariantException"></exception>
 		public Kirikiri.Tjs2.Variant GetBitNotValue()
 		{
@@ -195,7 +195,7 @@ namespace Kirikiri.Tjs2
 			return new Kirikiri.Tjs2.Variant(~val);
 		}
 
-		// ! è«–ç�†å�¦å®š
+		// ! 论理否定
 		public Kirikiri.Tjs2.Variant GetNotValue()
 		{
 			bool val = !AsBoolean();
@@ -275,7 +275,7 @@ namespace Kirikiri.Tjs2
 		public Kirikiri.Tjs2.Variant Lt(Kirikiri.Tjs2.Variant val)
 		{
 			bool v = GreaterThan(val);
-			// ã�ªã‚“ã�‹é€†è»¢ã�—ã�¦ã�ªã�„ï¼Ÿ å…ƒã�®å®Ÿè£…ã�Œã��ã�†ã� ã�‘ã�©ï¼Ÿ
+			// なんか逆转してない？ 元の实装がそうだけど？
 			return new Kirikiri.Tjs2.Variant(v ? 1 : 0);
 		}
 
@@ -284,7 +284,7 @@ namespace Kirikiri.Tjs2
 		public Kirikiri.Tjs2.Variant Gt(Kirikiri.Tjs2.Variant val)
 		{
 			bool v = LittlerThan(val);
-			// ã�ªã‚“ã�‹é€†è»¢ã�—ã�¦ã�ªã�„ï¼Ÿ å…ƒã�®å®Ÿè£…ã�Œã��ã�†ã� ã�‘ã�©ï¼Ÿ
+			// なんか逆转してない？ 元の实装がそうだけど？
 			return new Kirikiri.Tjs2.Variant(v ? 1 : 0);
 		}
 
@@ -360,7 +360,7 @@ namespace Kirikiri.Tjs2
 			{
 				if (mObject.GetType().IsAssignableFrom(val.mObject.GetType()))
 				{
-					// å�Œã�˜ã‚¯ãƒ©ã‚¹
+					// 同じクラス
 					if (mObject is ByteBuffer)
 					{
 						ByteBuffer b1 = (ByteBuffer)mObject;
@@ -509,7 +509,7 @@ namespace Kirikiri.Tjs2
 			{
 				if (mObject.GetType().IsAssignableFrom(val2.mObject.GetType()))
 				{
-					// å�Œã�˜ã‚¯ãƒ©ã‚¹
+					// 同じクラス
 					if (mObject is int)
 					{
 						return ((int)mObject) == ((int)val2.mObject);
@@ -582,7 +582,7 @@ namespace Kirikiri.Tjs2
 			}
 			else
 			{
-				// ç‰‡æ–¹ã�¯null
+				// 片方はnull
 				if (mObject == null && val2.mObject == null)
 				{
 					return true;
@@ -691,7 +691,7 @@ namespace Kirikiri.Tjs2
 								{
 									if (mObject.GetType().IsAssignableFrom(val.mObject.GetType()))
 									{
-										// å�Œã�˜ã‚¯ãƒ©ã‚¹
+										// 同じクラス
 										return mObject.Equals(val.mObject);
 									}
 									else
@@ -776,7 +776,7 @@ namespace Kirikiri.Tjs2
 								{
 									if (mObject.GetType().IsAssignableFrom(val.mObject.GetType()))
 									{
-										// å�Œã�˜ã‚¯ãƒ©ã‚¹
+										// 同じクラス
 										return mObject.Equals(val.mObject);
 									}
 									else
@@ -820,7 +820,7 @@ namespace Kirikiri.Tjs2
 			return Sharpen.Runtime.CompareOrdinal(s1, s2) < 0;
 		}
 
-		//0ï¼šç­‰ã�—ã�„ã€‚1ï¼šã‚ˆã‚Šå¤§ã��ã�„ã€‚-1ï¼šã‚ˆã‚Šå°�ã�•ã�„
+		//0：等しい。1：より大きい。-1：より小さい
 		/// <exception cref="Kirikiri.Tjs2.VariantException"></exception>
 		public int GreaterThanForSort(Kirikiri.Tjs2.Variant val)
 		{
@@ -1642,7 +1642,7 @@ namespace Kirikiri.Tjs2
 			{
 				if (mObject.GetType().IsAssignableFrom(rhs.mObject.GetType()))
 				{
-					// å�Œã�˜ã‚¯ãƒ©ã‚¹
+					// 同じクラス
 					if (mObject is ByteBuffer)
 					{
 						ByteBuffer b1 = (ByteBuffer)mObject;

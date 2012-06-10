@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using System.Collections.Generic;
@@ -79,23 +79,23 @@ namespace Kirikiri.Tjs2
 				, 0);
 			RegisterNCM("load", new _NativeClassMethod_74(), CLASS_NAME, Interface.nitMethod, 
 				0);
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			// split to each line
 			RegisterNCM("save", new _NativeClassMethod_138(), CLASS_NAME, Interface.nitMethod
 				, 0);
 			// saves the array into a file.
 			// only string and number stuffs are stored.
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("saveStruct", new _NativeClassMethod_171(), CLASS_NAME, Interface.nitMethod
 				, 0);
 			// saves the array into a file, that can be interpret as an expression.
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("split", new _NativeClassMethod_198(), CLASS_NAME, Interface.nitMethod
 				, 0);
 			// split string with given delimiters.
 			// arguments are : <pattern/delimiter>, <string>, [<reserved>],
 			// [<whether ignore empty element>]
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å�–å¾—
+			// インスタンス取得
 			// Enable REGEX
 			// param[0] is regexp
 			// delimiter found
@@ -104,7 +104,7 @@ namespace Kirikiri.Tjs2
 			// join string with given delimiters.
 			// arguments are : <delimiter>, [<reserved>],
 			// [<whether ignore empty element>]
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			// join with delimiter
 			RegisterNCM("sort", new _NativeClassMethod_286(), CLASS_NAME, Interface.nitMethod
 				, 0);
@@ -117,66 +117,66 @@ namespace Kirikiri.Tjs2
 			// '9'             :  Numeric value descending
 			// 'a'             :  String ascending
 			// 'z'             :  String descending
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			//boolean do_stable_sort = false;
 			// check first argument
 			// comarison function object
 			// sort order letter
-			// Collections.sortã�Œå¸¸ã�«stable_sortã�ªã�®ã�§ã�“ã‚Œã�¯æ„�å‘³ã�Œã�ªã�„
+			// Collections.sortが常にstable_sortなのでこれは意味がない
 			// sort
 			RegisterNCM("reverse", new _NativeClassMethod_371(), CLASS_NAME, Interface.nitMethod
 				, 0);
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("assign", new _NativeClassMethod_381(), CLASS_NAME, Interface.nitMethod
 				, 0);
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("assignStruct", new _NativeClassMethod_399(), CLASS_NAME, Interface.nitMethod
 				, 0);
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("clear", new _NativeClassMethod_419(), CLASS_NAME, Interface.nitMethod
 				, 0);
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("erase", new _NativeClassMethod_428(), CLASS_NAME, Interface.nitMethod
 				, 0);
 			// remove specified item number from the array
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("remove", new _NativeClassMethod_441(), CLASS_NAME, Interface.nitMethod
 				, 0);
 			// remove specified item from the array wchich appears first or all
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("insert", new _NativeClassMethod_462(), CLASS_NAME, Interface.nitMethod
 				, 0);
 			// insert item at specified position
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("add", new _NativeClassMethod_475(), CLASS_NAME, Interface.nitMethod, 
 				0);
 			// add item at last
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("push", new _NativeClassMethod_488(), CLASS_NAME, Interface.nitMethod
 				, 0);
 			// add item(s) at last
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("pop", new _NativeClassMethod_500(), CLASS_NAME, Interface.nitMethod, 
 				0);
 			// pop item from last
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("shift", new _NativeClassMethod_516(), CLASS_NAME, Interface.nitMethod
 				, 0);
 			// shift item at head
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("unshift", new _NativeClassMethod_532(), CLASS_NAME, Interface.nitMethod
 				, 0);
 			// add item(s) at head
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("find", new _NativeClassMethod_544(), CLASS_NAME, Interface.nitMethod
 				, 0);
 			// find item in the array,
 			// return an index which points the item that appears first.
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("count", new _NativeClassProperty_575(), CLASS_NAME, Interface.nitProperty
 				, 0);
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
+			// インスタンス所得
 			RegisterNCM("length", new _NativeClassProperty_603(), CLASS_NAME, Interface.nitProperty
 				, 0);
 		}
@@ -1085,7 +1085,7 @@ namespace Kirikiri.Tjs2
 			public override int Get(Variant result, Dispatch2 objthis)
 			{
 				ArrayNI ni = (ArrayNI)objthis.GetNativeInstance(Kirikiri.Tjs2.ArrayClass.ClassID);
-				// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+				// インスタンス所得
 				if (ni == null)
 				{
 					return Error.E_NATIVECLASSCRASH;
@@ -1101,7 +1101,7 @@ namespace Kirikiri.Tjs2
 			public override int Set(Variant param, Dispatch2 objthis)
 			{
 				ArrayNI ni = (ArrayNI)objthis.GetNativeInstance(Kirikiri.Tjs2.ArrayClass.ClassID);
-				// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+				// インスタンス所得
 				if (ni == null)
 				{
 					return Error.E_NATIVECLASSCRASH;
@@ -1320,7 +1320,7 @@ namespace Kirikiri.Tjs2
 					return 0;
 				}
 			}
-			// ã‚½ãƒ¼ãƒˆã�®æ™‚ä¾‹å¤–ã�®æ‰±ã�„ã�Œå¤‰ã‚�ã‚‹
+			// ソートの时例外の扱いが变わる
 		}
 	}
 }

@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using Kirikiri.Tjs2;
@@ -206,7 +206,7 @@ namespace Kirikiri.Tjs2
 		{
 		}
 
-		// super(); // ã‚¹ãƒ¼ãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹ã�§ã�¯ä½•ã‚‚ã�—ã�¦ã�„ã�ªã�„
+		// super(); // スーパークラスでは何もしていない
 		//mOwner = null;
 		public override int Construct(Variant[] param, Dispatch2 tjsobj)
 		{

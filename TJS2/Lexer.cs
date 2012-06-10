@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using System.Collections.Generic;
@@ -155,7 +155,7 @@ namespace Kirikiri.Tjs2
 			{
 				if (script.StartsWith("#!") == true)
 				{
-					// #! ã‚’ // ã�«ç½®æ�›
+					// #! を // に置换
 					mStream = new StringStream("//" + Sharpen.Runtime.Substring(script, 2));
 				}
 				else
@@ -258,7 +258,7 @@ namespace Kirikiri.Tjs2
 			return str.ToString();
 		}
 
-		// æ¸¡ã�•ã‚Œã�ŸByteBufferã‚’åˆ‡ã‚Šè©°ã‚�ã�Ÿã€�æ–°ã�—ã�„ByteBufferã‚’ä½œã‚‹
+		// 渡されたByteBufferを切り诘めた、新しいByteBufferを作る
 		private ByteBuffer CompactByteBuffer(ByteBuffer b)
 		{
 			int count = b.Position();
@@ -605,7 +605,7 @@ namespace Kirikiri.Tjs2
 				mStream.SetOffset(mPrevPos);
 				mStream.SkipSpace();
 				mStream.Next();
-				// æœ€åˆ�ã�®'/'ã‚’èª­ã�¿é£›ã�°ã�—
+				// 最初の'/'を读み飞ばし
 				string pattern = ParseRegExp();
 				mValue = PutValue(pattern);
 				return Token.T_REGEXP;

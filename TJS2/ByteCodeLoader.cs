@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using Kirikiri.Tjs2;
@@ -7,7 +7,7 @@ using Sharpen;
 
 namespace Kirikiri.Tjs2
 {
-	/// <summary>TJS2 ãƒ�ã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ã‚’èª­ã�¿è¾¼ã‚“ã�§ã€�ScriptBlock ã‚’è¿”ã�™</summary>
+	/// <summary>TJS2 バイトコードを读み迂んで、ScriptBlock を返す</summary>
 	public class ByteCodeLoader
 	{
 		private const bool LOAD_SRC_POS = false;
@@ -240,7 +240,7 @@ namespace Kirikiri.Tjs2
 					(int)(0xff))) << 24;
 				ReadDataArea(databuff, 20, size);
 				int offset = 12 + size;
-				// ã�“ã‚Œã�Œãƒ‡ãƒ¼ã‚¿ã‚¨ãƒªã‚¢å¾Œã�®ä½�ç½®
+				// これがデータエリア后の位置
 				// OBJS
 				tag = (databuff[offset] & unchecked((int)(0xff))) | (databuff[offset + 1] & unchecked(
 					(int)(0xff))) << 8 | (databuff[offset + 2] & unchecked((int)(0xff))) << 16 | (databuff
@@ -278,8 +278,7 @@ namespace Kirikiri.Tjs2
 			}
 		}
 
-		/// <summary>InterCodeObject ã�¸ç½®æ�›ã�™ã‚‹ã�Ÿã‚�ã�«ä¸€æ™‚çš„ã�«è¦šã�ˆã�¦ã�Šã��ã‚¯ãƒ©ã‚¹
-		/// 	</summary>
+		/// <summary>InterCodeObject へ置换するために一时的に觉えておくクラス</summary>
 		internal class VariantRepalace
 		{
 			public Variant Work;
@@ -385,7 +384,7 @@ namespace Kirikiri.Tjs2
 					 + 3] & unchecked((int)(0xff))) << 24;
 				offset += 4;
 				LongBuffer srcpos;
-				// codePos/srcPos ã�¯ä»Šã�®ã�¨ã�“ã‚�ä½¿ã�£ã�¦ã�ªã�„ã€�ã‚½ãƒ¼ãƒˆæ¸ˆã�¿ã�ªã�®ã�§ã€�longã�«ã�™ã‚‹å¿…è¦�ã�¯ã�ªã�„ã�Œâ€¦â€¦
+				// codePos/srcPos は今のところ使ってない、ソート济みなので、longにする必要はないが……
 				offset += count << 3;
 				srcpos = null;
 				count = (buff[offset] & unchecked((int)(0xff))) | (buff[offset + 1] & unchecked((
@@ -436,7 +435,7 @@ namespace Kirikiri.Tjs2
 						case TYPE_OBJECT:
 						{
 							vdata[i_2] = new Variant(null, null);
-							// null Array Dictionary ã�¯ã�¾ã� ã‚µãƒ�ãƒ¼ãƒˆã�—ã�¦ã�„ã�ªã�„ TODO
+							// null Array Dictionary はまだサポートしていない TODO
 							break;
 						}
 

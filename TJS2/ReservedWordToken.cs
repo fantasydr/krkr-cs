@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using Kirikiri.Tjs2;
@@ -119,7 +119,7 @@ namespace Kirikiri.Tjs2
 
 		private const int T_INFINITY = 368;
 
-		// æœ€é�©åŒ–ã�®ã�Ÿã‚�ã�«ã‚³ãƒ”ãƒ¼
+		// 最适化のためにコピー
 		public static int GetToken(string str)
 		{
 			int len = str.Length;

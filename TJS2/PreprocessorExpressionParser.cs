@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using System.Text;
@@ -234,7 +234,7 @@ namespace Kirikiri.Tjs2
 			mIsUnlex = true;
 		}
 
-		// å�˜é …æ¼”ç®—å­�ã�¨æ‹¬å¼§
+		// 单项演算子と括弧
 		/// <exception cref="Kirikiri.Tjs2.CompileException"></exception>
 		private int Expr1()
 		{
@@ -284,7 +284,7 @@ namespace Kirikiri.Tjs2
 					UnLex(let, mValue);
 					if (let == Token.PT_EQUAL)
 					{
-						// ä»£å…¥è¦�å‰‡
+						// 代入规则
 						result = tmp;
 					}
 					else
@@ -300,7 +300,7 @@ namespace Kirikiri.Tjs2
 				{
 					if (let == Token.PT_LPARENTHESIS)
 					{
-						// (ï¼Ÿ
+						// (？
 						result = Expression() * flag;
 						if (neg)
 						{

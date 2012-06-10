@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using System.Text;
@@ -214,7 +214,7 @@ namespace Kirikiri.Tjs2
 
 		public CustomObject(int hashbits) : base()
 		{
-			// ãƒ‡ãƒ�ãƒƒã‚°ç³»ã�¯ã�ªã�—
+			// デバッグ系はなし
 			// if(TJSObjectHashMapEnabled()) TJSAddObjectHashRecord(this);
 			mRebuildHashMagic = mGlobalRebuildHashMagic;
 			if (hashbits > OBJECT_HASH__BITS_LIMITS)
@@ -256,7 +256,7 @@ namespace Kirikiri.Tjs2
 		/// <exception cref="Kirikiri.Tjs2.TJSException"></exception>
 		protected internal override void BeforeDestruction()
 		{
-			// ãƒ‡ãƒ�ãƒƒã‚°ç³»ã�¯ã�ªã�—
+			// デバッグ系はなし
 			// if(TJSObjectHashMapEnabled()) TJSSetObjectHashFlag(this, TJS_OHMF_DELETING, TJS_OHMF_SET);
 			FinalizeInternal();
 		}
@@ -503,7 +503,7 @@ namespace Kirikiri.Tjs2
 				//memset(newsymbols, 0, sizeof(tTJSSymbolData) * newhashsize);
 				//int i;
 				//SymbolData lv1 = mSymbols[0];
-				//SymbolData lv1lim = mSymbols[mHashSize]; // æœ«å°¾ã�‹ã€�iterator ã�®ã‚ˆã�†ã�«å‡¦ç�†ã�—ã�¦ã‚‹ã‚“ã� ã�ª
+				//SymbolData lv1lim = mSymbols[mHashSize]; // 末尾か、iterator のように处理してるんだな
 				for (int i_1 = 0; i_1 < mHashSize; i_1++)
 				{
 					//for( ; lv1 < lv1lim; lv1++ ) {
@@ -860,9 +860,9 @@ namespace Kirikiri.Tjs2
 			return Error.S_OK;
 		}
 
-		/// <summary>new ã�™ã‚‹æ™‚ã�®ãƒ¡ãƒ³ãƒ�ã‚³ãƒ”ãƒ¼</summary>
-		/// <param name="dest">ã‚³ãƒ”ãƒ¼å…ˆ</param>
-		/// <returns>ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰</returns>
+		/// <summary>new する时のメンバコピー</summary>
+		/// <param name="dest">コピー先</param>
+		/// <returns>エラーコード</returns>
 		/// <exception cref="TJSException">TJSException</exception>
 		/// <exception cref="Kirikiri.Tjs2.TJSException"></exception>
 		protected internal virtual int CopyAllMembers(Kirikiri.Tjs2.CustomObject dest)
@@ -950,7 +950,7 @@ namespace Kirikiri.Tjs2
 			return val.AsInteger();
 		}
 
-		// ã‚ªãƒªã‚¸ãƒŠãƒ«ã�§ã�¯ã€�å¼·åˆ¶çš„ã�« int ã�§è¿”ã�™(ã‚¢ãƒ‰ãƒ¬ã‚¹ã�«ã�ªã‚‹ã�‹ã‚‚ã�—ã‚Œã�ªã�„)ã‚‚ã�®ã�®ã‚ˆã�†ã� ã�Œâ€¦â€¦
+		// オリジナルでは、强制的に int で返す(アドレスになるかもしれない)もののようだが……
 		/// <exception cref="Kirikiri.Tjs2.VariantException"></exception>
 		/// <exception cref="Kirikiri.Tjs2.TJSException"></exception>
 		private static int TryFuncCallViaPropGet(VariantClosure tvclosure, int flag, Variant
@@ -1660,7 +1660,7 @@ namespace Kirikiri.Tjs2
 			return Error.S_OK;
 		}
 
-		// Dispatch ã‚¯ãƒ©ã‚¹ã�®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‘¼ã�³å‡ºã�™ã�Ÿã‚�
+		// Dispatch クラスのメソッドを呼び出すため
 		/// <exception cref="Kirikiri.Tjs2.VariantException"></exception>
 		/// <exception cref="Kirikiri.Tjs2.TJSException"></exception>
 		public virtual int DispatchOperation(int flag, string membername, Variant result, 
@@ -1726,7 +1726,7 @@ namespace Kirikiri.Tjs2
 				{
 					// add value
 					string name = value.AsString();
-					// ãƒ‡ãƒ�ãƒƒã‚°ç³»ã�¯ã�ªã�—
+					// デバッグ系はなし
 					//if( objectHashMapEnabled() && mClassNames.size() == 0)
 					//	objectHashSetType( this, "instance of class " + name );
 					// First class name is used for the object classname
@@ -1863,7 +1863,7 @@ namespace Kirikiri.Tjs2
 			return builder.ToString();
 		}
 
-		/// <summary>æœ€åˆ�ã�«ä¸€æ°—ã�«å®šæ•°å€¤ã‚’ç™»éŒ²ã�™ã‚‹</summary>
+		/// <summary>最初に一气に定数值を登录する</summary>
 		/// <param name="membername"></param>
 		/// <param name="param"></param>
 		/// <param name="objthis"></param>

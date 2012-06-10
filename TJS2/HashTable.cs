@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using Kirikiri.Tjs2;
@@ -8,77 +8,77 @@ using Sharpen;
 namespace Kirikiri.Tjs2
 {
 	/// <summary>
-	/// è¿½åŠ é †ã‚’æŒ�ã�£ã�Ÿãƒ�ãƒƒã‚·ãƒ¥ãƒ†ãƒ¼ãƒ–ãƒ«ã€�é…�åˆ—ã�®æ‹¡å¤§ã�¯è¡Œã‚�ã‚Œã�ªã�„
-	/// å�¤ã�„ã‚‚ã�®ã‚’å‰Šé™¤ã�§ã��ã‚‹
+	/// 追加顺を持ったハッシュテーブル、配列の扩大は行われない
+	/// 古いものを削除できる
 	/// </summary>
 	/// <?></?>
 	/// <?></?>
 	public class HashTable<Key, Value>
 	{
-		/// <summary>ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆé…�åˆ—ã‚µã‚¤ã‚º</summary>
+		/// <summary>デフォルト配列サイズ</summary>
 		private const int DEFAULT_HASH_SIZE = 64;
 
-		/// <summary>ä½¿ç”¨ä¸­ãƒ•ãƒ©ã‚°</summary>
+		/// <summary>使用中フラグ</summary>
 		private const int HASH_USING = unchecked((int)(0x1));
 
-		/// <summary>é…�åˆ—ã�«ç›´ã�«å…¥ã�£ã�¦ã�„ã‚‹è¦�ç´ ãƒ•ãƒ©ã‚°</summary>
+		/// <summary>配列に直に入っている要素フラグ</summary>
 		private const int HASH_LV1 = unchecked((int)(0x2));
 
-		/// <summary>å�„è¦�ç´ </summary>
+		/// <summary>各要素</summary>
 		/// <?></?>
 		/// <?></?>
 		internal class Element<Key, Value>
 		{
-			/// <summary>ãƒ�ãƒƒã‚·ãƒ¥å€¤</summary>
+			/// <summary>ハッシュ值</summary>
 			internal int mHash;
 
-			/// <summary>å†…éƒ¨ã�§ä½¿ç”¨ã�™ã‚‹ãƒ•ãƒ©ã‚°</summary>
+			/// <summary>内部で使用するフラグ</summary>
 			internal int mFlags;
 
-			/// <summary>ã‚­ãƒ¼</summary>
+			/// <summary>キー</summary>
 			internal Key mKey;
 
-			/// <summary>æ ¼ç´�ã�™ã‚‹å€¤</summary>
+			/// <summary>格纳する值</summary>
 			internal Value mValue;
 
-			/// <summary>ã‚¢ã‚¤ãƒ†ãƒ ãƒ�ã‚§ãƒ¼ãƒ³ã�§å‰�ã�®ã‚¢ã‚¤ãƒ†ãƒ </summary>
+			/// <summary>アイテムチェーンで前のアイテム</summary>
 			internal HashTable.Element<Key, Value> mPrev;
 
-			/// <summary>ã‚¢ã‚¤ãƒ†ãƒ ãƒ�ã‚§ãƒ¼ãƒ³ã�§æ¬¡ã�®ã‚¢ã‚¤ãƒ†ãƒ </summary>
+			/// <summary>アイテムチェーンで次のアイテム</summary>
 			internal HashTable.Element<Key, Value> mNext;
 
-			/// <summary>è¿½åŠ é †ã�§ç›´å‰�ã�«è¿½åŠ ã�•ã‚Œã�Ÿã‚¢ã‚¤ãƒ†ãƒ </summary>
+			/// <summary>追加顺で直前に追加されたアイテム</summary>
 			internal HashTable.Element<Key, Value> mNPrev;
 
-			/// <summary>è¿½åŠ é †ã�§ç›´å¾Œã�«è¿½åŠ ã�•ã‚Œã�Ÿã‚¢ã‚¤ãƒ†ãƒ </summary>
+			/// <summary>追加顺で直后に追加されたアイテム</summary>
 			internal HashTable.Element<Key, Value> mNNext;
 		}
 
-		/// <summary>è¦�ç´ é…�åˆ—</summary>
+		/// <summary>要素配列</summary>
 		private HashTable.Element<Key, Value>[] mElms;
 
-		/// <summary>å®Ÿè¦�ç´ æ•°</summary>
+		/// <summary>实要素数</summary>
 		private int mCount;
 
-		/// <summary>è¿½åŠ é †ã�§æœ€åˆ�ã�«è¿½åŠ ã�•ã‚Œã�Ÿã‚¢ã‚¤ãƒ†ãƒ </summary>
+		/// <summary>追加顺で最初に追加されたアイテム</summary>
 		private HashTable.Element<Key, Value> mNFirst;
 
-		/// <summary>è¿½åŠ é †ã�§æœ€å¾Œã�«è¿½åŠ ã�•ã‚Œã�Ÿã‚¢ã‚¤ãƒ†ãƒ </summary>
+		/// <summary>追加顺で最后に追加されたアイテム</summary>
 		private HashTable.Element<Key, Value> mNLast;
 
 		/// <summary>
-		/// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
-		/// è¦�ç´ æ•°ã�¯ DEFAULT_HASH_SIZE ã�¨ã�ªã‚‹ã€‚
+		/// デフォルトコンストラクタ
+		/// 要素数は DEFAULT_HASH_SIZE となる。
 		/// </summary>
 		public HashTable() : this(DEFAULT_HASH_SIZE)
 		{
 		}
 
-		/// <summary>ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿</summary>
-		/// <param name="initCapacity">åˆ�æœŸã‚µã‚¤ã‚º</param>
+		/// <summary>コンストラクタ</summary>
+		/// <param name="initCapacity">初期サイズ</param>
 		public HashTable(int initCapacity)
 		{
-			// ã‚µã‚¤ã‚ºã�Œå¿…ã�š2ã�®ç´¯ä¹—å€¤ã�«ã�ªã‚‹ã‚ˆã�†ã�«ã�™ã‚‹
+			// サイズが必ず2の累乘值になるようにする
 			int capacity = 1;
 			while (capacity < initCapacity)
 			{
@@ -87,15 +87,15 @@ namespace Kirikiri.Tjs2
 			mElms = new HashTable.Element[capacity];
 		}
 
-		/// <summary>å…¨è¦�ç´ ã‚’å‰Šé™¤ã�™ã‚‹</summary>
+		/// <summary>全要素を削除する</summary>
 		public virtual void Clear()
 		{
 			InternalClear();
 		}
 
-		/// <summary>ã‚­ãƒ¼ã�«å¯¾å¿œã�—ã�Ÿå€¤ã‚’å¾—ã‚‹</summary>
-		/// <param name="key">ã‚­ãƒ¼</param>
-		/// <returns>ã‚­ãƒ¼ã�«å¯¾å¿œã�—ã�Ÿå€¤</returns>
+		/// <summary>キーに对应した值を得る</summary>
+		/// <param name="key">キー</param>
+		/// <returns>キーに对应した值</returns>
 		public virtual Value Get(Key key)
 		{
 			if (key == null)
@@ -110,10 +110,9 @@ namespace Kirikiri.Tjs2
 			return e.mValue;
 		}
 
-		/// <summary>ã‚­ãƒ¼ã�«å¯¾å¿œã�—ã�Ÿå€¤ã‚’å¾—ã�¤ã�¤ã€�ä¸¦ã�³é †ã�§ä¸€ç•ªæ–°ã�—ã�„ã‚‚ã�®ã�¨ã�™ã‚‹
-		/// 	</summary>
-		/// <param name="key">ã‚­ãƒ¼</param>
-		/// <returns>ã‚­ãƒ¼ã�«å¯¾å¿œã�—ã�Ÿå€¤</returns>
+		/// <summary>キーに对应した值を得つつ、并び顺で一番新しいものとする</summary>
+		/// <param name="key">キー</param>
+		/// <returns>キーに对应した值</returns>
 		public virtual Value GetAndTouch(Key key)
 		{
 			if (key == null)
@@ -129,10 +128,10 @@ namespace Kirikiri.Tjs2
 			return e.mValue;
 		}
 
-		/// <summary>ã‚­ãƒ¼ã�«å¯¾å¿œã�—ã�Ÿè¦�ç´ ã‚’æŽ¢ã�™</summary>
-		/// <param name="key">ã‚­ãƒ¼</param>
-		/// <param name="hash">ãƒ�ãƒƒã‚·ãƒ¥å€¤</param>
-		/// <returns>ã‚­ãƒ¼ã�«å¯¾å¿œã�—ã�Ÿè¦�ç´ </returns>
+		/// <summary>キーに对应した要素を探す</summary>
+		/// <param name="key">キー</param>
+		/// <param name="hash">ハッシュ值</param>
+		/// <returns>キーに对应した要素</returns>
 		private HashTable.Element<Key, Value> InternalFindWithHash(Key key, int hash)
 		{
 			// find key ( hash )
@@ -165,9 +164,9 @@ namespace Kirikiri.Tjs2
 		}
 
 		// not found
-		/// <summary>ã‚­ãƒ¼ã�¨å€¤ã�®ãƒšã‚¢ã‚’æ ¼ç´�ã�™ã‚‹</summary>
-		/// <param name="key">ã‚­ãƒ¼</param>
-		/// <param name="value">æ ¼ç´�ã�™ã‚‹å€¤</param>
+		/// <summary>キーと值のペアを格纳する</summary>
+		/// <param name="key">キー</param>
+		/// <param name="value">格纳する值</param>
 		public virtual void Put(Key key, Value value)
 		{
 			if (key == null)
@@ -177,10 +176,10 @@ namespace Kirikiri.Tjs2
 			AddWithHash(key, key.GetHashCode(), value);
 		}
 
-		/// <summary>ã‚­ãƒ¼ã�¨å€¤ã�®ãƒšã‚¢ã‚’æ ¼ç´�ã�™ã‚‹</summary>
-		/// <param name="key">ã‚­ãƒ¼</param>
-		/// <param name="hash">ãƒ�ãƒƒã‚·ãƒ¥å€¤</param>
-		/// <param name="value">å€¤</param>
+		/// <summary>キーと值のペアを格纳する</summary>
+		/// <param name="key">キー</param>
+		/// <param name="hash">ハッシュ值</param>
+		/// <param name="value">值</param>
 		private void AddWithHash(Key key, int hash, Value value)
 		{
 			int mask = mElms.Length - 1;
@@ -242,9 +241,9 @@ namespace Kirikiri.Tjs2
 			CheckAddingElementOrder(newelm);
 		}
 
-		/// <summary>ã‚­ãƒ¼ã�«å¯¾å¿œã�—ã�Ÿè¦�ç´ ã‚’å‰Šé™¤ã�™ã‚‹</summary>
-		/// <param name="key">ã‚­ãƒ¼</param>
-		/// <returns>å®Ÿéš›ã�«å‰Šé™¤ã�—ã�Ÿã�‹ã�©ã�†ã�‹</returns>
+		/// <summary>キーに对应した要素を削除する</summary>
+		/// <param name="key">キー</param>
+		/// <returns>实际に削除したかどうか</returns>
 		internal virtual bool Remove(Key key)
 		{
 			if (key == null)
@@ -254,10 +253,10 @@ namespace Kirikiri.Tjs2
 			return DeleteWithHash(key, key.GetHashCode());
 		}
 
-		/// <summary>ã‚­ãƒ¼ã�«å¯¾å¿œã�—ã�Ÿè¦�ç´ ã‚’å‰Šé™¤ã�™ã‚‹</summary>
-		/// <param name="key">ã‚­ãƒ¼</param>
-		/// <param name="hash">ãƒ�ãƒƒã‚·ãƒ¥å€¤</param>
-		/// <returns>å®Ÿéš›ã�«å‰Šé™¤ã�—ã�Ÿã�‹ã�©ã�†ã�‹</returns>
+		/// <summary>キーに对应した要素を削除する</summary>
+		/// <param name="key">キー</param>
+		/// <param name="hash">ハッシュ值</param>
+		/// <returns>实际に削除したかどうか</returns>
 		private bool DeleteWithHash(Key key, int hash)
 		{
 			// delete key ( hash ) and return true if succeeded
@@ -314,9 +313,9 @@ namespace Kirikiri.Tjs2
 			return mCount;
 		}
 
-		/// <summary>å�¤ã�„ã‚‚ã�®ã�‹ã‚‰æŒ‡å®šå€‹æ•°å‰Šé™¤ã�™ã‚‹</summary>
-		/// <param name="count">å‰Šé™¤ã�™ã‚‹æ•°</param>
-		/// <returns>å®Ÿéš›ã�«å‰Šé™¤ã�—ã�Ÿæ•°</returns>
+		/// <summary>古いものから指定个数削除する</summary>
+		/// <param name="count">削除する数</param>
+		/// <returns>实际に削除した数</returns>
 		public virtual int ChopLast(int count)
 		{
 			int ret = 0;
@@ -333,9 +332,9 @@ namespace Kirikiri.Tjs2
 			return ret;
 		}
 
-		/// <summary>æŒ‡å®šè¦�ç´ ã‚’å‰Šé™¤ã�™ã‚‹</summary>
-		/// <param name="elm">å‰Šé™¤ã�™ã‚‹è¦�ç´ </param>
-		/// <returns>é…�åˆ—è¦�ç´ ã�‹ã�©ã�†ã�‹</returns>
+		/// <summary>指定要素を削除する</summary>
+		/// <param name="elm">削除する要素</param>
+		/// <returns>配列要素かどうか</returns>
 		private bool DeleteBytElement(HashTable.Element<Key, Value> elm)
 		{
 			CheckDeletingElementOrder(elm);
@@ -363,8 +362,8 @@ namespace Kirikiri.Tjs2
 			}
 		}
 
-		/// <summary>è¦�ç´ å‰Šé™¤ã�«ä¼´ã�„ä¸¦ã�³é †ã‚’æ›´æ–°ã�™ã‚‹</summary>
-		/// <param name="elm">å‰Šé™¤å¯¾è±¡è¦�ç´ </param>
+		/// <summary>要素削除に伴い并び顺を更新する</summary>
+		/// <param name="elm">削除对象要素</param>
 		private void CheckDeletingElementOrder(HashTable.Element<Key, Value> elm)
 		{
 			mCount--;
@@ -399,8 +398,8 @@ namespace Kirikiri.Tjs2
 			}
 		}
 
-		/// <summary>æŒ‡å®šè¦�ç´ ã�®ä¸¦ã�³é †ã‚’æ›´æ–°ã�™ã‚‹</summary>
-		/// <param name="elm">å…ˆé ­ã�«æŒ�ã�£ã�¦ã��ã‚‹è¦�ç´ </param>
+		/// <summary>指定要素の并び顺を更新する</summary>
+		/// <param name="elm">先头に持ってくる要素</param>
 		private void CheckUpdateElementOrder(HashTable.Element<Key, Value> elm)
 		{
 			// move elm to the front of addtional order
@@ -422,8 +421,8 @@ namespace Kirikiri.Tjs2
 			}
 		}
 
-		/// <summary>è¦�ç´ è¿½åŠ ã�«ä¼´ã�„ä¸¦ã�³é †ã‚’æ›´æ–°ã�™ã‚‹</summary>
-		/// <param name="elm">è¿½åŠ ã�™ã‚‹è¦�ç´ </param>
+		/// <summary>要素追加に伴い并び顺を更新する</summary>
+		/// <param name="elm">追加する要素</param>
 		private void CheckAddingElementOrder(HashTable.Element<Key, Value> elm)
 		{
 			if (mCount == 0)
@@ -442,7 +441,7 @@ namespace Kirikiri.Tjs2
 			mCount++;
 		}
 
-		/// <summary>åˆ�æœŸåŒ–</summary>
+		/// <summary>初期化</summary>
 		private void InternalInit()
 		{
 			mCount = 0;
@@ -450,7 +449,7 @@ namespace Kirikiri.Tjs2
 			mNLast = null;
 		}
 
-		/// <summary>å…¨è¦�ç´ ã‚¯ãƒªã‚¢</summary>
+		/// <summary>全要素クリア</summary>
 		private void InternalClear()
 		{
 			int count = mElms.Length;

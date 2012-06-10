@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using Kirikiri.Tjs2;
@@ -32,25 +32,25 @@ namespace Kirikiri.Tjs2
 				, 0);
 			RegisterNCM("randomize", new _NativeClassMethod_44(), CLASS_NAME, Interface.nitMethod
 				, 0);
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			RegisterNCM("random", new _NativeClassMethod_54(), CLASS_NAME, Interface.nitMethod
 				, 0);
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			// returns 53-bit precision random value x, x is in 0 <= x < 1
 			RegisterNCM("random32", new _NativeClassMethod_69(), CLASS_NAME, Interface.nitMethod
 				, 0);
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			// returns 32-bit precision integer value x, x is in 0 <= x <= 4294967295
 			RegisterNCM("random63", new _NativeClassMethod_84(), CLASS_NAME, Interface.nitMethod
 				, 0);
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			// returns 63-bit precision integer value x, x is in 0 <= x <= 9223372036854775807
 			RegisterNCM("random64", new _NativeClassMethod_99(), CLASS_NAME, Interface.nitMethod
 				, 0);
-			// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+			// インスタンス所得
 			// returns 64-bit precision integer value x, x is in
 			// -9223372036854775808 <= x <= 9223372036854775807
-			// Java å®Ÿè£…ã�§ã�¯ã€�int ã�¯32 bitã�¾ã�§
+			// Java 实装では、int は32 bitまで
 			RegisterNCM("serialize", new _NativeClassMethod_116(), CLASS_NAME, Interface.nitMethod
 				, 0);
 		}
@@ -240,7 +240,7 @@ namespace Kirikiri.Tjs2
 			{
 				RandomGeneratorNI _this = (RandomGeneratorNI)objthis.GetNativeInstance(Kirikiri.Tjs2.RandomGeneratorClass
 					.mClassID);
-				// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ‰€å¾—
+				// インスタンス所得
 				if (_this == null)
 				{
 					return Error.E_NATIVECLASSCRASH;

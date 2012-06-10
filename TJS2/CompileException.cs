@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using Kirikiri.Tjs2;
@@ -10,8 +10,7 @@ namespace Kirikiri.Tjs2
 	[System.Serializable]
 	public class CompileException : TJSScriptError
 	{
-		/// <summary>TODO ä¸€åº¦ CompileException ã‚’å‘¼ã‚“ã�§ã�„ã‚‹ã�¨ã�“ã‚�ã‚’è¦‹ç›´ã�—ã�Ÿæ–¹ã�Œè‰¯ã�„
-		/// 	</summary>
+		/// <summary>TODO 一度 CompileException を呼んでいるところを见直した方が良い</summary>
 		private const long serialVersionUID = 560827963479780060L;
 
 		public CompileException(string msg) : base(msg, null, 0)

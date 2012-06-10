@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using System;
@@ -70,7 +70,7 @@ namespace Kirikiri.Tjs2
 		//private static final int LINE_FEED = 10;
 		//private static final int UNCLOSED_COMMENT = -1;
 		// String Status
-		// ä¸‹ä½�ã�Œtoken,ä¸Šä½�ã�Œvalue index
+		// 下位がtoken,上位がvalue index
 		internal virtual Variant GetValue(int idx)
 		{
 			return new Variant(mValues[idx]);
@@ -132,7 +132,7 @@ namespace Kirikiri.Tjs2
 				//mStream = new StringStream(script+";");
 				if (script.StartsWith("#!") == true)
 				{
-					// #! ã‚’ // ã�«ç½®æ�›
+					// #! を // に置换
 					mText = new char[scriptLen + 1];
 					Sharpen.Runtime.GetCharsForString(script, 2, scriptLen, mText, 2);
 					mText[0] = mText[1] = '/';
@@ -150,7 +150,7 @@ namespace Kirikiri.Tjs2
 			if (CompileState.mEnableDicFuncQuickHack)
 			{
 				//----- dicfunc quick-hack
-				//mDicFunc = false; // ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã�ªã�®ã�§å…¥ã‚Œã‚‹å¿…è¦�ã�ªã�—
+				//mDicFunc = false; // デフォルト值なので入れる必要なし
 				//if( mIsExprMode && (script.startsWith("[") == true || script.startsWith("%[") == true) ) {
 				char c = script[0];
 				if (mIsExprMode && (c == '[' || (c == '%' && script[1] == '[')))
@@ -215,7 +215,7 @@ namespace Kirikiri.Tjs2
 			{
 				if (c == '*')
 				{
-					// ãƒ–ãƒ­ãƒƒã‚¯ã‚³ãƒ¡ãƒ³ãƒˆ
+					// ブロックコメント
 					cur += 2;
 					c = ptr[cur];
 					if (c == 0)
@@ -228,7 +228,7 @@ namespace Kirikiri.Tjs2
 					{
 						if (c == '/' && ptr[cur + 1] == '*')
 						{
-							// ã‚³ãƒ¡ãƒ³ãƒˆã�®ãƒ�ã‚¹ãƒˆ
+							// コメントのネスト
 							level++;
 						}
 						else
@@ -377,9 +377,9 @@ namespace Kirikiri.Tjs2
 		}
 
 		// base
-		// 16é€²æ•° : 4
-		// 2é€²æ•° : 1
-		// 8é€²æ•° : 3
+		// 16进数 : 4
+		// 2进数 : 1
+		// 8进数 : 3
 		private double ParseNonDecimalReal(bool sign, int basebits)
 		{
 			long main = 0;
@@ -825,7 +825,7 @@ namespace Kirikiri.Tjs2
 			}
 			if (c > '9')
 			{
-				// 't', 'f', 'N', 'I' ã�¯ '9' ã‚ˆã‚Šå¤§ã��ã�„
+				// 't', 'f', 'N', 'I' は '9' より大きい
 				if (c == 't' && ptr[cur + 1] == 'r' && ptr[cur + 2] == 'u' && ptr[cur + 3] == 'e')
 				{
 					cur += 4;
@@ -870,7 +870,7 @@ namespace Kirikiri.Tjs2
 					}
 				}
 			}
-			// 10é€²æ•°ä»¥å¤–ã�‹èª¿ã�¹ã‚‹
+			// 10进数以外か调べる
 			if (c == '0')
 			{
 				//if( !next() ) {
@@ -1513,7 +1513,7 @@ namespace Kirikiri.Tjs2
 			return str.ToString();
 		}
 
-		// æ¸¡ã�•ã‚Œã�ŸByteBufferã‚’åˆ‡ã‚Šè©°ã‚�ã�Ÿã€�æ–°ã�—ã�„ByteBufferã‚’ä½œã‚‹
+		// 渡されたByteBufferを切り诘めた、新しいByteBufferを作る
 		private ByteBuffer CompactByteBuffer(ByteBuffer b)
 		{
 			int count = b.Position();
@@ -2142,7 +2142,7 @@ namespace Kirikiri.Tjs2
 			{
 				mRegularExpression = false;
 				mCurrent = mPrevPos;
-				//next(); // æœ€åˆ�ã�®'/'ã‚’èª­ã�¿é£›ã�°ã�—
+				//next(); // 最初の'/'を读み飞ばし
 				mCurrent++;
 				if (mText[mCurrent] == CR && mText[mCurrent + 1] == LF)
 				{
@@ -2988,7 +2988,7 @@ namespace Kirikiri.Tjs2
 								{
 									// push "function { return %"
 									mRetValDeque.Push_back(Token.T_FUNCTION);
-									// value index ã�¯ 0 ã�ªã�®ã�§ç„¡è¦–
+									// value index は 0 なので无视
 									mRetValDeque.Push_back(Token.T_LBRACE);
 									mRetValDeque.Push_back(Token.T_RETURN);
 									mRetValDeque.Push_back(Token.T_PERCENT);
@@ -3000,7 +3000,7 @@ namespace Kirikiri.Tjs2
 									{
 										// push "function { return ["
 										mRetValDeque.Push_back(Token.T_FUNCTION);
-										// value index ã�¯ 0 ã�ªã�®ã�§ç„¡è¦–
+										// value index は 0 なので无视
 										mRetValDeque.Push_back(Token.T_LBRACE);
 										mRetValDeque.Push_back(Token.T_RETURN);
 										mRetValDeque.Push_back(Token.T_LBRACKET);
@@ -3012,7 +3012,7 @@ namespace Kirikiri.Tjs2
 										{
 											// push "] ; } ( )"
 											mRetValDeque.Push_back(Token.T_RBRACKET);
-											// value index ã�¯ 0 ã�ªã�®ã�§ç„¡è¦–
+											// value index は 0 なので无视
 											mRetValDeque.Push_back(Token.T_SEMICOLON);
 											mRetValDeque.Push_back(Token.T_RBRACE);
 											mRetValDeque.Push_back(Token.T_LPARENTHESIS);
@@ -3034,7 +3034,7 @@ namespace Kirikiri.Tjs2
 							case EmbeddableExpressionData.START:
 							{
 								mRetValDeque.Push_back(Token.T_LPARENTHESIS);
-								// value index ã�¯ 0 ã�ªã�®ã�§ç„¡è¦–
+								// value index は 0 なので无视
 								n = -1;
 								data.mState = EmbeddableExpressionData.NEXT_IS_STRING_LITERAL;
 								break;
@@ -3054,14 +3054,14 @@ namespace Kirikiri.Tjs2
 											mRetValDeque.Push_back(Token.T_PLUS);
 										}
 									}
-									// value index ã�¯ 0 ã�ªã�®ã�§ç„¡è¦–
+									// value index は 0 なので无视
 									if (str.Length > 0 || data.mNeedPlus == false)
 									{
 										int v = PutValue(str);
 										mRetValDeque.Push_back(Token.T_CONSTVAL | (v << 32));
 									}
 									mRetValDeque.Push_back(Token.T_RPARENTHESIS);
-									// value index ã�¯ 0 ã�ªã�®ã�§ç„¡è¦–
+									// value index は 0 なので无视
 									mEmbeddableExpressionDataStack.Remove(mEmbeddableExpressionDataStack.Count - 1);
 									n = -1;
 									break;
@@ -3075,7 +3075,7 @@ namespace Kirikiri.Tjs2
 										{
 											mRetValDeque.Push_back(Token.T_PLUS);
 										}
-										// value index ã�¯ 0 ã�ªã�®ã�§ç„¡è¦–
+										// value index は 0 なので无视
 										int v = PutValue(str);
 										mRetValDeque.Push_back(Token.T_CONSTVAL | (v << 32));
 										data.mNeedPlus = true;
@@ -3084,9 +3084,9 @@ namespace Kirikiri.Tjs2
 									{
 										mRetValDeque.Push_back(Token.T_PLUS);
 									}
-									// value index ã�¯ 0 ã�ªã�®ã�§ç„¡è¦–
+									// value index は 0 なので无视
 									mRetValDeque.Push_back(Token.T_STRING);
-									// value index ã�¯ 0 ã�ªã�®ã�§ç„¡è¦–
+									// value index は 0 なので无视
 									mRetValDeque.Push_back(Token.T_LPARENTHESIS);
 									data.mState = EmbeddableExpressionData.NEXT_IS_EXPRESSION;
 									if (res == AMPERSAND)
@@ -3121,7 +3121,7 @@ namespace Kirikiri.Tjs2
 								{
 									// end of embeddable expression mode
 									mRetValDeque.Push_back(Token.T_RPARENTHESIS);
-									// value index ã�¯ 0 ã�ªã�®ã�§ç„¡è¦–
+									// value index は 0 なので无视
 									data.mNeedPlus = true;
 									data.mState = EmbeddableExpressionData.NEXT_IS_STRING_LITERAL;
 									n = -1;

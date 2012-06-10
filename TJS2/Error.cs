@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using Kirikiri.Tjs2;
@@ -9,256 +9,256 @@ namespace Kirikiri.Tjs2
 {
 	public class Error
 	{
-		public static readonly string InternalError = "å†…éƒ¨ã‚¨ãƒ©ãƒ¼ã�Œç™ºç”Ÿã�—ã�¾ã�—ã�Ÿ";
+		public static readonly string InternalError = "内部エラーが発生しました";
 
-		public static readonly string Warning = "è­¦å‘Š: ";
+		public static readonly string Warning = "警告: ";
 
-		public static readonly string WarnEvalOperator = "ã‚°ãƒ­ãƒ¼ãƒ�ãƒ«ã�§ã�ªã�„å ´æ‰€ã�§å¾Œç½® ! æ¼”ç®—å­�ã�Œä½¿ã‚�ã‚Œã�¦ã�„ã�¾ã�™(ã�“ã�®æ¼”ç®—å­�ã�®æŒ™å‹•ã�¯TJS2 version 2.4.1 ã�§å¤‰ã‚�ã‚Šã�¾ã�—ã�Ÿã�®ã�§ã�”æ³¨æ„�ã��ã� ã�•ã�„)";
+		public static readonly string WarnEvalOperator = "グローバルでない场所で后置 ! 演算子が使われています(この演算子の举动はTJS2 version 2.4.1 で变わりましたのでご注意ください)";
 
-		public static readonly string NarrowToWideConversionError = "ANSI æ–‡å­—åˆ—ã‚’ UNICODE æ–‡å­—åˆ—ã�«å¤‰æ�›ã�§ã��ã�¾ã�›ã‚“ã€‚ç�¾åœ¨ã�®ã‚³ãƒ¼ãƒ‰ãƒšãƒ¼ã‚¸ã�§è§£é‡ˆã�§ã��ã�ªã�„æ–‡å­—ã�Œå�«ã�¾ã‚Œã�¦ã�¾ã�™ã€‚æ­£ã�—ã�„ãƒ‡ãƒ¼ã‚¿ã�ŒæŒ‡å®šã�•ã‚Œã�¦ã�„ã‚‹ã�‹ã‚’ç¢ºèª�ã�—ã�¦ã��ã� ã�•ã�„ã€‚ãƒ‡ãƒ¼ã‚¿ã�Œç ´æ��ã�—ã�¦ã�„ã‚‹å�¯èƒ½æ€§ã‚‚ã�‚ã‚Šã�¾ã�™";
+		public static readonly string NarrowToWideConversionError = "ANSI 文字列を UNICODE 文字列に变换できません。现在のコードページで解释できない文字が含まれてます。正しいデータが指定されているかを确认してください。データが破损している可能性もあります";
 
-		public static readonly string VariantConvertError = "%1 ã�‹ã‚‰ %2 ã�¸åž‹ã‚’å¤‰æ�›ã�§ã��ã�¾ã�›ã‚“";
+		public static readonly string VariantConvertError = "%1 から %2 へ型を变换できません";
 
-		public static readonly string VariantConvertErrorToObject = "%1 ã�‹ã‚‰ Object ã�¸åž‹ã‚’å¤‰æ�›ã�§ã��ã�¾ã�›ã‚“ã€‚Object åž‹ã�Œè¦�æ±‚ã�•ã‚Œã‚‹æ–‡è„ˆã�§ Object åž‹ä»¥å¤–ã�®å€¤ã�Œæ¸¡ã�•ã‚Œã‚‹ã�¨ã�“ã�®ã‚¨ãƒ©ãƒ¼ã�Œç™ºç”Ÿã�—ã�¾ã�™";
+		public static readonly string VariantConvertErrorToObject = "%1 から Object へ型を变换できません。Object 型が要求される文脉で Object 型以外の值が渡されるとこのエラーが発生します";
 
-		public static readonly string IDExpected = "è­˜åˆ¥å­�ã‚’æŒ‡å®šã�—ã�¦ã��ã� ã�•ã�„";
+		public static readonly string IDExpected = "识别子を指定してください";
 
-		public static readonly string SubstitutionInBooleanContext = "è«–ç�†å€¤ã�Œæ±‚ã‚�ã‚‰ã‚Œã�¦ã�„ã‚‹å ´æ‰€ã�§ = æ¼”ç®—å­�ã�Œä½¿ç”¨ã�•ã‚Œã�¦ã�„ã�¾ã�™(== æ¼”ç®—å­�ã�®é–“é�•ã�„ã�§ã�™ã�‹ï¼Ÿä»£å…¥ã�—ã�Ÿä¸Šã�§ã‚¼ãƒ­ã�¨å€¤ã‚’æ¯”è¼ƒã�—ã�Ÿã�„å ´å�ˆã�¯ã€�(A=B) != 0 ã�®å½¢å¼�ã‚’ä½¿ã�†ã�“ã�¨ã‚’ã�Šå‹§ã‚�ã�—ã�¾ã�™)";
+		public static readonly string SubstitutionInBooleanContext = "论理值が求められている场所で = 演算子が使用されています(== 演算子の间违いですか？代入した上でゼロと值を比较したい场合は、(A=B) != 0 の形式を使うことをお劝めします)";
 
-		public static readonly string CannotModifyLHS = "ä¸�æ­£ã�ªä»£å…¥ã�‹ä¸�æ­£ã�ªå¼�ã�®æ“�ä½œã�§ã�™";
+		public static readonly string CannotModifyLHS = "不正な代入か不正な式の操作です";
 
-		public static readonly string InsufficientMem = "ãƒ¡ãƒ¢ãƒªã�Œè¶³ã‚Šã�¾ã�›ã‚“";
+		public static readonly string InsufficientMem = "メモリが足りません";
 
-		public static readonly string CannotGetResult = "ã�“ã�®å¼�ã�‹ã‚‰ã�¯å€¤ã‚’å¾—ã‚‹ã�“ã�¨ã�Œã�§ã��ã�¾ã�›ã‚“";
+		public static readonly string CannotGetResult = "この式からは值を得ることができません";
 
-		public static readonly string NullAccess = "null ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã�«ã‚¢ã‚¯ã‚»ã‚¹ã�—ã‚ˆã�†ã�¨ã�—ã�¾ã�—ã�Ÿ";
+		public static readonly string NullAccess = "null オブジェクトにアクセスしようとしました";
 
-		public static readonly string MemberNotFound = "ãƒ¡ãƒ³ãƒ� \"%1\" ã�Œè¦‹ã�¤ã�‹ã‚Šã�¾ã�›ã‚“";
+		public static readonly string MemberNotFound = "メンバ \"%1\" が见つかりません";
 
-		public static readonly string MemberNotFoundNoNameGiven = "ãƒ¡ãƒ³ãƒ�ã�Œè¦‹ã�¤ã�‹ã‚Šã�¾ã�›ã‚“";
+		public static readonly string MemberNotFoundNoNameGiven = "メンバが见つかりません";
 
-		public static readonly string NotImplemented = "å‘¼ã�³å‡ºã��ã�†ã�¨ã�—ã�Ÿæ©Ÿèƒ½ã�¯æœªå®Ÿè£…ã�§ã�™";
+		public static readonly string NotImplemented = "呼び出そうとした机能は未实装です";
 
-		public static readonly string InvalidParam = "ä¸�æ­£ã�ªå¼•æ•°ã�§ã�™";
+		public static readonly string InvalidParam = "不正な引数です";
 
-		public static readonly string BadParamCount = "å¼•æ•°ã�®æ•°ã�Œä¸�æ­£ã�§ã�™";
+		public static readonly string BadParamCount = "引数の数が不正です";
 
-		public static readonly string InvalidType = "é–¢æ•°ã�§ã�¯ã�ªã�„ã�‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã�®ç¨®é¡žã�Œé�•ã�„ã�¾ã�™";
+		public static readonly string InvalidType = "关数ではないかプロパティの种类が违います";
 
-		public static readonly string SpecifyDicOrArray = "Dictionary ã�¾ã�Ÿã�¯ Array ã‚¯ãƒ©ã‚¹ã�®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã�—ã�¦ã��ã� ã�•ã�„";
+		public static readonly string SpecifyDicOrArray = "Dictionary または Array クラスのオブジェクトを指定してください";
 
-		public static readonly string SpecifyArray = "Array ã‚¯ãƒ©ã‚¹ã�®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã�—ã�¦ã��ã� ã�•ã�„";
+		public static readonly string SpecifyArray = "Array クラスのオブジェクトを指定してください";
 
-		public static readonly string StringDeallocError = "æ–‡å­—åˆ—ãƒ¡ãƒ¢ãƒªãƒ–ãƒ­ãƒƒã‚¯ã‚’è§£æ”¾ã�§ã��ã�¾ã�›ã‚“";
+		public static readonly string StringDeallocError = "文字列メモリブロックを解放できません";
 
-		public static readonly string StringAllocError = "æ–‡å­—åˆ—ãƒ¡ãƒ¢ãƒªãƒ–ãƒ­ãƒƒã‚¯ã‚’ç¢ºä¿�ã�§ã��ã�¾ã�›ã‚“";
+		public static readonly string StringAllocError = "文字列メモリブロックを确保できません";
 
-		public static readonly string MisplacedBreakContinue = "\"break\" ã�¾ã�Ÿã�¯ \"continue\" ã�¯ã�“ã�“ã�«æ›¸ã��ã�“ã�¨ã�¯ã�§ã��ã�¾ã�›ã‚“";
+		public static readonly string MisplacedBreakContinue = "\"break\" または \"continue\" はここに书くことはできません";
 
-		public static readonly string MisplacedCase = "\"case\" ã�¯ã�“ã�“ã�«æ›¸ã��ã�“ã�¨ã�¯ã�§ã��ã�¾ã�›ã‚“";
+		public static readonly string MisplacedCase = "\"case\" はここに书くことはできません";
 
-		public static readonly string MisplacedReturn = "\"return\" ã�¯ã�“ã�“ã�«æ›¸ã��ã�“ã�¨ã�¯ã�§ã��ã�¾ã�›ã‚“";
+		public static readonly string MisplacedReturn = "\"return\" はここに书くことはできません";
 
-		public static readonly string StringParseError = "æ–‡å­—åˆ—å®šæ•°/æ­£è¦�è¡¨ç�¾/ã‚ªã‚¯ãƒ†ãƒƒãƒˆå�³å€¤ã�Œçµ‚ã‚�ã‚‰ã�ªã�„ã�¾ã�¾ã‚¹ã‚¯ãƒªãƒ—ãƒˆã�®çµ‚ç«¯ã�«é�”ã�—ã�¾ã�—ã�Ÿ";
+		public static readonly string StringParseError = "文字列定数/正规表现/オクテット即值が终わらないままスクリプトの终端に达しました";
 
-		public static readonly string NumberError = "æ•°å€¤ã�¨ã�—ã�¦è§£é‡ˆã�§ã��ã�¾ã�›ã‚“";
+		public static readonly string NumberError = "数值として解释できません";
 
-		public static readonly string UnclosedComment = "ã‚³ãƒ¡ãƒ³ãƒˆã�Œçµ‚ã‚�ã‚‰ã�ªã�„ã�¾ã�¾ã‚¹ã‚¯ãƒªãƒ—ãƒˆã�®çµ‚ç«¯ã�«é�”ã�—ã�¾ã�—ã�Ÿ";
+		public static readonly string UnclosedComment = "コメントが终わらないままスクリプトの终端に达しました";
 
-		public static readonly string InvalidChar = "ä¸�æ­£ã�ªæ–‡å­—ã�§ã�™ : \'%1\'";
+		public static readonly string InvalidChar = "不正な文字です : \'%1\'";
 
-		public static readonly string Expected = "%1 ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string Expected = "%1 がありません";
 
-		public static readonly string SyntaxError = "æ–‡æ³•ã‚¨ãƒ©ãƒ¼ã�§ã�™(%1)";
+		public static readonly string SyntaxError = "文法エラーです(%1)";
 
-		public static readonly string PPError = "æ�¡ä»¶ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«å¼�ã�«ã‚¨ãƒ©ãƒ¼ã�Œã�‚ã‚Šã�¾ã�™";
+		public static readonly string PPError = "条件コンパイル式にエラーがあります";
 
-		public static readonly string CannotGetSuper = "ã‚¹ãƒ¼ãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹ã�Œå­˜åœ¨ã�—ã�ªã�„ã�‹ã‚¹ãƒ¼ãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹ã‚’ç‰¹å®šã�§ã��ã�¾ã�›ã‚“";
+		public static readonly string CannotGetSuper = "スーパークラスが存在しないかスーパークラスを特定できません";
 
-		public static readonly string InvalidOpecode = "ä¸�æ­£ã�ª VM ã‚³ãƒ¼ãƒ‰ã�§ã�™";
+		public static readonly string InvalidOpecode = "不正な VM コードです";
 
-		public static readonly string RangeError = "å€¤ã�Œç¯„å›²å¤–ã�§ã�™";
+		public static readonly string RangeError = "值が范围外です";
 
-		public static readonly string AccessDenyed = "èª­ã�¿è¾¼ã�¿å°‚ç”¨ã�‚ã‚‹ã�„ã�¯æ›¸ã��è¾¼ã�¿å°‚ç”¨ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã�«å¯¾ã�—ã�¦è¡Œã�ˆã�ªã�„æ“�ä½œã‚’ã�—ã‚ˆã�†ã�¨ã�—ã�¾ã�—ã�Ÿ";
+		public static readonly string AccessDenyed = "读み迂み专用あるいは书き迂み专用プロパティに对して行えない操作をしようとしました";
 
-		public static readonly string NativeClassCrash = "å®Ÿè¡Œã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã�Œé�•ã�„ã�¾ã�™";
+		public static readonly string NativeClassCrash = "实行コンテキストが违います";
 
-		public static readonly string InvalidObject = "ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã�¯ã�™ã�§ã�«ç„¡åŠ¹åŒ–ã�•ã‚Œã�¦ã�„ã�¾ã�™";
+		public static readonly string InvalidObject = "オブジェクトはすでに无效化されています";
 
-		public static readonly string CannotOmit = "\"...\" ã�¯é–¢æ•°å¤–ã�§ã�¯ä½¿ã�ˆã�¾ã�›ã‚“";
+		public static readonly string CannotOmit = "\"...\" は关数外では使えません";
 
-		public static readonly string CannotParseDate = "ä¸�æ­£ã�ªæ—¥ä»˜æ–‡å­—åˆ—ã�®å½¢å¼�ã�§ã�™";
+		public static readonly string CannotParseDate = "不正な日付文字列の形式です";
 
-		public static readonly string InvalidValueForTimestamp = "ä¸�æ­£ã�ªæ—¥ä»˜ãƒ»æ™‚åˆ»ã�§ã�™";
+		public static readonly string InvalidValueForTimestamp = "不正な日付?时刻です";
 
-		public static readonly string ExceptionNotFound = "\"Exception\" ã�Œå­˜åœ¨ã�—ã�ªã�„ã�Ÿã‚�ä¾‹å¤–ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆ�ã�§ã��ã�¾ã�›ã‚“";
+		public static readonly string ExceptionNotFound = "\"Exception\" が存在しないため例外オブジェクトを作成できません";
 
-		public static readonly string InvalidFormatString = "ä¸�æ­£ã�ªæ›¸å¼�æ–‡å­—åˆ—ã�§ã�™";
+		public static readonly string InvalidFormatString = "不正な书式文字列です";
 
-		public static readonly string DivideByZero = "0 ã�§é™¤ç®—ã‚’ã�—ã‚ˆã�†ã�¨ã�—ã�¾ã�—ã�Ÿ";
+		public static readonly string DivideByZero = "0 で除算をしようとしました";
 
-		public static readonly string NotReconstructiveRandomizeData = "ä¹±æ•°ç³»åˆ—ã‚’åˆ�æœŸåŒ–ã�§ã��ã�¾ã�›ã‚“(ã�Šã��ã‚‰ã��ä¸�æ­£ã�ªãƒ‡ãƒ¼ã‚¿ã�Œæ¸¡ã�•ã‚Œã�¾ã�—ã�Ÿ)";
+		public static readonly string NotReconstructiveRandomizeData = "乱数系列を初期化できません(おそらく不正なデータが渡されました)";
 
-		public static readonly string Symbol = "è­˜åˆ¥å­�";
+		public static readonly string Symbol = "识别子";
 
-		public static readonly string CallHistoryIsFromOutOfTJS2Script = "[TJSã‚¹ã‚¯ãƒªãƒ—ãƒˆç®¡ç�†å¤–]";
+		public static readonly string CallHistoryIsFromOutOfTJS2Script = "[TJSスクリプト管理外]";
 
-		public static readonly string NObjectsWasNotFreed = "å�ˆè¨ˆ %1 å€‹ã�®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã�Œè§£æ”¾ã�•ã‚Œã�¦ã�„ã�¾ã�›ã‚“";
+		public static readonly string NObjectsWasNotFreed = "合计 %1 个のオブジェクトが解放されていません";
 
 		public static readonly string ObjectCreationHistoryDelimiter = "\n                     ";
 
-		public static readonly string ObjectWasNotFreed = "ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ %1 [%2] ã�Œè§£æ”¾ã�•ã‚Œã�¦ã�„ã�¾ã�›ã‚“ã€‚ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆä½œæˆ�æ™‚ã�®å‘¼ã�³å‡ºã�—å±¥æ­´ã�¯ä»¥ä¸‹ã�®é€šã‚Šã�§ã�™:\n                     %3";
+		public static readonly string ObjectWasNotFreed = "オブジェクト %1 [%2] が解放されていません。オブジェクト作成时の呼び出し履历は以下の通りです:\n                     %3";
 
-		public static readonly string GroupByObjectTypeAndHistory = "ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã�®ã‚¿ã‚¤ãƒ—ã�¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆä½œæˆ�æ™‚ã�®å±¥æ­´ã�«ã‚ˆã‚‹åˆ†é¡ž";
+		public static readonly string GroupByObjectTypeAndHistory = "オブジェクトのタイプとオブジェクト作成时の履历による分类";
 
-		public static readonly string GroupByObjectType = "ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã�®ã‚¿ã‚¤ãƒ—ã�«ã‚ˆã‚‹åˆ†é¡ž";
+		public static readonly string GroupByObjectType = "オブジェクトのタイプによる分类";
 
 		public static readonly string ObjectCountingMessageGroupByObjectTypeAndHistory = 
-			"%1 å€‹ : [%2]\n                     %3";
+			"%1 个 : [%2]\n                     %3";
 
-		public static readonly string ObjectCountingMessageTJSGroupByObjectType = "%1 å€‹ : [%2]";
+		public static readonly string ObjectCountingMessageTJSGroupByObjectType = "%1 个 : [%2]";
 
-		public static readonly string WarnRunningCodeOnDeletingObject = "%4: å‰Šé™¤ä¸­ã�®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ %1[%2] ä¸Šã�§ã‚³ãƒ¼ãƒ‰ã�Œå®Ÿè¡Œã�•ã‚Œã�¦ã�„ã�¾ã�™ã€‚ã�“ã�®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã�®ä½œæˆ�æ™‚ã�®å‘¼ã�³å‡ºã�—å±¥æ­´ã�¯ä»¥ä¸‹ã�®é€šã‚Šã�§ã�™:\n                     %3";
+		public static readonly string WarnRunningCodeOnDeletingObject = "%4: 削除中のオブジェクト %1[%2] 上でコードが实行されています。このオブジェクトの作成时の呼び出し履历は以下の通りです:\n                     %3";
 
-		public static readonly string WriteError = "æ›¸ã��è¾¼ã�¿ã‚¨ãƒ©ãƒ¼ã�Œç™ºç”Ÿã�—ã�¾ã�—ã�Ÿ";
+		public static readonly string WriteError = "书き迂みエラーが発生しました";
 
-		public static readonly string ReadError = "èª­ã�¿è¾¼ã�¿ã‚¨ãƒ©ãƒ¼ã�Œç™ºç”Ÿã�—ã�¾ã�—ã�Ÿã€‚ãƒ•ã‚¡ã‚¤ãƒ«ã�Œç ´æ��ã�—ã�¦ã�„ã‚‹å�¯èƒ½æ€§ã‚„ã€�ãƒ‡ãƒ�ã‚¤ã‚¹ã�‹ã‚‰ã�®èª­ã�¿è¾¼ã�¿ã�«å¤±æ•—ã�—ã�Ÿå�¯èƒ½æ€§ã�Œã�‚ã‚Šã�¾ã�™";
+		public static readonly string ReadError = "读み迂みエラーが発生しました。ファイルが破损している可能性や、デバイスからの读み迂みに失败した可能性があります";
 
-		public static readonly string SeekError = "ã‚·ãƒ¼ã‚¯ã‚¨ãƒ©ãƒ¼ã�Œç™ºç”Ÿã�—ã�¾ã�—ã�Ÿã€‚ãƒ•ã‚¡ã‚¤ãƒ«ã�Œç ´æ��ã�—ã�¦ã�„ã‚‹å�¯èƒ½æ€§ã‚„ã€�ãƒ‡ãƒ�ã‚¤ã‚¹ã�‹ã‚‰ã�®èª­ã�¿è¾¼ã�¿ã�«å¤±æ•—ã�—ã�Ÿå�¯èƒ½æ€§ã�Œã�‚ã‚Šã�¾ã�™";
+		public static readonly string SeekError = "シークエラーが発生しました。ファイルが破损している可能性や、デバイスからの读み迂みに失败した可能性があります";
 
 		public static readonly string TooManyErrors = "Too many errors";
 
-		public static readonly string ConstDicDelimiterError = "å®šæ•°è¾žæ›¸(const Dictionary)ã�§è¦�ç´ å��ã�¨å€¤ã�®åŒºåˆ‡ã‚Šã�Œä¸�æ­£ã�§ã�™";
+		public static readonly string ConstDicDelimiterError = "定数辞书(const Dictionary)で要素名と值の区切りが不正です";
 
-		public static readonly string ConstDicValueError = "å®šæ•°è¾žæ›¸(const Dictionary)ã�®è¦�ç´ å€¤ã�Œä¸�æ­£ã�§ã�™";
+		public static readonly string ConstDicValueError = "定数辞书(const Dictionary)の要素值が不正です";
 
-		public static readonly string ConstArrayValueError = "å®šæ•°é…�åˆ—(const Array)ã�®è¦�ç´ å€¤ã�Œä¸�æ­£ã�§ã�™";
+		public static readonly string ConstArrayValueError = "定数配列(const Array)の要素值が不正です";
 
-		public static readonly string ConstDicArrayStringError = "å®šæ•°è¾žæ›¸ã‚‚ã�—ã��ã�¯é…�åˆ—ã�§(const)æ–‡å­—ã�Œä¸�æ­£ã�§ã�™";
+		public static readonly string ConstDicArrayStringError = "定数辞书もしくは配列で(const)文字が不正です";
 
-		public static readonly string ConstDicLBRACKETError = "å®šæ•°è¾žæ›¸(const Dictionary)ã�§(const)%ã�®å¾Œã�«\"[\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string ConstDicLBRACKETError = "定数辞书(const Dictionary)で(const)%の后に\"[\"がありません";
 
-		public static readonly string ConstArrayLBRACKETError = "å®šæ•°é…�åˆ—(const Array)ã�§(const)ã�®å¾Œã�«\"[\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string ConstArrayLBRACKETError = "定数配列(const Array)で(const)の后に\"[\"がありません";
 
-		public static readonly string DicDelimiterError = "è¾žæ›¸(Dictionary)ã�§è¦�ç´ å��ã�¨å€¤ã�®åŒºåˆ‡ã‚Šã�Œä¸�æ­£ã�§ã�™";
+		public static readonly string DicDelimiterError = "辞书(Dictionary)で要素名と值の区切りが不正です";
 
-		public static readonly string DicError = "è¾žæ›¸(Dictionary)ã�Œä¸�æ­£ã�§ã�™";
+		public static readonly string DicError = "辞书(Dictionary)が不正です";
 
-		public static readonly string DicLBRACKETError = "è¾žæ›¸(Dictionary)ã�§%ã�®å¾Œã�«\"[\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string DicLBRACKETError = "辞书(Dictionary)で%の后に\"[\"がありません";
 
-		public static readonly string DicRBRACKETError = "è¾žæ›¸(Dictionary)ã�®çµ‚ç«¯ã�«\"]\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string DicRBRACKETError = "辞书(Dictionary)の终端に\"]\"がありません";
 
-		public static readonly string ArrayRBRACKETError = "é…�åˆ—(Array)ã�®çµ‚ç«¯ã�«\"]\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string ArrayRBRACKETError = "配列(Array)の终端に\"]\"がありません";
 
-		public static readonly string NotFoundRegexError = "æ­£è¦�è¡¨ç�¾ã�Œè¦�æ±‚ã�•ã‚Œã‚‹æ–‡è„ˆã�§æ­£è¦�è¡¨ç�¾ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundRegexError = "正规表现が要求される文脉で正规表现がありません";
 
-		public static readonly string NotFoundSymbolAfterDotError = "\".\"ã�®å¾Œã�«ã‚·ãƒ³ãƒœãƒ«ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundSymbolAfterDotError = "\".\"の后にシンボルがありません";
 
-		public static readonly string NotFoundDicOrArrayRBRACKETError = "é…�åˆ—ã‚‚ã�—ã��ã�¯è¾žæ›¸è¦�ç´ ã‚’æŒ‡ã�™å¤‰æ•°ã�®çµ‚ç«¯ã�«\"]\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundDicOrArrayRBRACKETError = "配列もしくは辞书要素を指す变数の终端に\"]\"がありません";
 
-		public static readonly string NotFoundRPARENTHESISError = "\")\"ã�Œè¦�æ±‚ã�•ã‚Œã‚‹æ–‡è„ˆã�§\")\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundRPARENTHESISError = "\")\"が要求される文脉で\")\"がありません";
 
-		public static readonly string NotFoundSemicolonAfterThrowError = "throwã�®å¾Œã�®\";\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundSemicolonAfterThrowError = "throwの后の\";\"がありません";
 
-		public static readonly string NotFoundRPARENTHESISAfterCatchError = "catchã�®å¾Œã�®\")\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundRPARENTHESISAfterCatchError = "catchの后の\")\"がありません";
 
-		public static readonly string NotFoundCaseOrDefaultError = "caseã�‹defaultã�Œè¦�æ±‚ã�•ã‚Œã‚‹æ–‡è„ˆã�§caseã�‹defaultã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundCaseOrDefaultError = "caseかdefaultが要求される文脉でcaseかdefaultがありません";
 
-		public static readonly string NotFoundWithLPARENTHESISError = "withã�®å¾Œã�«\"(\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundWithLPARENTHESISError = "withの后に\"(\"がありません";
 
-		public static readonly string NotFoundWithRPARENTHESISError = "withã�®å¾Œã�«\")\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundWithRPARENTHESISError = "withの后に\")\"がありません";
 
-		public static readonly string NotFoundSwitchLPARENTHESISError = "switchã�®å¾Œã�«\"(\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundSwitchLPARENTHESISError = "switchの后に\"(\"がありません";
 
-		public static readonly string NotFoundSwitchRPARENTHESISError = "switchã�®å¾Œã�«\")\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundSwitchRPARENTHESISError = "switchの后に\")\"がありません";
 
-		public static readonly string NotFoundSemicolonAfterReturnError = "returnã�®å¾Œã�®\";\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundSemicolonAfterReturnError = "returnの后の\";\"がありません";
 
-		public static readonly string NotFoundPropGetRPARENTHESISError = "property getterã�®å¾Œã�«\")\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundPropGetRPARENTHESISError = "property getterの后に\")\"がありません";
 
-		public static readonly string NotFoundPropSetLPARENTHESISError = "property setterã�®å¾Œã�«\"(\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundPropSetLPARENTHESISError = "property setterの后に\"(\"がありません";
 
-		public static readonly string NotFoundPropSetRPARENTHESISError = "property setterã�®å¾Œã�«\")\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundPropSetRPARENTHESISError = "property setterの后に\")\"がありません";
 
-		public static readonly string NotFoundPropError = "propertyã�®å¾Œã�«\"getter\"ã‚‚ã�—ã��ã�¯\"setter\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundPropError = "propertyの后に\"getter\"もしくは\"setter\"がありません";
 
-		public static readonly string NotFoundSymbolAfterPropError = "propertyã�®å¾Œã�«ã‚·ãƒ³ãƒœãƒ«ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundSymbolAfterPropError = "propertyの后にシンボルがありません";
 
-		public static readonly string NotFoundLBRACEAfterPropError = "propertyã�®å¾Œã�«\"{\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundLBRACEAfterPropError = "propertyの后に\"{\"がありません";
 
-		public static readonly string NotFoundRBRACEAfterPropError = "propertyã�®å¾Œã�«\"}\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundRBRACEAfterPropError = "propertyの后に\"}\"がありません";
 
-		public static readonly string NotFoundFuncDeclRPARENTHESISError = "é–¢æ•°å®šç¾©ã�®å¾Œã�«\")\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundFuncDeclRPARENTHESISError = "关数定义の后に\")\"がありません";
 
-		public static readonly string NotFoundFuncDeclSymbolError = "é–¢æ•°å®šç¾©ã�«ã‚·ãƒ³ãƒœãƒ«å��ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundFuncDeclSymbolError = "关数定义にシンボル名がありません";
 
-		public static readonly string NotFoundSymbolAfterVarError = "å¤‰æ•°å®£è¨€ã�«ã‚·ãƒ³ãƒœãƒ«ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundSymbolAfterVarError = "变数宣言にシンボルがありません";
 
-		public static readonly string NotFoundForLPARENTHESISError = "forã�®å¾Œã�«\"(\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundForLPARENTHESISError = "forの后に\"(\"がありません";
 
-		public static readonly string NotFoundForRPARENTHESISError = "forã�®å¾Œã�«\")\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundForRPARENTHESISError = "forの后に\")\"がありません";
 
-		public static readonly string NotFoundForSemicolonError = "forã�®å�„ç¯€ã�®åŒºåˆ‡ã‚Šã�«\";\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundForSemicolonError = "forの各节の区切りに\";\"がありません";
 
-		public static readonly string NotFoundIfLPARENTHESISError = "ifã�®å¾Œã�«\"(\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundIfLPARENTHESISError = "ifの后に\"(\"がありません";
 
-		public static readonly string NotFoundIfRPARENTHESISError = "ifã�®å¾Œã�«\")\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundIfRPARENTHESISError = "ifの后に\")\"がありません";
 
-		public static readonly string NotFoundDoWhileLPARENTHESISError = "do-whileã�®å¾Œã�«\"(\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundDoWhileLPARENTHESISError = "do-whileの后に\"(\"がありません";
 
-		public static readonly string NotFoundDoWhileRPARENTHESISError = "do-whileã�®å¾Œã�«\")\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundDoWhileRPARENTHESISError = "do-whileの后に\")\"がありません";
 
-		public static readonly string NotFoundDoWhileError = "do-whileæ–‡ã�§whileã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundDoWhileError = "do-while文でwhileがありません";
 
-		public static readonly string NotFoundDoWhileSemicolonError = "do-whileæ–‡ã�§whileã�®å¾Œã�«\";\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundDoWhileSemicolonError = "do-while文でwhileの后に\";\"がありません";
 
-		public static readonly string NotFoundWhileLPARENTHESISError = "whileã�®å¾Œã�«\"(\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundWhileLPARENTHESISError = "whileの后に\"(\"がありません";
 
-		public static readonly string NotFoundWhileRPARENTHESISError = "whileã�®å¾Œã�«\")\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundWhileRPARENTHESISError = "whileの后に\")\"がありません";
 
-		public static readonly string NotFoundLBRACEAfterBlockError = "ãƒ–ãƒ­ãƒƒã‚¯ã�Œè¦�æ±‚ã�•ã‚Œã‚‹æ–‡è„ˆã�§\"{\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundLBRACEAfterBlockError = "ブロックが要求される文脉で\"{\"がありません";
 
-		public static readonly string NotFoundRBRACEAfterBlockError = "ãƒ–ãƒ­ãƒƒã‚¯ã�Œè¦�æ±‚ã�•ã‚Œã‚‹æ–‡è„ˆã�§\"}\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundRBRACEAfterBlockError = "ブロックが要求される文脉で\"}\"がありません";
 
-		public static readonly string NotFoundSemicolonError = "æ–‡ã�®çµ‚ã‚�ã‚Šã�«\";\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundSemicolonError = "文の终わりに\";\"がありません";
 
-		public static readonly string NotFoundSemicolonOrTokenTypeError = "æ–‡ã�®çµ‚ã‚�ã‚Šã�«\";\"ã�Œã�ªã�„ã�‹ã€�äºˆç´„èªžã�®ã‚¿ã‚¤ãƒ—ãƒŸã‚¹ã�§ã�™";
+		public static readonly string NotFoundSemicolonOrTokenTypeError = "文の终わりに\";\"がないか、予约语のタイプミスです";
 
-		public static readonly string NotFoundBlockRBRACEError = "ãƒ–ãƒ­ãƒƒã‚¯ã�®çµ‚ã‚�ã‚Šã�«\"}\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundBlockRBRACEError = "ブロックの终わりに\"}\"がありません";
 
-		public static readonly string NotFoundCatchError = "tryã�®å¾Œã�«catchã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundCatchError = "tryの后にcatchがありません";
 
-		public static readonly string NotFoundFuncCallLPARENTHESISError = "é–¢æ•°å‘¼ã�³å‡ºã�—ã�®å¾Œã�«\"(\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundFuncCallLPARENTHESISError = "关数呼び出しの后に\"(\"がありません";
 
-		public static readonly string NotFoundFuncCallRPARENTHESISError = "é–¢æ•°å‘¼ã�³å‡ºã�—ã�®å¾Œã�«\")\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundFuncCallRPARENTHESISError = "关数呼び出しの后に\")\"がありません";
 
-		public static readonly string NotFoundVarSemicolonError = "å¤‰æ•°å®£è¨€ã�®å¾Œã�«\";\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundVarSemicolonError = "变数宣言の后に\";\"がありません";
 
-		public static readonly string NotFound3ColonError = "æ�¡ä»¶æ¼”ç®—å­�ã�®\":\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFound3ColonError = "条件演算子の\":\"がありません";
 
-		public static readonly string NotFoundCaseColonError = "caseã�®å¾Œã�«\":\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundCaseColonError = "caseの后に\":\"がありません";
 
-		public static readonly string NotFoundDefaultColonError = "defaultã�®å¾Œã�«\":\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundDefaultColonError = "defaultの后に\":\"がありません";
 
-		public static readonly string NotFoundSymbolAfterClassError = "classã�®å¾Œã�«ã‚·ãƒ³ãƒœãƒ«ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundSymbolAfterClassError = "classの后にシンボルがありません";
 
-		public static readonly string NotFoundPropSetSymbolError = "property setterã�®å¼•æ•°ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundPropSetSymbolError = "property setterの引数がありません";
 
-		public static readonly string NotFoundBreakSemicolonError = "breakã�®å¾Œã�«\";\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundBreakSemicolonError = "breakの后に\";\"がありません";
 
-		public static readonly string NotFoundContinueSemicolonError = "continueã�®å¾Œã�«\";\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundContinueSemicolonError = "continueの后に\";\"がありません";
 
-		public static readonly string NotFoundBebuggerSemicolonError = "debuggerã�®å¾Œã�«\";\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundBebuggerSemicolonError = "debuggerの后に\";\"がありません";
 
-		public static readonly string NotFoundAsteriskAfterError = "é–¢æ•°å‘¼ã�³å‡ºã�—ã€�é–¢æ•°å®šç¾©ã�®é…�åˆ—å±•é–‹(*)ã�Œä¸�æ­£ã�‹ã€�ä¹—ç®—ã�Œä¸�æ­£ã�§ã�™";
+		public static readonly string NotFoundAsteriskAfterError = "关数呼び出し、关数定义の配列展开(*)が不正か、乘算が不正です";
 
-		public static readonly string EndOfBlockError = "ãƒ–ãƒ­ãƒƒã‚¯ã�®å¯¾å¿œã�Œå�–ã‚Œã�¦ã�„ã�¾ã�›ã‚“ã€‚\"}\"ã�Œå¤šã�„ã�§ã�™";
+		public static readonly string EndOfBlockError = "ブロックの对应が取れていません。\"}\"が多いです";
 
-		public static readonly string NotFoundPreprocessorRPARENTHESISError = "ãƒ—ãƒªãƒ—ãƒ­ã‚»ãƒƒã‚µã�«\")\"ã�Œã�‚ã‚Šã�¾ã�›ã‚“";
+		public static readonly string NotFoundPreprocessorRPARENTHESISError = "プリプロセッサに\")\"がありません";
 
-		public static readonly string PreprocessorZeroDiv = "ãƒ—ãƒªãƒ—ãƒ­ã‚»ãƒƒã‚µã�®ã‚¼ãƒ­é™¤ç®—ã‚¨ãƒ©ãƒ¼";
+		public static readonly string PreprocessorZeroDiv = "プリプロセッサのゼロ除算エラー";
 
-		public static readonly string ByteCodeBroken = "ãƒ�ã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«èª­ã�¿è¾¼ã�¿ã‚¨ãƒ©ãƒ¼ã€‚ãƒ•ã‚¡ã‚¤ãƒ«ã�Œå£Šã‚Œã�¦ã�„ã‚‹ã�‹ãƒ�ã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ã�¨ã�¯ç•°ã�ªã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã�§ã�™";
+		public static readonly string ByteCodeBroken = "バイトコードファイル读み迂みエラー。ファイルが坏れているかバイトコードとは异なるファイルです";
 
 		public const int S_OK = 0;
 

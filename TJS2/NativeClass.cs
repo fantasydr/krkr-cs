@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using Kirikiri.Tjs2;
@@ -132,7 +132,7 @@ namespace Kirikiri.Tjs2
 			{
 				return base.FuncCall(flag, membername, result, param, objthis);
 			}
-			// ç”Ÿæˆ�ã‚’é«˜é€ŸåŒ–ã�™ã‚‹ã�Ÿã‚�ã�«ãƒ¡ãƒ³ãƒ�ã‚³ãƒ”ãƒ¼ã‚’ç‰¹åˆ¥å‡¦ç�†ã�™ã‚‹å½¢ã�§å®Ÿè£…
+			// 生成を高速化するためにメンバコピーを特别处理する形で实装
 			objthis.AddClassInstanveInfo(mClassName);
 			NativeInstance nativeptr = CreateNativeInstance();
 			objthis.SetNativeInstance(mClassIDInternal, nativeptr);
@@ -153,7 +153,7 @@ namespace Kirikiri.Tjs2
 			Dispatch2 dsp = CreateBaseTJSObject();
 			// instance initialization
 			//int hr = funcCall( 0, null, null, null, dsp); // add member to dsp
-			// ç”Ÿæˆ�ã‚’é«˜é€ŸåŒ–ã�™ã‚‹ã�Ÿã‚�ã�«ãƒ¡ãƒ³ãƒ�ã‚³ãƒ”ãƒ¼ã‚’ç‰¹åˆ¥å‡¦ç�†ã�™ã‚‹å½¢ã�§å®Ÿè£…
+			// 生成を高速化するためにメンバコピーを特别处理する形で实装
 			dsp.AddClassInstanveInfo(mClassName);
 			NativeInstance nativeptr = CreateNativeInstance();
 			dsp.SetNativeInstance(mClassIDInternal, nativeptr);

@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using System;
@@ -94,9 +94,9 @@ namespace Kirikiri.Tjs2
 		private const long TJS_IEEE_D_EXP_BIAS = 1023;
 
 		// base
-		// 16é€²æ•° : 4
-		// 2é€²æ•° : 1
-		// 8é€²æ•° : 3
+		// 16进数 : 4
+		// 2进数 : 1
+		// 8进数 : 3
 		private double ParseNonDecimalReal(bool sign, int basebits)
 		{
 			long main = 0;
@@ -523,7 +523,7 @@ namespace Kirikiri.Tjs2
 				}
 			}
 			//int save = mStream.getOffset();
-			// 10é€²æ•°ä»¥å¤–ã�‹èª¿ã�¹ã‚‹
+			// 10进数以外か调べる
 			if (c == '0')
 			{
 				c = mStream.GetC();

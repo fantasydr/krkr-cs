@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using System.Text;
@@ -10,8 +10,8 @@ using Sharpen;
 namespace Kirikiri.Tjs2.Translate
 {
 	/// <summary>
-	/// ãƒ‡ã‚£ã‚¹Javaã‚³ãƒ³ãƒ‘ã‚¤ãƒ©
-	/// TJS2 ã�®ãƒ�ã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ã‚’ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«å�¯èƒ½ã�ªJavaã‚½ãƒ¼ã‚¹ã�«å¤‰æ�›ã�™ã‚‹
+	/// ディスJavaコンパイラ
+	/// TJS2 のバイトコードをコンパイル可能なJavaソースに变换する
 	/// </summary>
 	public class JavaCodeGenerator
 	{
@@ -236,19 +236,19 @@ namespace Kirikiri.Tjs2.Translate
 						{
 							if (o is VariantClosure)
 							{
-								throw new CompileException("é�žã‚µãƒ�ãƒ¼ãƒˆã�®å®šæ•°å½¢å¼�");
+								throw new CompileException("非サポートの定数形式");
 							}
 							else
 							{
 								if (o is InterCodeGenerator)
 								{
-									throw new CompileException("é�žã‚µãƒ�ãƒ¼ãƒˆã�®å®šæ•°å½¢å¼�");
+									throw new CompileException("非サポートの定数形式");
 								}
 								else
 								{
 									if (o is ByteBuffer)
 									{
-										throw new CompileException("é�žã‚µãƒ�ãƒ¼ãƒˆã�®å®šæ•°å½¢å¼�");
+										throw new CompileException("非サポートの定数形式");
 									}
 									else
 									{
@@ -263,7 +263,7 @@ namespace Kirikiri.Tjs2.Translate
 					}
 				}
 			}
-			throw new CompileException("é�žã‚µãƒ�ãƒ¼ãƒˆã�®å®šæ•°å½¢å¼�");
+			throw new CompileException("非サポートの定数形式");
 		}
 
 		public virtual void GenFunCall(int variable, int frame, int declArgCount, int declCollapseBase
@@ -384,7 +384,7 @@ namespace Kirikiri.Tjs2.Translate
 				//target.add( Integer.MAX_VALUE );
 				jumpaddr = target.ToArray();
 				jumpcount = jumpaddr.Length;
-				// ã‚¸ãƒ£ãƒ³ãƒ—ã�™ã‚‹å�¯èƒ½æ€§ã�Œã�‚ã‚‹
+				// ジャンプする可能性がある
 				mSourceCodes.AddItem("boolean flag = false;");
 				mSourceCodes.AddItem("boolean loop = true;");
 				mSourceCodes.AddItem("int goto_target = 0;");
@@ -443,7 +443,7 @@ namespace Kirikiri.Tjs2.Translate
 				{
 					if (jumpaddr[i] == code)
 					{
-						// ã‚¸ãƒ£ãƒ³ãƒ—ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã�®å ´å�ˆã€�case ã‚’æŒ¿å…¥ã�™ã‚‹
+						// ジャンプターゲットの场合、case を插入する
 						int addr = i + 1;
 						mSourceCodes.AddItem("\ncase " + addr + ":");
 						alreadyreturn = false;
@@ -523,7 +523,7 @@ namespace Kirikiri.Tjs2.Translate
 
 							default:
 							{
-								throw new CompileException("é�žã‚µãƒ�ãƒ¼ãƒˆã�®å®šæ•°å½¢å¼�");
+								throw new CompileException("非サポートの定数形式");
 							}
 						}
 						code += 3;
@@ -547,7 +547,7 @@ namespace Kirikiri.Tjs2.Translate
 
 					case VM_CCL:
 					{
-						// å±•é–‹ã�—ã�¦ã�—ã�¾ã�†
+						// 展开してしまう
 						v = ca[code + 1];
 						v1 = v + ca[code + 2];
 						msg = string.Empty;
@@ -2188,7 +2188,7 @@ namespace Kirikiri.Tjs2.Translate
 
 					default:
 					{
-						throw new CompileException("æœªå®šç¾©ã�®VMã‚ªãƒšã‚³ãƒ¼ãƒ‰ã�§ã�™ã€‚");
+						throw new CompileException("未定义のVMオペコードです。");
 					}
 				}
 				if (outputmask == false)
@@ -2921,7 +2921,7 @@ namespace Kirikiri.Tjs2.Translate
 					case VM_ENTRY:
 					{
 						ret.Add(ca[i + 1] + i);
-						// catch ã‚¢ãƒ‰ãƒ¬ã‚¹
+						// catch アドレス
 						size = 3;
 						break;
 					}
@@ -2990,7 +2990,7 @@ namespace Kirikiri.Tjs2.Translate
 			int pass_args_count = ca[code_offset];
 			if (pass_args_count == -1)
 			{
-				// ... ã�®æ™‚ã€�arg ã‚’ã��ã�®ã�¾ã�¾æ¸¡ã�™
+				// ... の时、arg をそのまま渡す
 				ret[0] = 1 + offset;
 				switch (style)
 				{
@@ -3015,7 +3015,7 @@ namespace Kirikiri.Tjs2.Translate
 			{
 				if (pass_args_count == -2)
 				{
-					// å…¨å¼•æ•°ã�®æ•°ã‚’ã‚«ã‚¦ãƒ³ãƒˆ
+					// 全引数の数をカウント
 					int arg_written_count = ca[code_offset + 1];
 					ret[0] = arg_written_count * 2 + 2 + offset;
 					StringBuilder builder = new StringBuilder();
@@ -3050,11 +3050,11 @@ namespace Kirikiri.Tjs2.Translate
 						}
 					}
 					builder.Append("pass_args_count += args_v_count;\n");
-					// Array ç”¨ã�®ãƒ†ãƒ³ãƒ�ãƒ©ãƒªé…�åˆ—ã‚’ç¢ºä¿�ã�™ã‚‹
+					// Array 用のテンポラリ配列を确保する
 					builder.Append("Variant[] pass_args_v = new Variant[args_v_count];\n");
-					// å®Ÿéš›ã�®å¼•æ•°é…�åˆ—ã‚’ç¢ºä¿�ã�™ã‚‹
+					// 实际の引数配列を确保する
 					builder.Append("pass_args = new Variant[pass_args_count];\n");
-					// å®Ÿéš›ã�®å¼•æ•°é…�åˆ—ã�«å€¤(å�‚ç…§)ã‚’å…¥ã‚Œã�¦ã�„ã��
+					// 实际の引数配列に值(参照)を入れていく
 					builder.Append("args_v_count = 0;\n");
 					builder.Append("pass_args_count = 0;\n");
 					for (int i_1 = 0; i_1 < arg_written_count; i_1++)
@@ -3118,7 +3118,7 @@ namespace Kirikiri.Tjs2.Translate
 				}
 				else
 				{
-					// é€šå¸¸ã�®å¼•æ•°ã‚’æŒ�ã�¤é–¢æ•°å‘¼ã�³å‡ºã�—
+					// 通常の引数を持つ关数呼び出し
 					ret[0] = pass_args_count + 1 + offset;
 					StringBuilder builder = new StringBuilder();
 					builder.Append("{\n");
@@ -3224,7 +3224,7 @@ namespace Kirikiri.Tjs2.Translate
 			}
 			if (IsStringFunctionName(name))
 			{
-				// å‘¼ã�³å‡ºã�—å��ã�Œæ–‡å­—åˆ—ç”¨é–¢æ•°ã�§ç„¡ã�„æ™‚ã�¯å‡ºåŠ›ã‚’ã‚¹ã‚­ãƒƒãƒ—
+				// 呼び出し名が文字列用关数で无い时は出力をスキップ
 				builder.Append("} else if( " + ra_code2 + ".isString() ) {\n");
 				builder.Append("processStringFunction( \"" + name + "\", " + ra_code2 + ".asString(),"
 					 + pass_args + ", ");
@@ -3273,7 +3273,7 @@ namespace Kirikiri.Tjs2.Translate
 			builder.Append(", clo.mObjThis != null ? clo.mObjThis:objthis);\n");
 			if (IsStringFunctionName(name))
 			{
-				// å‘¼ã�³å‡ºã�—å��ã�Œæ–‡å­—åˆ—ç”¨é–¢æ•°ã�§ç„¡ã�„æ™‚ã�¯å‡ºåŠ›ã‚’ã‚¹ã‚­ãƒƒãƒ—
+				// 呼び出し名が文字列用关数で无い时は出力をスキップ
 				builder.Append("} else if( " + ra_code2 + ".isString() ) {\n");
 				builder.Append("processStringFunction( " + name + ", " + ra_code2 + ".asString(),"
 					);
@@ -3600,6 +3600,6 @@ namespace Kirikiri.Tjs2.Translate
 		// VMCodes
 		//__VM_LAST	= 128;
 		// FuncArgType
-		// é–¢æ•°å‘¼ã�³å‡ºã�—ã‚¹ã‚¿ã‚¤ãƒ«
+		// 关数呼び出しスタイル
 	}
 }

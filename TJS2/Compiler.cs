@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using System.Text;
@@ -29,22 +29,22 @@ namespace Kirikiri.Tjs2
 
 		private AList<InterCodeObject> mInterCodeObjectList;
 
-		/// <summary>ç�¾åœ¨ã�®ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆ</summary>
+		/// <summary>现在のコンテキスト</summary>
 		private InterCodeGenerator mInterCodeGenerator;
 
-		/// <summary>ãƒˆãƒƒãƒ—ãƒ¬ãƒ™ãƒ«ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆ</summary>
+		/// <summary>トップレベルコンテキスト</summary>
 		private InterCodeGenerator mTopLevelGenerator;
 
-		/// <summary>ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã‚¹ã‚¿ãƒƒã‚¯</summary>
+		/// <summary>コンテキストスタック</summary>
 		private Stack<InterCodeGenerator> mGeneratorStack;
 
-		/// <summary>ã‚³ãƒ¼ãƒ‰ãƒªã‚¹ãƒˆ</summary>
+		/// <summary>コードリスト</summary>
 		private AList<InterCodeGenerator> mInterCodeGeneratorList;
 
-		// ä»¥ä¸‹ã�®3ã�¤ã�¯å®Ÿè¡Œæ™‚ã�«ã�¯ä¸�è¦�ã�®ã�¯ã�šã€�ScriptBlock ã‚‚ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«æ™‚ã�«ã�„ã‚‹ã‚‚ã�®ã�¨å®Ÿè¡Œæ™‚ã�«ã�„ã‚‹ã‚‚ã�®ã�§åˆ†é›¢ã�—ã�Ÿæ–¹ã�Œã�„ã�„ã�‹ã�ª
-		// ä»¥ä¸‹ã�®2ã�¤ã�¯å®Ÿè¡Œæ™‚ã�«å¿…è¦�ã€�TopLevel ã�¯ä¸�è¦�ã�«ã�ªã‚‹ã�‘ã�©ã€‚
-		// InterCodeGenerator ã�¯ã€�ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹ã‚’ä½œã�£ã�Ÿæ–¹ã�Œã�„ã�„ã�‹ã�ªï¼Ÿ
-		// TJS2 ãƒ�ã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ã�®ã�¿ã�˜ã‚ƒã�ªã��ã�¦ã€�ä»–ã�®ã‚³ãƒ¼ãƒ‰ã‚¸ã‚§ãƒ�ãƒ¬ãƒ¼ã‚¿ãƒ¼ã‚‚ä½œã‚Šã‚„ã�™ã�„ã‚ˆã�†ã�«ã€‚
+		// 以下の3つは实行时には不要のはず、ScriptBlock もコンパイル时にいるものと实行时にいるもので分离した方がいいかな
+		// 以下の2つは实行时に必要、TopLevel は不要になるけど。
+		// InterCodeGenerator は、インターフェイスを作った方がいいかな？
+		// TJS2 バイトコードのみじゃなくて、他のコードジェネレーターも作りやすいように。
 		public virtual void NotifyUsingPreProcessror()
 		{
 			mUsingPreProcessor = true;
@@ -79,7 +79,7 @@ namespace Kirikiri.Tjs2
 
 		private ScriptLineData mLineData;
 
-		// ä»¥ä¸‹ã�®4ã�¤ã�¯å®Ÿè¡Œæ™‚ã�«ã�„ã‚‹ã�‹ã�ªã€�å��å‰�ä»¥å¤–ã�¯ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿæ™‚ã�«å¿…è¦�ã�«ã�ªã‚‹ã� ã�‘ã� ã‚�ã�†ã�‘ã�©ã€‚
+		// 以下の4つは实行时にいるかな、名前以外はエラー発生时に必要になるだけだろうけど。
 		/// <exception cref="Kirikiri.Tjs2.TJSException"></exception>
 		/// <exception cref="Kirikiri.Tjs2.VariantException"></exception>
 		private void PushContextStack(string name, int type)
@@ -117,7 +117,7 @@ namespace Kirikiri.Tjs2
 		public Compiler(TJS owner)
 		{
 			mOwner = owner;
-			// Java ã�§åˆ�æœŸå€¤ã�¨ã�ªã‚‹åˆ�æœŸåŒ–ã�¯çœ�ç•¥
+			// Java で初期值となる初期化は省略
 			//mScript = null;
 			//mName = null;
 			//mInterCodeContext = null;
@@ -1033,7 +1033,7 @@ namespace Kirikiri.Tjs2
 					}
 					else
 					{
-						// æ­£è¦�è¡¨ç�¾ã�Œã�ªã�„
+						// 正规表现がない
 						Error(Kirikiri.Tjs2.Error.NotFoundRegexError);
 						Unlex();
 					}
@@ -1053,7 +1053,7 @@ namespace Kirikiri.Tjs2
 					}
 					else
 					{
-						// æ­£è¦�è¡¨ç�¾ã�Œã�ªã�„
+						// 正规表现がない
 						Error(Kirikiri.Tjs2.Error.NotFoundRegexError);
 						Unlex();
 					}
@@ -1137,7 +1137,7 @@ namespace Kirikiri.Tjs2
 							}
 							else
 							{
-								// ] ã�Œã�ªã�„
+								// ] がない
 								Error(Kirikiri.Tjs2.Error.NotFoundDicOrArrayRBRACKETError);
 								Unlex();
 							}
@@ -1227,7 +1227,7 @@ namespace Kirikiri.Tjs2
 			int token = Lex();
 			if (token == Token.T_LPARENTHESIS)
 			{
-				// ( ã�®æ™‚ã€�å…ˆèª­ã�¿ã�—ã�¦ãƒˆãƒ¼ã‚¯ãƒ³ã‚’åˆ‡ã‚Šæ›¿ã�ˆã‚‹
+				// ( の时、先读みしてトークンを切り替える
 				token = Lex();
 				switch (token)
 				{
@@ -1890,7 +1890,7 @@ namespace Kirikiri.Tjs2
 		/// <exception cref="Kirikiri.Tjs2.TJSException"></exception>
 		private ExprNode ExprThrow()
 		{
-			// throw ã�¯æ¶ˆåŒ–æ¸ˆã�¿
+			// throw は消化济み
 			ExprNode node = Expr();
 			int token = Lex();
 			if (token == Token.T_SEMICOLON)
@@ -1964,7 +1964,7 @@ namespace Kirikiri.Tjs2
 		/// <exception cref="Kirikiri.Tjs2.TJSException"></exception>
 		private ExprNode ExprTry()
 		{
-			// try ã�¯æ¶ˆåŒ–æ¸ˆã�¿
+			// try は消化济み
 			mInterCodeGenerator.EnterTryCode();
 			ExprBlockOrStatment();
 			ExprCatch();
@@ -2009,7 +2009,7 @@ namespace Kirikiri.Tjs2
 					Unlex();
 				}
 			}
-			// ã�“ã�“ã�«æ�¥ã‚‹ã�“ã�¨ã�¯ã�ªã�„ã�¯ã�š
+			// ここに来ることはないはず
 			return null;
 		}
 
@@ -2019,7 +2019,7 @@ namespace Kirikiri.Tjs2
 		/// <exception cref="Kirikiri.Tjs2.TJSException"></exception>
 		private ExprNode ExprWith()
 		{
-			// with ã�¯æ¶ˆåŒ–æ¸ˆã�¿
+			// with は消化济み
 			int token = Lex();
 			if (token != Token.T_LPARENTHESIS)
 			{
@@ -2047,7 +2047,7 @@ namespace Kirikiri.Tjs2
 		/// <exception cref="Kirikiri.Tjs2.TJSException"></exception>
 		private ExprNode ExprSwitch()
 		{
-			// switch ã�¯æ¶ˆåŒ–æ¸ˆã�¿
+			// switch は消化济み
 			int token = Lex();
 			if (token != Token.T_LPARENTHESIS)
 			{
@@ -2075,7 +2075,7 @@ namespace Kirikiri.Tjs2
 		/// <exception cref="Kirikiri.Tjs2.TJSException"></exception>
 		private ExprNode ExprReturn()
 		{
-			// return ã�¯æ¶ˆåŒ–æ¸ˆã�¿
+			// return は消化济み
 			int token = Lex();
 			if (token == Token.T_SEMICOLON)
 			{
@@ -2322,7 +2322,7 @@ namespace Kirikiri.Tjs2
 		}
 
 		// func_decl_arg_collapse, func_decl_arg, func_decl_arg_at_least_one, func_decl_arg_list
-		// exprFuncDeclArgs ã�«ã�¾ã�¨ã‚�ã�¦ã�—ã�¾ã�£ã�¦ã‚‹
+		// exprFuncDeclArgs にまとめてしまってる
 		// func_decl_arg_opt +
 		/// <exception cref="Kirikiri.Tjs2.VariantException"></exception>
 		/// <exception cref="Kirikiri.Tjs2.CompileException"></exception>
@@ -2436,7 +2436,7 @@ namespace Kirikiri.Tjs2
 			else
 			{
 				Unlex();
-				// ã�“ã�“ã�«æ�¥ã‚‹ã�“ã�¨ã�¯ã�ªã�„ã�¯ã�š
+				// ここに来ることはないはず
 				throw new TJSException(Kirikiri.Tjs2.Error.InternalError);
 			}
 			return null;
@@ -2525,7 +2525,7 @@ namespace Kirikiri.Tjs2
 		/// <exception cref="Kirikiri.Tjs2.TJSException"></exception>
 		private ExprNode ExprVariableDefInner()
 		{
-			// ç�¾åœ¨ã�®ãƒ�ãƒ¼ã‚¸ãƒ§ãƒ³ã�§ã�¯constã‚’æ˜Žç¢ºã�«åŒºåˆ¥ã�—ã�¦ã�ªã�„
+			// 现在のバージョンではconstを明确に区别してない
 			int token = Lex();
 			if (token == Token.T_VAR)
 			{
@@ -3077,9 +3077,9 @@ namespace Kirikiri.Tjs2
 				return null;
 			}
 			mScript = text;
-			// ãƒ©ã‚¤ãƒ³ãƒªã‚¹ãƒˆç”Ÿæˆ�ã�¯ã�“ã�“ã�§è¡Œã‚�ã�ªã�„
+			// ラインリスト生成はここで行わない
 			Parse(text, isexpression, isresultneeded);
-			// InterCodeObject ã‚’ç”Ÿæˆ�ã�™ã‚‹
+			// InterCodeObject を生成する
 			ScriptBlock ret;
 			ret = GenerateInterCodeObjects();
 			return ret;
@@ -3099,7 +3099,7 @@ namespace Kirikiri.Tjs2
 			ScriptBlock block = new ScriptBlock(mOwner, mName, mLineOffset, mScript, mLineData
 				);
 			mInterCodeObjectList.Clear();
-			// 1st. pass, ã�¾ã�šã�¯InterCodeObjectã‚’ä½œã‚‹
+			// 1st. pass, まずはInterCodeObjectを作る
 			int count = mInterCodeGeneratorList.Count;
 			for (int i = 0; i < count; i++)
 			{
@@ -3107,15 +3107,15 @@ namespace Kirikiri.Tjs2
 				mInterCodeObjectList.AddItem(gen.CreteCodeObject(block));
 			}
 			Variant val = new Variant();
-			// 2nd. pass, æ¬¡ã�«InterCodeObjectå†…ã�®ãƒªãƒ³ã‚¯ã‚’è§£æ±ºã�™ã‚‹
+			// 2nd. pass, 次にInterCodeObject内のリンクを解决する
 			for (int i_1 = 0; i_1 < count; i_1++)
 			{
 				InterCodeGenerator gen = mInterCodeGeneratorList[i_1];
 				InterCodeObject obj = mInterCodeObjectList[i_1];
 				gen.CreateSecond(obj);
 				gen.DateReplace(this);
-				// DaraArray ã�®ä¸­ã�® InterCodeGenerator ã‚’ InterCodeObject ã�«å·®ã�—æ›¿ã�ˆã‚‹
-				//obj.dateReplace( this ); // DaraArray ã�®ä¸­ã�® InterCodeGenerator ã‚’ InterCodeObject ã�«å·®ã�—æ›¿ã�ˆã‚‹
+				// DaraArray の中の InterCodeGenerator を InterCodeObject に差し替える
+				//obj.dateReplace( this ); // DaraArray の中の InterCodeGenerator を InterCodeObject に差し替える
 				AList<InterCodeGenerator.Property> p = gen.GetProp();
 				if (p != null)
 				{
@@ -3131,7 +3131,7 @@ namespace Kirikiri.Tjs2
 			}
 			mTopLevelObject = GetCodeObject(GetCodeIndex(mTopLevelGenerator));
 			block.SetObjects(mTopLevelObject, mInterCodeObjectList);
-			// è§£æ”¾ã�—ã�¦ã�—ã�¾ã�†
+			// 解放してしまう
 			mInterCodeGenerator = null;
 			mTopLevelGenerator = null;
 			mGeneratorStack = null;
@@ -3193,7 +3193,7 @@ namespace Kirikiri.Tjs2
 			}
 			mScript = text;
 			Parse(text, isexpression, isresultneeded);
-			// ã�“ã�“ã�§ãƒ�ã‚¤ãƒˆã‚³ãƒ¼ãƒ‰å‡ºåŠ›ã�™ã‚‹
+			// ここでバイトコード出力する
 			//if( mName != null && mName.endsWith(".tjs") ) {
 			//	String filename = mName.substring(0,mName.length()-4) + ".tjb";
 			//	exportByteCode(filename);
@@ -3469,7 +3469,7 @@ namespace Kirikiri.Tjs2
 		}
 
 		// for generat code
-		/// <summary>ä½�ç½®ã‚’ç¢ºå®šã�™ã‚‹ã�Ÿã‚�ã�«ä½¿ã�†</summary>
+		/// <summary>位置を确定するために使う</summary>
 		public virtual int GetCodeIndex(InterCodeGenerator gen)
 		{
 			return mInterCodeGeneratorList.IndexOf(gen);
@@ -3506,6 +3506,6 @@ namespace Kirikiri.Tjs2
 		{
 			return 0;
 		}
-		// allways 0, åŸºæœ¬çš„ã�«ä½¿ã‚�ã‚Œã�ªã�„
+		// allways 0, 基本的に使われない
 	}
 }

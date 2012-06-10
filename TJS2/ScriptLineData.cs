@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using Kirikiri.Tjs2;
@@ -66,7 +66,7 @@ namespace Kirikiri.Tjs2
 			{
 				GenerateLineVector();
 			}
-			// 2åˆ†æ³•ã�«ã‚ˆã�£ã�¦ä½�ç½®ã‚’æ±‚ã‚�ã‚‹
+			// 2分法によって位置を求める
 			int s = 0;
 			int e = mLineVector.Size();
 			while (true)

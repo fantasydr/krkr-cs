@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using System.Text;
@@ -118,8 +118,8 @@ namespace Kirikiri.Tjs2.Translate
 			TJS.OutputToConsole(builder.ToString());
 		}
 
-		// ãƒ‡ã‚£ã‚¹ã‚¢ã‚»ãƒ³ãƒ–ãƒ«ã‚³ãƒ¼ãƒ‰ã�¯å‡ºåŠ›ã�§ã��ã�ªã�„
-		// ãƒ¬ã‚¸ã‚¹ã‚¿ãƒ€ãƒ³ãƒ—ã‚‚ã�»ã�¨ã‚“ã�©æ„�å‘³ã�Œã�ªã�„ã�®ã�§å‡ºåŠ›ã�—ã�ªã�„
+		// ディスアセンブルコードは出力できない
+		// レジスタダンプもほとんど意味がないので出力しない
 		/// <exception cref="Kirikiri.Tjs2.TJSException"></exception>
 		protected internal static void ThrowInvalidVMCode()
 		{
@@ -655,7 +655,7 @@ namespace Kirikiri.Tjs2.Translate
 		}
 
 		// setPropertyDirect( ra[ra_offset+ca[code+1]], da[ca[code+2]], ra[ra_offset+ca[code+3]], objthis, flags );
-		// member ã�¯ã€�å›ºå®šå€¤ã�ªã�®ã�§ã€�äº‹å‰�ã�«åˆ†å²�åˆ¤å®šå‡ºæ�¥ã‚‹ã�‹ã‚‰ã€�å±•é–‹ã�™ã‚‹ã‚ˆã�†ã�«ã�—ã�Ÿæ–¹ã�Œã�„ã�„ã�ª
+		// member は、固定值なので、事前に分岐判定出来るから、展开するようにした方がいいな
 		/// <exception cref="Kirikiri.Tjs2.TJSException"></exception>
 		/// <exception cref="Kirikiri.Tjs2.VariantException"></exception>
 		protected internal static void SetPropertyDirect(Variant target, string member, Variant
@@ -732,7 +732,7 @@ namespace Kirikiri.Tjs2.Translate
 		}
 
 		//getPropertyDirect( ra[ra_offset+ca[code+1]], ra[ra_offset+ca[code+2]], da[ca[code+3]], objthis, flags );
-		// member ã�¯ã€�å›ºå®šå€¤ã�ªã�®ã�§ã€�äº‹å‰�ã�«æ�¡ä»¶åˆ†å²�ã�§ã��ã‚‹ã€�æ–‡å­—ã�‹æ•°å€¤ã�§å‰²ã‚Šåˆ†ã�‘
+		// member は、固定值なので、事前に条件分岐できる、文字か数值で割り分け
 		/// <exception cref="Kirikiri.Tjs2.TJSException"></exception>
 		/// <exception cref="Kirikiri.Tjs2.VariantException"></exception>
 		protected internal static void GetPropertyDirect(Variant result, Variant target, 

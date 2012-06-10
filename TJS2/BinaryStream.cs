@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using System.IO;
@@ -8,41 +8,40 @@ using Sharpen;
 
 namespace Kirikiri.Tjs2
 {
-	/// <summary>ãƒ�ã‚¤ãƒŠãƒªã‚¹ãƒˆãƒªãƒ¼ãƒ èª­ã�¿æ›¸ã��ã‚¯ãƒ©ã‚¹</summary>
+	/// <summary>バイナリストリーム读み书きクラス</summary>
 	public abstract class BinaryStream
 	{
-		/// <summary>èª­ã�¿è¾¼ã�¿ãƒ¢ãƒ¼ãƒ‰</summary>
+		/// <summary>读み迂みモード</summary>
 		public const int READ = 0;
 
-		/// <summary>æ›¸ã��è¾¼ã�¿ãƒ¢ãƒ¼ãƒ‰</summary>
+		/// <summary>书き迂みモード</summary>
 		public const int WRITE = 1;
 
-		/// <summary>è¿½è¨˜ãƒ¢ãƒ¼ãƒ‰</summary>
+		/// <summary>追记モード</summary>
 		public const int APPEND = 2;
 
-		/// <summary>æ›´æ–°ãƒ¢ãƒ¼ãƒ‰</summary>
+		/// <summary>更新モード</summary>
 		public const int UPDATE = 3;
 
-		/// <summary>ã‚¢ã‚¯ã‚»ã‚¹ãƒ¢ãƒ¼ãƒ‰ãƒžã‚¹ã‚¯</summary>
+		/// <summary>アクセスモードマスク</summary>
 		public const int ACCESS_MASK = unchecked((int)(0x0f));
 
-		/// <summary>å…ˆé ­ã�‹ã‚‰ã�®ã‚·ãƒ¼ã‚¯</summary>
+		/// <summary>先头からのシーク</summary>
 		public const int SEEK_SET = 0;
 
-		/// <summary>ç�¾åœ¨ä½�ç½®ã�‹ã‚‰ã�®ã‚·ãƒ¼ã‚¯</summary>
+		/// <summary>现在位置からのシーク</summary>
 		public const int SEEK_CUR = 1;
 
-		/// <summary>çµ‚ç«¯ä½�ç½®ã�‹ã‚‰ã�®ã‚·ãƒ¼ã‚¯</summary>
+		/// <summary>终端位置からのシーク</summary>
 		public const int SEEK_END = 2;
 
 		/// <summary>
-		/// ã‚·ãƒ¼ã‚¯ã�™ã‚‹
-		/// ã‚¨ãƒ©ãƒ¼æ™‚ã€�ä½�ç½®ã�¯å¤‰æ›´ã�•ã‚Œã�ªã�„
+		/// シークする
+		/// エラー时、位置は变更されない
 		/// </summary>
-		/// <param name="offset">åŸºæº–ä½�ç½®ã�‹ã‚‰ã�®ã‚ªãƒ•ã‚»ãƒƒãƒˆ</param>
-		/// <param name="whence">åŸºæº–ä½�ç½®ã€�SEEK_SET, SEEK_CUR, SEEK_END ã�®ã�„ã�šã‚Œã�‹ã‚’æŒ‡å®š
-		/// 	</param>
-		/// <returns>ã‚·ãƒ¼ã‚¯å¾Œã�®ç�¾åœ¨ä½�ç½®</returns>
+		/// <param name="offset">基准位置からのオフセット</param>
+		/// <param name="whence">基准位置、SEEK_SET, SEEK_CUR, SEEK_END のいずれかを指定</param>
+		/// <returns>シーク后の现在位置</returns>
 		/// <exception cref="TJSException">TJSException</exception>
 		/// <exception cref="Kirikiri.Tjs2.TJSException"></exception>
 		public abstract long Seek(long offset, int whence);
@@ -57,11 +56,11 @@ namespace Kirikiri.Tjs2
 		/// <exception cref="Kirikiri.Tjs2.TJSException"></exception>
 		public abstract int Read(byte[] buffer);
 
-		/// <summary>ã‚¹ãƒˆãƒªãƒ¼ãƒ ã�‹ã‚‰ã�®èª­ã�¿è¾¼ã�¿</summary>
-		/// <param name="b">èª­ã�¿è¾¼ã�¿å…ˆbyteé…�åˆ—</param>
-		/// <param name="off">é…�åˆ—ã‚ªãƒ•ã‚»ãƒƒãƒˆ</param>
-		/// <param name="len">èª­ã�¿è¾¼ã�¿ã‚µã‚¤ã‚º</param>
-		/// <returns>å®Ÿéš›ã�«èª­ã�¿è¾¼ã‚“ã� é•·ã�•ã€‚-1 ã�®æ™‚ãƒ•ã‚¡ã‚¤ãƒ«çµ‚ç«¯</returns>
+		/// <summary>ストリームからの读み迂み</summary>
+		/// <param name="b">读み迂み先byte配列</param>
+		/// <param name="off">配列オフセット</param>
+		/// <param name="len">读み迂みサイズ</param>
+		/// <returns>实际に读み迂んだ长さ。-1 の时ファイル终端</returns>
 		/// <exception cref="TJSException">TJSException</exception>
 		/// <exception cref="Kirikiri.Tjs2.TJSException"></exception>
 		public abstract int Read(byte[] b, int off, int len);
@@ -75,9 +74,9 @@ namespace Kirikiri.Tjs2
 		public abstract void Write(byte[] b, int off, int len);
 
 		/// <summary>
-		/// 1 ãƒ�ã‚¤ãƒˆã�Œå‡ºåŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ ã�«æ›¸ã��è¾¼ã�¾ã‚Œã�¾ã�™ã€‚
-		/// æ›¸ã��è¾¼ã�¾ã‚Œã‚‹ãƒ�ã‚¤ãƒˆã�¯ã€�å¼•æ•° b ã�®ä¸‹ä½� 8 ãƒ“ãƒƒãƒˆã�§ã�™ã€‚
-		/// b ã�®ä¸Šä½� 24 ãƒ“ãƒƒãƒˆã�¯ç„¡è¦–ã�•ã‚Œã�¾ã�™ã€‚
+		/// 1 バイトが出力ストリームに书き迂まれます。
+		/// 书き迂まれるバイトは、引数 b の下位 8 ビットです。
+		/// b の上位 24 ビットは无视されます。
 		/// </summary>
 		/// <param name="b"></param>
 		public abstract void Write(int b);
@@ -144,7 +143,7 @@ namespace Kirikiri.Tjs2
 
 		public abstract OutputStream GetOutputStream();
 
-		/// <summary>ã‚¢ãƒ¼ã‚«ã‚¤ãƒ–å†…ã�®ãƒ•ã‚¡ã‚¤ãƒ«ã�‹ã�©ã�†ã�‹åˆ¤å®šã�™ã‚‹</summary>
+		/// <summary>アーカイブ内のファイルかどうか判定する</summary>
 		/// <returns></returns>
 		public virtual bool IsArchive()
 		{

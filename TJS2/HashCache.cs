@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using Kirikiri.Tjs2;
@@ -7,25 +7,24 @@ using Sharpen;
 
 namespace Kirikiri.Tjs2
 {
-	/// <summary>æœ€å¤§æ ¼ç´�æ•°åˆ¶é™�ä»˜ã��ãƒ�ãƒƒã‚·ãƒ¥ãƒ†ãƒ¼ãƒ–ãƒ«</summary>
+	/// <summary>最大格纳数制限付きハッシュテーブル</summary>
 	/// <?></?>
 	/// <?></?>
 	public class HashCache<Key, Value> : HashTable<Key, Value>
 	{
-		/// <summary>æ ¼ç´�å�¯èƒ½ã�ªæœ€å¤§è¦�ç´ æ•°</summary>
+		/// <summary>格纳可能な最大要素数</summary>
 		private int mMaxCount;
 
-		/// <summary>ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿</summary>
-		/// <param name="maxcount">æ ¼ç´�å�¯èƒ½ã�ªæœ€å¤§æ•°</param>
+		/// <summary>コンストラクタ</summary>
+		/// <param name="maxcount">格纳可能な最大数</param>
 		public HashCache(int maxcount)
 		{
 			mMaxCount = maxcount;
 		}
 
-		/// <summary>è¦�ç´ ã�®è¿½åŠ ã€�æœ€å¤§æ•°ã‚’è¶…ã�ˆã�Ÿæ™‚ã�¯å�¤ã�„ã‚‚ã�®ã�Œå‰Šé™¤ã�•ã‚Œã‚‹
-		/// 	</summary>
-		/// <param name="key">ã‚­ãƒ¼</param>
-		/// <param name="value">æ ¼ç´�ã�®ã�™ã‚‹å€¤</param>
+		/// <summary>要素の追加、最大数を超えた时は古いものが削除される</summary>
+		/// <param name="key">キー</param>
+		/// <param name="value">格纳のする值</param>
 		public override void Put(Key key, Value value)
 		{
 			base.Put(key, value);
@@ -35,8 +34,8 @@ namespace Kirikiri.Tjs2
 			}
 		}
 
-		/// <summary>æ ¼ç´�å�¯èƒ½ã�ªæ•°ã�®è¨­å®š</summary>
-		/// <param name="maxcount">æ ¼ç´�å�¯èƒ½ã�ªæ•°</param>
+		/// <summary>格纳可能な数の设定</summary>
+		/// <param name="maxcount">格纳可能な数</param>
 		public virtual void SetMaxCount(int maxcount)
 		{
 			mMaxCount = maxcount;
@@ -46,8 +45,8 @@ namespace Kirikiri.Tjs2
 			}
 		}
 
-		/// <summary>æ ¼ç´�å�¯èƒ½ã�ªæ•°ã‚’å¾—ã‚‹</summary>
-		/// <returns>æ ¼ç´�å�¯èƒ½ã�ªæ•°</returns>
+		/// <summary>格纳可能な数を得る</summary>
+		/// <returns>格纳可能な数</returns>
 		public virtual int GetMaxCount()
 		{
 			return mMaxCount;

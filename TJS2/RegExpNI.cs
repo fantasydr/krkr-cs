@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using Kirikiri.Tjs2;
@@ -63,7 +63,7 @@ namespace Kirikiri.Tjs2
 				case 'l':
 				{
 					// use localized collation
-					//prev &= ~regbase::nocollate; return prev; ç„¡è¦–
+					//prev &= ~regbase::nocollate; return prev; 无视
 					return prev;
 				}
 

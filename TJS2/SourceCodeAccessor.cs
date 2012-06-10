@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using Kirikiri.Tjs2;
@@ -9,31 +9,31 @@ namespace Kirikiri.Tjs2
 {
 	public interface SourceCodeAccessor
 	{
-		/// <summary>ãƒ�ã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ä½�ç½®ã�‹ã‚‰ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ä½�ç½®ã‚’å¾—ã‚‹</summary>
-		/// <param name="codepos">ãƒ�ã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ä½�ç½®</param>
-		/// <returns>ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ä½�ç½®</returns>
+		/// <summary>バイトコード位置からソースコード位置を得る</summary>
+		/// <param name="codepos">バイトコード位置</param>
+		/// <returns>ソースコード位置</returns>
 		int CodePosToSrcPos(int codepos);
 
-		/// <summary>ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ä½�ç½®ã�‹ã‚‰è¡Œæ•°ã‚’å¾—ã‚‹</summary>
-		/// <param name="srcpos">ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ä½�ç½®</param>
-		/// <returns>è¡Œæ•°</returns>
+		/// <summary>ソースコード位置から行数を得る</summary>
+		/// <param name="srcpos">ソースコード位置</param>
+		/// <returns>行数</returns>
 		int SrcPosToLine(int srcpos);
 
-		/// <summary>æŒ‡å®šãƒ©ã‚¤ãƒ³ã�®æ–‡å­—åˆ—ã‚’å¾—ã‚‹</summary>
-		/// <param name="line">è¡Œæ•°</param>
-		/// <returns>æŒ‡å®šè¡Œã�®æ–‡å­—åˆ—</returns>
+		/// <summary>指定ラインの文字列を得る</summary>
+		/// <param name="line">行数</param>
+		/// <returns>指定行の文字列</returns>
 		string GetLine(int line);
 
-		/// <summary>ã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚’å…¨æ–‡å�–å¾—ã�™ã‚‹</summary>
-		/// <returns>ã‚¹ã‚¯ãƒªãƒ—ãƒˆæ–‡</returns>
+		/// <summary>スクリプトを全文取得する</summary>
+		/// <returns>スクリプト文</returns>
 		string GetScript();
 
-		/// <summary>ã‚¹ã‚¯ãƒªãƒ—ãƒˆé–‹å§‹ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’å�–å¾—ã�™ã‚‹</summary>
-		/// <returns>ã‚ªãƒ•ã‚»ãƒƒãƒˆ</returns>
+		/// <summary>スクリプト开始オフセットを取得する</summary>
+		/// <returns>オフセット</returns>
 		int GetLineOffset();
 
-		/// <summary>ã‚¹ã‚¯ãƒªãƒ—ãƒˆå��ã‚’å�–å¾—ã�™ã‚‹</summary>
-		/// <returns>ã‚¹ã‚¯ãƒªãƒ—ãƒˆå��</returns>
+		/// <summary>スクリプト名を取得する</summary>
+		/// <returns>スクリプト名</returns>
 		string GetName();
 	}
 }

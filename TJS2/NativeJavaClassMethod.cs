@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using System;
@@ -68,7 +68,7 @@ namespace Kirikiri.Tjs2
 			{
 				return Error.E_INVALIDPARAM;
 			}
-			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã�Œå°‘ã�ªã�„
+			// パラメータが少ない
 			if (result != null)
 			{
 				result.Clear();
@@ -80,7 +80,7 @@ namespace Kirikiri.Tjs2
 			}
 			else
 			{
-				// static æ™‚ã�¯ null
+				// static 时は null
 				if (objthis == null)
 				{
 					return Error.E_NATIVECLASSCRASH;

@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using Kirikiri.Tjs2;
@@ -168,7 +168,7 @@ namespace Kirikiri.Tjs2
 				return false;
 			}
 			int len = str.Length;
-			// 1æ–‡å­—ç›®ã‚’ãƒ�ã‚§ãƒƒã‚¯ã�—ã�¦ã€�æ•°å€¤ä»¥å¤–ã�¯æ—©ã€…ã�«é™¤å¤–ã�™ã‚‹
+			// 1文字目をチェックして、数值以外は早々に除外する
 			if (len > 0)
 			{
 				char ch = str[0];

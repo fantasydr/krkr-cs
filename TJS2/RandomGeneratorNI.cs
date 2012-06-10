@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using System.Text;
@@ -215,7 +215,7 @@ namespace Kirikiri.Tjs2
 					}
 					else
 					{
-						// 64bitã�˜ã‚ƒã�ªã��ã�¦ã€�32bit ã�«ã�—ã�¦ã�—ã�¾ã�£ã�¦ã�„ã‚‹ã€‚å®Ÿç”¨ä¸Šå•�é¡Œã�‚ã‚Œã�°ä¿®æ­£ã€‚
+						// 64bitじゃなくて、32bit にしてしまっている。实用上问题あれば修正。
 						int n = param[0].AsInteger();
 						int[] tmp = new int[1];
 						tmp[0] = n;

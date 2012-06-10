@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using System.Collections.Generic;
@@ -9,9 +9,9 @@ using Sharpen;
 namespace Kirikiri.Tjs2
 {
 	/// <summary>
-	/// TJS2 ãƒ�ã‚¤ãƒˆã‚³ãƒ¼ãƒ‰æ›¸ã��å‡ºã�—ã€�èª­ã�¿è¾¼ã�¿ã�§ Variant åž‹ã‚’åˆ†é›¢ã�—ã€�å›ºæœ‰åž‹ã�§ä¿�æŒ�ã�™ã‚‹ã�Ÿã‚�ã�®ã‚¯ãƒ©ã‚¹
-	/// èª­ã�¿è¾¼ã�¿ã�¯ã‚ˆã‚ŠåŠ¹çŽ‡çš„ã�«å‡¦ç�†ã�§ã��ã‚‹ã‚ˆã�†ã�«åˆ¥ã‚¯ãƒ©ã‚¹ã�«ã�—ã�Ÿæ–¹ã�Œã�„ã�„ã�‹
-	/// èª­ã�¿è¾¼ã‚“ã�  ByteBuffer ã‚’ç›´æŽ¥å‡¦ç�†ã�™ã‚‹ã‚ˆã�†ã�ª
+	/// TJS2 バイトコード书き出し、读み迂みで Variant 型を分离し、固有型で保持するためのクラス
+	/// 读み迂みはより效率的に处理できるように别クラスにした方がいいか
+	/// 读み迂んだ ByteBuffer を直接处理するような
 	/// </summary>
 	public class ConstArrayData
 	{
@@ -69,7 +69,7 @@ namespace Kirikiri.Tjs2
 
 		public ConstArrayData()
 		{
-			// ä¿�æŒ�ã�—ã�Ÿã�‹ã�©ã�†ã�‹åˆ¤å®šã�™ã‚‹ã�Ÿã‚�ã�®ãƒ�ãƒƒã‚·ãƒ¥
+			// 保持したかどうか判定するためのハッシュ
 			// temporary
 			mByte = new AList<byte>();
 			mShort = new AList<short>();
@@ -322,7 +322,7 @@ namespace Kirikiri.Tjs2
 
 				case TYPE_OBJECT:
 				{
-					// å¸¸ã�«0
+					// 常に0
 					VariantClosure clo = (VariantClosure)o;
 					if (clo.mObject == null && clo.mObjThis == null)
 					{
@@ -330,7 +330,7 @@ namespace Kirikiri.Tjs2
 					}
 					else
 					{
-						// null ã�® VariantClosure ã�¯å�—ã�‘å…¥ã‚Œã‚‹
+						// null の VariantClosure は受け入れる
 						return -1;
 					}
 					goto case TYPE_INTER_OBJECT;
@@ -338,7 +338,7 @@ namespace Kirikiri.Tjs2
 
 				case TYPE_INTER_OBJECT:
 				{
-					// ã��ã�®ä»–ã�¯å…¥ã‚Œã�ªã�„ã€‚Dictionary ã�¨ Array ã�¯ä¿�å­˜ã�§ã��ã‚‹ã‚ˆã�†ã�«ã�—ã�Ÿæ–¹ã�Œã�„ã�„ã�Œâ€¦â€¦
+					// その他は入れない。Dictionary と Array は保存できるようにした方がいいが……
 					VariantClosure clo = (VariantClosure)o;
 					Dispatch2 dsp = clo.mObject;
 					return block.GetObjectIndex((InterCodeObject)dsp);
@@ -400,7 +400,7 @@ namespace Kirikiri.Tjs2
 
 				case TYPE_OBJECT:
 				{
-					// å¸¸ã�«0
+					// 常に0
 					VariantClosure clo = (VariantClosure)o;
 					if (clo.mObject == null && clo.mObjThis == null)
 					{
@@ -408,7 +408,7 @@ namespace Kirikiri.Tjs2
 					}
 					else
 					{
-						// null ã�® VariantClosure ã�¯å�—ã�‘å…¥ã‚Œã‚‹
+						// null の VariantClosure は受け入れる
 						return -1;
 					}
 					goto case TYPE_INTER_OBJECT;
@@ -416,7 +416,7 @@ namespace Kirikiri.Tjs2
 
 				case TYPE_INTER_OBJECT:
 				{
-					// ã��ã�®ä»–ã�¯å…¥ã‚Œã�ªã�„ã€‚Dictionary ã�¨ Array ã�¯ä¿�å­˜ã�§ã��ã‚‹ã‚ˆã�†ã�«ã�—ã�Ÿæ–¹ã�Œã�„ã�„ã�Œâ€¦â€¦
+					// その他は入れない。Dictionary と Array は保存できるようにした方がいいが……
 					VariantClosure clo = (VariantClosure)o;
 					Dispatch2 dsp = clo.mObject;
 					return block.GetObjectIndex((InterCodeObject)dsp);
@@ -483,7 +483,7 @@ namespace Kirikiri.Tjs2
 				stralllen += len * 2;
 			}
 			stralllen = ((stralllen + 3) / 4) * 4;
-			// ã‚¢ãƒ©ã‚¤ãƒ¡ãƒ³ãƒˆ
+			// アライメント
 			size += stralllen + count * 4 + 4;
 			// byte buffer
 			int bytealllen = 0;
@@ -495,17 +495,17 @@ namespace Kirikiri.Tjs2
 				bytealllen += len;
 			}
 			bytealllen = ((bytealllen + 3) / 4) * 4;
-			// ã‚¢ãƒ©ã‚¤ãƒ¡ãƒ³ãƒˆ
+			// アライメント
 			size += bytealllen + count * 4 + 4;
 			// byte
 			count = mByte.Count;
 			count = ((count + 3) / 4) * 4;
-			// ã‚¢ãƒ©ã‚¤ãƒ¡ãƒ³ãƒˆ
+			// アライメント
 			size += count + 4;
 			// short
 			count = mShort.Count * 2;
 			count = ((count + 3) / 4) * 4;
-			// ã‚¢ãƒ©ã‚¤ãƒ¡ãƒ³ãƒˆ
+			// アライメント
 			size += count + 4;
 			// int
 			size += mInteger.Count * 4 + 4;
@@ -524,7 +524,7 @@ namespace Kirikiri.Tjs2
 				buf.Put(mByte[i_2]);
 			}
 			count = (((count + 3) / 4) * 4) - count;
-			// ã‚¢ãƒ©ã‚¤ãƒ¡ãƒ³ãƒˆå·®åˆ†
+			// アライメント差分
 			for (int i_3 = 0; i_3 < count; i_3++)
 			{
 				buf.Put(unchecked((byte)0));
@@ -538,7 +538,7 @@ namespace Kirikiri.Tjs2
 			}
 			count *= 2;
 			count = (((count + 3) / 4) * 4) - count;
-			// ã‚¢ãƒ©ã‚¤ãƒ¡ãƒ³ãƒˆå·®åˆ†
+			// アライメント差分
 			for (int i_5 = 0; i_5 < count; i_5++)
 			{
 				buf.Put(unchecked((byte)0));
@@ -579,7 +579,7 @@ namespace Kirikiri.Tjs2
 				}
 				if ((len % 2) == 1)
 				{
-					// ã‚¢ãƒ©ã‚¤ãƒ¡ãƒ³ãƒˆå·®åˆ†
+					// アライメント差分
 					buf.PutChar((char)0);
 				}
 			}
@@ -596,7 +596,7 @@ namespace Kirikiri.Tjs2
 					buf.Put(by.Get(b));
 				}
 				cap = ((cap + 3) / 4) * 4 - cap;
-				// ã‚¢ãƒ©ã‚¤ãƒ¡ãƒ³ãƒˆå·®åˆ†
+				// アライメント差分
 				for (int b_1 = 0; b_1 < cap; b_1++)
 				{
 					buf.Put(unchecked((byte)0));

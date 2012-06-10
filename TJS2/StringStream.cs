@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using System;
@@ -119,7 +119,7 @@ namespace Kirikiri.Tjs2
 			return retval;
 		}
 
-		// æ”¹è¡Œã‚³ãƒ¼ãƒ‰ã‚’ç„¡è¦–ã�—ã�¦å�–å¾—ã�™ã‚‹
+		// 改行コードを无视して取得する
 		public int Next()
 		{
 			int retval = -1;
@@ -229,7 +229,7 @@ namespace Kirikiri.Tjs2
 				}
 				if (mText[offset + 1] == '/')
 				{
-					// ãƒ©ã‚¤ãƒ³ã‚³ãƒ¡ãƒ³ãƒˆ
+					// ラインコメント
 					mOffset += 2;
 					int c = mText[mOffset];
 					mOffset++;
@@ -272,7 +272,7 @@ namespace Kirikiri.Tjs2
 				{
 					if (mText[offset + 1] == '*')
 					{
-						// ãƒ–ãƒ­ãƒƒã‚¯ã‚³ãƒ¡ãƒ³ãƒˆ
+						// ブロックコメント
 						mOffset += 2;
 						int level = 0;
 						while (true)
@@ -281,7 +281,7 @@ namespace Kirikiri.Tjs2
 							{
 								if (mText[mOffset] == '/' && mText[mOffset + 1] == '*')
 								{
-									// ã‚³ãƒ¡ãƒ³ãƒˆã�®ãƒ�ã‚¹ãƒˆ
+									// コメントのネスト
 									level++;
 								}
 								else
@@ -688,7 +688,7 @@ namespace Kirikiri.Tjs2
 			{
 				GenerateLineVector();
 			}
-			// 2åˆ†æ³•ã�«ã‚ˆã�£ã�¦ä½�ç½®ã‚’æ±‚ã‚�ã‚‹
+			// 2分法によって位置を求める
 			int s = 0;
 			int e = mLineVector.Size();
 			while (true)

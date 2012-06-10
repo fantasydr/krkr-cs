@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using Kirikiri.Tjs2;
@@ -8,8 +8,8 @@ using Sharpen;
 namespace Kirikiri.Tjs2
 {
 	/// <summary>
-	/// ãƒ‡ã‚£ã‚¹ã‚¢ã‚»ãƒ³ãƒ–ãƒ©
-	/// TJS2 ã�®ãƒ�ã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ã‚’å�¯èª­å�¯èƒ½ã�ªã‚¢ã‚»ãƒ³ãƒ–ãƒªã‚½ãƒ¼ã‚¹ã�«å¤‰æ�›ã�™ã‚‹
+	/// ディスアセンブラ
+	/// TJS2 のバイトコードを可读可能なアセンブリソースに变换する
 	/// </summary>
 	public class Disassembler
 	{
@@ -21,7 +21,7 @@ namespace Kirikiri.Tjs2
 
 		public Disassembler(short[] ca, Variant[] da, SourceCodeAccessor a)
 		{
-			// ãƒ�ã‚¤ãƒŠãƒªã�®å›ºã�¾ã‚Šã�®ãƒ�ã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ã�‹ã‚‰ã‚‚å�–å¾—ã�§ã��ã‚‹ã‚ˆã�†ã�«ã€�ã‚¯ãƒ©ã‚¹ã�§ãƒ©ãƒƒãƒ—ã�—ã�Ÿæ–¹ã�Œã�„ã�„ã�‹ã‚‚
+			// バイナリの固まりのバイトコードからも取得できるように、クラスでラップした方がいいかも
 			mCode = ca;
 			mData = da;
 			mAccessor = a;

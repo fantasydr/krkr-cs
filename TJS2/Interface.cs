@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using Kirikiri.Tjs2;
@@ -10,29 +10,28 @@ namespace Kirikiri.Tjs2
 	public class Interface
 	{
 		/// <summary>
-		/// ãƒ¡ãƒ³ãƒ�ãƒ¼ã�Œå­˜åœ¨ã�—ã�ªã�„æ™‚ã€�ãƒ¡ãƒ³ãƒ�ãƒ¼ã‚’ç”Ÿæˆ�ã�™ã‚‹
+		/// メンバーが存在しない时、メンバーを生成する
 		/// create a member if not exists
 		/// </summary>
 		public const int MEMBERENSURE = unchecked((int)(0x00000200));
 
-		/// <summary>ãƒ¡ãƒ³ãƒ�ãƒ¼ã�¯å­˜åœ¨ã�—ã�ªã�‘ã‚Œã�°ã�ªã‚‰ã�ªã�„ member *must* exist ( for Dictionary/Array )
-		/// 	</summary>
+		/// <summary>メンバーは存在しなければならない member *must* exist ( for Dictionary/Array )</summary>
 		public const int MEMBERMUSTEXIST = unchecked((int)(0x00000400));
 
-		/// <summary>ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã�®å‘¼ã�³å‡ºã�—ã‚’è¡Œã‚�ã�ªã�„ ignore property invoking</summary>
+		/// <summary>プロパティの呼び出しを行わない ignore property invoking</summary>
 		public const int IGNOREPROP = unchecked((int)(0x00000800));
 
-		/// <summary>é�žè¡¨ç¤ºãƒ¡ãƒ³ãƒ�ãƒ¼ member is hidden</summary>
+		/// <summary>非表示メンバー member is hidden</summary>
 		public const int HIDDENMEMBER = unchecked((int)(0x00001000));
 
 		/// <summary>
-		/// ã‚¹ã‚¿ãƒ†ã‚£ãƒƒã‚¯ãƒ¡ãƒ³ãƒ�ãƒ¼ã€�ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆ�æ™‚ã�«ã‚³ãƒ”ãƒ¼ã�•ã‚Œã�ªã�„
+		/// スタティックメンバー、オブジェクト生成时にコピーされない
 		/// member is not registered to the object (internal use)
 		/// </summary>
 		public const int STATICMEMBER = unchecked((int)(0x00010000));
 
 		/// <summary>
-		/// EnumMembers ã‚³ãƒ¼ãƒ«æ™‚ã�«ãƒ¡ãƒ³ãƒ�ã�®å®Ÿä½“å�–å¾—ã‚’è¡Œã‚�ã�ªã�„
+		/// EnumMembers コール时にメンバの实体取得を行わない
 		/// values are not retrieved (for EnumMembers)
 		/// </summary>
 		public const int ENUM_NO_VALUE = unchecked((int)(0x00100000));

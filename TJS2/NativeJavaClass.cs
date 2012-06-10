@@ -1,5 +1,5 @@
 /*
- * The TJS2 interpreter from kirikirij
+ * TJS2 CSharp
  */
 
 using System;
@@ -28,7 +28,7 @@ namespace Kirikiri.Tjs2
 			try
 			{
 				HashSet<string> registProp = new HashSet<string>();
-				// set/getã�§é‡�è¤‡ã�—ã�ªã�„ã‚ˆã�†ã�«ãƒ�ã‚§ãƒƒã‚¯
+				// set/getで重复しないようにチェック
 				MethodInfo[] methods = c.GetMethods();
 				foreach (MethodInfo m in methods)
 				{
@@ -41,7 +41,7 @@ namespace Kirikiri.Tjs2
 					}
 					if ("constructor".Equals(methodName))
 					{
-						// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+						// コンストラクタ
 						RegisterNCM(classname, new NativeJavaClassConstructor(m, mClassID), classname, Interface
 							.nitMethod, flag);
 					}
@@ -49,7 +49,7 @@ namespace Kirikiri.Tjs2
 					{
 						if (methodName.StartsWith("prop_"))
 						{
-							// ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ prop_ ã�§å§‹ã�¾ã‚‹ã‚‚ã�®ã�¯ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã�¨ã�¿ã�ªã�™
+							// プロパティ prop_ で始まるものはプロパティとみなす
 							Type[] @params = Sharpen.Runtime.GetParameterTypes(m);
 							MethodInfo setMethod = null;
 							MethodInfo getMethod = null;
@@ -117,7 +117,7 @@ namespace Kirikiri.Tjs2
 						}
 						else
 						{
-							// é€šå¸¸ãƒ¡ã‚½ãƒƒãƒ‰
+							// 通常メソッド
 							RegisterNCM(methodName, new NativeJavaClassMethod(m, mClassID), classname, Interface
 								.nitMethod, flag);
 						}
@@ -132,8 +132,8 @@ namespace Kirikiri.Tjs2
 		}
 
 		/// <summary>
-		/// å¼•æ•°ã�Œã�‚ã‚‹ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã�«ã�¯æœªå¯¾å¿œ
-		/// TODO ã‚¨ãƒ©ãƒ¼æ™‚ã‚¨ãƒ©ãƒ¼è¡¨ç¤ºã�™ã‚‹ã‚ˆã�†ã�«ã�—ã�Ÿæ–¹ã�Œã�„ã�„ã�‹ã‚‚
+		/// 引数があるコンストラクタには未对应
+		/// TODO エラー时エラー表示するようにした方がいいかも
 		/// </summary>
 		protected internal override NativeInstance CreateNativeInstance()
 		{
@@ -164,7 +164,7 @@ namespace Kirikiri.Tjs2
 		{
 			if (type.IsPrimitive)
 			{
-				// ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã‚¿ã‚¤ãƒ—ã�®å ´å�ˆ
+				// プリミティブタイプの场合
 				if (type.Equals(typeof(int)))
 				{
 					return Sharpen.Extensions.ValueOf(param.AsInteger());
@@ -262,7 +262,7 @@ namespace Kirikiri.Tjs2
 									}
 									else
 									{
-										// ã��ã�®ä»– ã�®ã‚¯ãƒ©ã‚¹
+										// その他 のクラス
 										return null;
 									}
 								}
@@ -282,7 +282,7 @@ namespace Kirikiri.Tjs2
 			}
 			if (type.IsPrimitive)
 			{
-				// ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã‚¿ã‚¤ãƒ—ã�®å ´å�ˆ
+				// プリミティブタイプの场合
 				if (type.Equals(typeof(int)))
 				{
 					result.Set(((int)src));
@@ -374,7 +374,7 @@ namespace Kirikiri.Tjs2
 								}
 								else
 								{
-									// ã��ã�®ä»– ã�®ã‚¯ãƒ©ã‚¹, ç›´æŽ¥å…¥ã‚Œã�¦ã�—ã�¾ã�†
+									// その他 のクラス, 直接入れてしまう
 									result.SetJavaObject(src);
 								}
 							}
@@ -392,12 +392,12 @@ namespace Kirikiri.Tjs2
 			{
 				return null;
 			}
-			// å…ƒã€…å¼•æ•°ä¸�è¦�
+			// 元々引数不要
 			if (@params.Length < types.Length)
 			{
 				return null;
 			}
-			// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã�Œå°‘ã�ªã�„
+			// パラメータが少ない
 			int count = types.Length;
 			object[] ret = new object[count];
 			for (int i = 0; i < count; i++)
@@ -406,7 +406,7 @@ namespace Kirikiri.Tjs2
 				Variant param = @params[i];
 				if (type.IsPrimitive)
 				{
-					// ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã‚¿ã‚¤ãƒ—ã�®å ´å�ˆ
+					// プリミティブタイプの场合
 					if (type.Equals(typeof(int)))
 					{
 						ret[i] = Sharpen.Extensions.ValueOf(param.AsInteger());
@@ -504,7 +504,7 @@ namespace Kirikiri.Tjs2
 										}
 										else
 										{
-											// ã��ã�®ä»– ã�®ã‚¯ãƒ©ã‚¹
+											// その他 のクラス
 											ret[i] = null;
 										}
 									}
