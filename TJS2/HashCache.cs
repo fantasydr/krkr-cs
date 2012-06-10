@@ -10,7 +10,7 @@ namespace Kirikiri.Tjs2
 	/// <summary>最大格纳数制限付きハッシュテーブル</summary>
 	/// <?></?>
 	/// <?></?>
-	public class HashCache<Key, Value> : HashTable<Key, Value>
+	public class HashCache<Key, Value> : HashTable<Key, Value> where Key : class where Value:class
 	{
 		/// <summary>格纳可能な最大要素数</summary>
 		private int mMaxCount;

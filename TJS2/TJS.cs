@@ -188,6 +188,11 @@ namespace Kirikiri.Tjs2
 			dsp = new RegExpClass();
 			val = new Variant(dsp, null);
 			mGlobal.PropSet(MEMBERENSURE, "RegExp", val, mGlobal);
+			
+			// TODO: move Debug outside tjs core
+			dsp = new DebugClass();
+			val = new Variant(dsp, null);
+			mGlobal.PropSet(MEMBERENSURE, "Debug", val, mGlobal);
 		}
 
 		public virtual void SetPPValue(string name, int value)

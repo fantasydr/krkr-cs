@@ -775,20 +775,20 @@ namespace Sharpen
 			return new System.Threading.Semaphore (count, int.MaxValue);
 		}
 		
-		public static void SetCommand (this ProcessStartInfo si, IList<string> args)
-		{
-			si.FileName = args[0];
-			si.Arguments = string.Join (" ", args.Skip (1).Select (a => "\"" + a + "\"").ToArray ());
-		}
-		
-		public static SystemProcess Start (this ProcessStartInfo si)
-		{
-			si.UseShellExecute = false;
-			si.RedirectStandardInput = true;
-			si.RedirectStandardError = true;
-			si.RedirectStandardOutput = true;
-			si.CreateNoWindow = true;
-			return SystemProcess.Start (si);
-		}
+//		public static void SetCommand (this ProcessStartInfo si, IList<string> args)
+//		{
+//			si.FileName = args[0];
+//			si.Arguments = string.Join (" ", args.Skip (1).Select (a => "\"" + a + "\"").ToArray ());
+//		}
+//		
+//		public static SystemProcess Start (this ProcessStartInfo si)
+//		{
+//			si.UseShellExecute = false;
+//			si.RedirectStandardInput = true;
+//			si.RedirectStandardError = true;
+//			si.RedirectStandardOutput = true;
+//			si.CreateNoWindow = true;
+//			return SystemProcess.Start (si);
+//		}
 	}
 }

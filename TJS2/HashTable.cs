@@ -13,7 +13,7 @@ namespace Kirikiri.Tjs2
 	/// </summary>
 	/// <?></?>
 	/// <?></?>
-	public class HashTable<Key, Value>
+	public class HashTable<Key, Value> where Key : class where Value:class
 	{
 		/// <summary>デフォルト配列サイズ</summary>
 		private const int DEFAULT_HASH_SIZE = 64;
@@ -27,7 +27,7 @@ namespace Kirikiri.Tjs2
 		/// <summary>各要素</summary>
 		/// <?></?>
 		/// <?></?>
-		internal class Element<Key, Value>
+		internal class Element<Key, Value> where Key : class where Value:class
 		{
 			/// <summary>ハッシュ值</summary>
 			internal int mHash;
@@ -84,7 +84,7 @@ namespace Kirikiri.Tjs2
 			{
 				capacity <<= 1;
 			}
-			mElms = new HashTable.Element[capacity];
+			mElms = new HashTable<Key, Value>.Element<Key,Value>[capacity];
 		}
 
 		/// <summary>全要素を削除する</summary>

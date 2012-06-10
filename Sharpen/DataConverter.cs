@@ -39,6 +39,7 @@
 using System;
 using System.Collections;
 using System.Text;
+using System.IO;
 
 #pragma warning disable 3021
 
@@ -108,8 +109,15 @@ namespace Sharpen {
 		
 		public byte[] GetBytes (long value)
 		{
-			byte [] ret = new byte [8];
-			PutBytes (ret, 0, value);
+			//byte [] ret = new byte [8];
+			//PutBytes (ret, 0, value);
+				
+			MemoryStream stream = new MemoryStream();
+			using (BinaryWriter writer = new BinaryWriter(stream))
+			{
+			    writer.Write(value);
+			}
+			byte[] ret = stream.ToArray();	
 			return ret;
 		}
 		
